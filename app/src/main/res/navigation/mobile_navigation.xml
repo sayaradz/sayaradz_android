@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools" android:id="@+id/mobile_navigation"
+            app:startDestination="@id/homeFragment">
+
+    <fragment android:id="@+id/homeFragment" android:name="com.elbadri.apps.sayaradz.fragment.home.HomeFragment"
+              android:label="home_fragment" tools:layout="@layout/home_fragment"/>
+    <fragment android:id="@+id/newCarsFragment"
+              android:name="com.elbadri.apps.sayaradz.fragment.newCars.NewCarsFragment"
+              android:label="new_cars_fragment" tools:layout="@layout/new_cars_fragment"/>
+    <fragment android:id="@+id/newCarsDetailFragment"
+              android:name="com.elbadri.apps.sayaradz.fragment.newCars.newCarsDetail.NewCarsDetailFragment"
+              android:label="new_cars_detail_fragment" tools:layout="@layout/new_cars_detail_fragment"/>
+    <fragment android:id="@+id/usedCarsFragment"
+              android:name="com.elbadri.apps.sayaradz.fragment.usedCars.list.UsedCarsFragment"
+              android:label="used_cars_fragment" tools:layout="@layout/used_cars_fragment"/>
+    <fragment android:id="@+id/usedCarsDetailFragment"
+              android:name="com.elbadri.apps.sayaradz.fragment.usedCars.detail.UsedCarsDetailFragment"
+              android:label="used_cars_detail_fragment" tools:layout="@layout/used_cars_detail_fragment"/>
+</navigation>
