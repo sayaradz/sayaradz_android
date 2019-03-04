@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.elbadri.apps.sayaradz.R
 import com.facebook.AccessToken
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
@@ -29,7 +30,7 @@ import kotlinx.android.synthetic.main.activity_login2.*
  */
 
 class LoginActivity : AppCompatActivity() {
-    val RC_SIGN_IN: Int = 1
+    val RC_SIGN_IN: Int = 555
     lateinit var mGoogleSignInClient: GoogleSignInClient
     lateinit var mGoogleSignInOptions: GoogleSignInOptions
     lateinit var progressBar: ProgressBar
@@ -63,25 +64,30 @@ class LoginActivity : AppCompatActivity() {
     private fun signInFacebook() {
 
         callbackManager = CallbackManager.Factory.create()
-        buttonFacebookLogin.setReadPermissions("email", "public_profile")
+
+        buttonFacebookLogin.setReadPermissions("email", "public_profile", "user_friends")
+
         buttonFacebookLogin.registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
+
             override fun onSuccess(loginResult: LoginResult) {
                 Log.d("", "facebook:onSuccess:$loginResult")
                 Toast.makeText(this@LoginActivity, "onSuccess!", Toast.LENGTH_SHORT).show()
 
                 handleFacebookAccessToken(loginResult.accessToken)
+
             }
 
             override fun onCancel() {
                 Toast.makeText(this@LoginActivity, "facebook:onCancel!", Toast.LENGTH_SHORT).show()
-
                 Log.d("TAG", "facebook:onCancel")
+                //-------------------------------------------------------------------------------------------//
+
             }
 
             override fun onError(error: FacebookException) {
                 Toast.makeText(this@LoginActivity, "facebook:onError!", Toast.LENGTH_SHORT).show()
-
                 Log.d("TAG", "facebook:onError", error)
+                //-------------------------------------------------------------------------------------------//
             }
         })
 
@@ -97,28 +103,22 @@ class LoginActivity : AppCompatActivity() {
                     Log.d("TAG", "signInWithCredential:success")
                     val user = firebaseAuth.currentUser
                     startActivity(MainActivity.getLaunchIntent(this))
-
-//                    updateUI(user)
                 } else {
                     // If sign in fails, display a message to the user.
                     Log.w("TAG", "signInWithCredential:failure", task.exception)
-                    Toast.makeText(
-                        baseContext, "Authentication failed.",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    Toast.makeText(baseContext, "Authentication failed.", Toast.LENGTH_SHORT).show()
 //                    updateUI(null)
                 }
 
             }
     }
 
-
     // ------------------------------ END FACEBOOK LOGIN -------------------------------//
 
     // --------------------------- START GOOGLE LOGIN -------------------------------//
     private fun configureGoogleSignIn() {
         mGoogleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(getString(com.elbadri.apps.sayaradz.R.string.default_web_client_id))
+            .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
             .build()
         mGoogleSignInClient = GoogleSignIn.getClient(this, mGoogleSignInOptions)
@@ -134,11 +134,12 @@ class LoginActivity : AppCompatActivity() {
 
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
+
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             try {
 //                  Toast.makeText(this@LoginActivity, "is loogin!", Toast.LENGTH_SHORT).show()
                 progressBar.visibility = View.GONE
-                startActivity(MainActivity.getLaunchIntent(this))
+//                startActivity(MainActivity.getLaunchIntent(this))
                 // Google Sign In was successful, authenticate with Firebase
                 val account = task.getResult(ApiException::class.java)
                 firebaseAuthWithGoogle(account!!)
@@ -159,6 +160,8 @@ class LoginActivity : AppCompatActivity() {
         firebaseAuth.signInWithCredential(credential).addOnCompleteListener {
             if (it.isSuccessful) {
                 val user = firebaseAuth.currentUser
+
+//                Toast.makeText(this, "${user?.email} -  ${user?.uid}", Toast.LENGTH_LONG).show()
 
                 startActivity(MainActivity.getLaunchIntent(this))
 

@@ -4,8 +4,8 @@
             xmlns:tools="http://schemas.android.com/tools" android:id="@+id/mobile_navigation"
             app:startDestination="@id/homeFragment">
 
-    <fragment android:id="@+id/homeFragment" android:name="com.elbadri.apps.sayaradz.fragment.home.HomeFragment"
-              android:label="home_fragment" tools:layout="@layout/home_fragment"/>
+    <fragment android:id="@+id/homeFragment" android:name="com.elbadri.apps.sayaradz.fragment.home.Dashboard"
+              android:label="Accuille" tools:layout="@layout/home_fragment"/>
     <fragment android:id="@+id/newCarsFragment"
               android:name="com.elbadri.apps.sayaradz.fragment.newCars.NewCarsFragment"
               android:label="new_cars_fragment" tools:layout="@layout/new_cars_fragment"/>
