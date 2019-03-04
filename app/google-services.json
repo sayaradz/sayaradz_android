@@ -15,11 +15,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "604090262238-icjb8epngnfh7sn6is23lj3gpcmsn1dk.apps.googleusercontent.com",
+          "client_id": "604090262238-l94g98pl4a9vdmnr2jvbp2ssftb7dsd4.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.elbadri.apps.sayaradz",
-            "certificate_hash": "82c17d167db4ef14cc50f248b0a2a428aa51edc2"
+            "certificate_hash": "315a6d0d835ca132207bf6f45901fd5163f3a84c"
           }
         },
         {
