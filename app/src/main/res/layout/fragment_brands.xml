@@ -4,15 +4,15 @@
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:layout_marginRight="@dimen/list_item_separator"
-              android:layout_marginEnd="@dimen/list_item_separator"
+              android:layout_marginRight="@dimen/space_8"
+              android:layout_marginEnd="@dimen/space_8"
               android:orientation="vertical">
 
 
     <androidx.cardview.widget.CardView
-            android:layout_width="@dimen/card_view_size"
-            android:layout_height="@dimen/card_view_size"
-            app:cardCornerRadius="@dimen/card_view_radius"
+            android:layout_width="@dimen/space_52"
+            android:layout_height="@dimen/space_52"
+            app:cardCornerRadius="@dimen/space_12"
             android:layout_gravity="center"
             android:layout_weight="1">
         <ImageView
