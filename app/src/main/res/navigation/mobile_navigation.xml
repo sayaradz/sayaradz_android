@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/mobile_navigation"
+            app:startDestination="@id/homeMain">
+
+    <fragment android:id="@+id/homeMain"
+              android:name="com.sayaradz.views.fragments.usedCars.UsedCarsDetailFragment"
+              android:label="Accuille"
+              tools:layout="@layout/used_cars_detail_fragment"/>
+    <fragment android:id="@+id/newCarsMain"
+              android:name="com.sayaradz.views.fragments.newCars.NewCarsMainFragment"
+              android:label="NewCarsHome"
+    />
+    <fragment android:id="@+id/usedCarsMain"
+              android:name="com.sayaradz.views.fragments.usedCars.UsedCarsFragment"
+              android:label="UsedCarsHome"
+              tools:layout="@layout/used_cars_fragment"/>
+    <fragment android:id="@+id/myAnnouncesMain"
+              android:name="com.sayaradz.views.fragments.usedCars.UsedCarsFragment"
+              android:label="MyAnnounces"
+              tools:layout="@layout/used_cars_fragment"/>
+</navigation>

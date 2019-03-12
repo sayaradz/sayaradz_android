@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#FFFFFF</color>
+    <color name="colorPrimaryDark">#515C6F</color>
+    <color name="colorAccent">#FF6969</color>
+    <color name="white">#ffffff</color>
+
+    <!-- Line -->
+    <color name="colorLine">#e0e0e0</color>
+
+    <!-- Text -->
+    <color name="TitleColor">#515C6F</color>
+    <color name="TextColor">#000000</color>
+    <color name="MenuItemColor">#6A6A6A</color>
+
+    <!-- Button & CheckBox & Fab -->
+    <color name="colorPrimaryButton">#4469B0</color>
+    <color name="colorSecondaryButton">#DB5249</color>
+    <color name="colorAccentButton">#FF6969</color>
+
+
+
+</resources>
