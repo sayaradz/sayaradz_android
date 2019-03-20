@@ -48,4 +48,9 @@
     <dimen name="space_96">96dp</dimen>
     <dimen name="space_100">100dp</dimen>
 
+
+    <!--Custom dimensions-->
+    <dimen name="model_pic_height">100dp</dimen>
+
+
 </resources>

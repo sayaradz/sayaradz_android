@@ -19,42 +19,42 @@ object BrandRepository {
     internal var wallpaperCategories = ("[" +
             "  {\n" +
             "    \"name\":\"Audi\",\n" +
-            "    \"image\":\"audi\",\n" +
+            "    \"logo\":\"audi\",\n" +
             "    \"count\":\"300\"\n" +
             "  },\n" +
             "  {\n" +
             "    \"name\":\"BMW\",\n" +
-            "    \"image\":\"bmw\",\n" +
+            "    \"logo\":\"bmw\",\n" +
             "    \"count\":\"240\"\n" +
             "  },\n" +
             "  {\n" +
             "    \"name\":\"KIA\",\n" +
-            "    \"image\":\"kia\",\n" +
+            "    \"logo\":\"kia\",\n" +
             "    \"count\":\"250\"\n" +
             "  },\n" +
             "  {\n" +
             "    \"name\":\"Hyundai\",\n" +
-            "    \"image\":\"hyundai\",\n" +
+            "    \"logo\":\"hyundai\",\n" +
             "    \"count\":\"500\"\n" +
             "  },\n" +
             "  {\n" +
             "    \"name\":\"Ford\",\n" +
-            "    \"image\":\"ford\",\n" +
+            "    \"logo\":\"ford\",\n" +
             "    \"count\":\"305\"\n" +
             "  },\n" +
             "  {\n" +
             "    \"name\":\"Suzuki\",\n" +
-            "    \"image\":\"suzuki\",\n" +
+            "    \"logo\":\"suzuki\",\n" +
             "    \"count\":\"450\"\n" +
             "  },\n" +
             "  {\n" +
             "    \"name\":\"Chevrolet\",\n" +
-            "    \"image\":\"chevrolet\",\n" +
+            "    \"logo\":\"chevrolet\",\n" +
             "    \"count\":\"450\"\n" +
             "  },\n" +
             "  {\n" +
             "    \"name\":\"Mercedes\",\n" +
-            "    \"image\":\"mercedes_benz\",\n" +
+            "    \"logo\":\"mercedes_benz\",\n" +
             "    \"count\":\"450\"\n" +
             "  }," +
 

@@ -40,10 +40,14 @@
 
     <string name="Plus">Plus</string>
     <string name="brands_title">Marques</string>
+    <string name="models_title">Modéles</string>
     <string name="most_used">Plus demandés</string>
 
 
 
+    <string name="normal_order_button">Commande Normale</string>
+    <string name="accelerated_order_button">Commande Accéléré</string>
+    <string name="order_dialog_title">Type de Commande</string>
 
 
 </resources>

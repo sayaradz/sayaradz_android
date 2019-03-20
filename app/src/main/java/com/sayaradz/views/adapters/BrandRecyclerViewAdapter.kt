@@ -5,14 +5,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.sayaradz.R
 import com.sayaradz.Utils.Utils
 import com.sayaradz.models.Brand
 
-
-class NewCarsBrandAdapter(private val brandArrayList: List<Brand>?) :
+class BrandRecyclerViewAdapter(private val brandArrayList: List<Brand>?) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var itemClickListener: OnItemClickListener? = null
 
@@ -26,7 +25,7 @@ class NewCarsBrandAdapter(private val brandArrayList: List<Brand>?) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val itemView = LayoutInflater.from(parent.context)
-            .inflate(R.layout.new_cars_main_fragment_brand_item, parent, false)
+            .inflate(R.layout.brands_recycler_view_item, parent, false)
 
         return ItemViewHolder(itemView)
     }
@@ -35,21 +34,24 @@ class NewCarsBrandAdapter(private val brandArrayList: List<Brand>?) :
 
         if (viewHolder is ItemViewHolder) {
 
-            val newCarsBrand = brandArrayList!![position]
+            val brand = this.brandArrayList!![position]
 
-            viewHolder.itemNameTextView.text = newCarsBrand.name
+            if(brand!=null ){
 
-            val context = viewHolder.constraintLayout.context
+                viewHolder.viewName.text = brand.name
 
-            val id = Utils.getDrawableInt(context, newCarsBrand.logo)
-            Utils.setCircleImageToImageView(context, viewHolder.itemImageView, id, 6, R.color.TitleColor)
+                val context = viewHolder.holderCardView.context
 
-            if (itemClickListener != null) {
-                viewHolder.constraintLayout.setOnClickListener { v: View ->
-                    itemClickListener!!.onItemClick(
-                        v,
-                        brandArrayList[position], position
-                    )
+                val id = Utils.getDrawableInt(context, brand.logo)
+                Utils.setImageToImageView(context, viewHolder.itemImageView, id)
+
+                if (itemClickListener != null) {
+                    viewHolder.holderCardView.setOnClickListener { v: View ->
+                        itemClickListener!!.onItemClick(
+                            v,
+                            this.brandArrayList[position], position
+                        )
+                    }
                 }
             }
 
@@ -57,14 +59,16 @@ class NewCarsBrandAdapter(private val brandArrayList: List<Brand>?) :
     }
 
     override fun getItemCount(): Int {
-
-        return brandArrayList?.size ?: 0
+        if (brandArrayList != null) {
+            return brandArrayList.size
+        }
+        return 0
     }
 
     inner class ItemViewHolder internal constructor(view: View) : RecyclerView.ViewHolder(view) {
         internal var itemImageView: ImageView = view.findViewById(R.id.itemImageView)
-        internal var itemNameTextView: TextView = view.findViewById(R.id.itemNameTextView)
-        internal var constraintLayout: ConstraintLayout = view.findViewById(R.id.constraintLayout)
+        internal var viewName: TextView = view.findViewById(R.id.viewName)
+        internal var holderCardView: CardView = view.findViewById(R.id.holderCardView)
 
     }
 }
