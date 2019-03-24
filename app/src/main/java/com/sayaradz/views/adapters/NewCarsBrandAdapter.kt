@@ -7,6 +7,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.sayaradz.R
 import com.sayaradz.Utils.Utils
 import com.sayaradz.models.Brand
@@ -41,8 +43,13 @@ class NewCarsBrandAdapter(private val brandArrayList: List<Brand>?) :
 
             val context = viewHolder.constraintLayout.context
 
-            val id = Utils.getDrawableInt(context, newCarsBrand.logo)
-            Utils.setCircleImageToImageView(context, viewHolder.itemImageView, id, 6, R.color.TitleColor)
+
+            Glide.with(viewHolder.itemImageView.context)
+                .load(newCarsBrand.logo)
+                .apply(RequestOptions.circleCropTransform())
+                .into(viewHolder.itemImageView)
+            //val id = Utils.getDrawableInt(context, newCarsBrand.logo)
+            //Utils.setCircleImageToImageView(context, viewHolder.itemImageView, id, 6, R.color.TitleColor)
 
             if (itemClickListener != null) {
                 viewHolder.constraintLayout.setOnClickListener { v: View ->

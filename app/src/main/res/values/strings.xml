@@ -49,5 +49,7 @@
     <string name="accelerated_order_button">Commande Accéléré</string>
     <string name="order_dialog_title">Type de Commande</string>
 
+    <string name="no_internet">Connexion échoué</string>
+
 
 </resources>

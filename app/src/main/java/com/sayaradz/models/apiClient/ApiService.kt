@@ -1,12 +1,10 @@
 package com.sayaradz.models.apiClient
 
-import androidx.lifecycle.LiveData
-import com.sayaradz.models.BrandsResponse
-import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
+import com.sayaradz.models.*
 import io.reactivex.Observable
-import kotlinx.coroutines.Deferred
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -20,36 +18,39 @@ interface ApiService {
         @Query("limit") limit: Int
     ): Observable<BrandsResponse>
 
+    @GET("models")
+    fun getModels(
+        @Query("limit") limit: Int
+    ): Observable<ModelsResponse>
+
+    @GET("versions")
+    fun getVersions(
+        @Query("limit") limit: Int
+    ): Observable<VersionsResponse>
+
+    @GET("options")
+    fun getOptions(
+        @Query("limit") limit: Int
+    ): Observable<OptionsResponse>
+
+    @GET("colors")
+    fun getColors(
+        @Query("limit") limit: Int
+    ): Observable<ColorsResponse>
+
     companion object {
-        operator fun invoke(
-//            connectivityInterceptor: ConnectivityInterceptor
-        ): ApiService {
-//            val requestInterceptor = Interceptor { chain ->
-//
-//                val url = chain.request()
-//                    .url()
-//                    .newBuilder()
-//                    .addQueryParameter("key", API_KEY)
-//                    .build()
-//
-//                val request = chain.request()
-//                    .newBuilder()
-//                    .url(url)
-//                    .build()
-//
-//                return@Interceptor chain.proceed(request)
-//            }
+        operator fun invoke(): ApiService {
 
             val okHttpClient = OkHttpClient.Builder()
-                .connectTimeout(100, TimeUnit.SECONDS)
-                .readTimeout(100, TimeUnit.SECONDS)
+                .connectTimeout(30, TimeUnit.SECONDS)
+                .readTimeout(30, TimeUnit.SECONDS)
                 .build()
 
             return Retrofit.Builder()
-                .client(okHttpClient)
                 .baseUrl("https://sayaradz-backend.herokuapp.com/")
-                .addCallAdapterFactory(CoroutineCallAdapterFactory())
+                .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build()
                 .create(ApiService::class.java)
         }

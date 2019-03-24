@@ -3,8 +3,8 @@ package com.sayaradz.models
 import com.google.gson.annotations.SerializedName
 import io.reactivex.Observable
 
-data class BrandsResponse(
+data class OptionsResponse(
     val count: Int,
     @SerializedName("rows")
-    val brands: List<Brand>
+    val brands: List<Option>
 )
