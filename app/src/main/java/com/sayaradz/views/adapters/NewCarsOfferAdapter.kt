@@ -17,7 +17,7 @@ class NewCarsOfferAdapter(private val offerArrayList: List<Offer>?) :
     private var itemClickListener: OnItemClickListener? = null
 
     interface OnItemClickListener {
-        fun onItemClick(view: View, obj: Offer, position: Int)
+        fun onOfferItemClick(view: View, obj: Offer, position: Int)
     }
 
     fun setOnItemClickListener(mItemClickListener: OnItemClickListener) {
@@ -46,9 +46,9 @@ class NewCarsOfferAdapter(private val offerArrayList: List<Offer>?) :
 
             if (itemClickListener != null) {
                 viewHolder.holderCardView.setOnClickListener { v: View ->
-                    itemClickListener!!.onItemClick(
+                    itemClickListener!!.onOfferItemClick(
                         v,
-                        this!!.offerArrayList!![position], position
+                        this.offerArrayList[position], position
                     )
                 }
             }
@@ -63,16 +63,9 @@ class NewCarsOfferAdapter(private val offerArrayList: List<Offer>?) :
     }
 
     inner class ItemViewHolder internal constructor(view: View) : RecyclerView.ViewHolder(view) {
-        internal var itemImageView: ImageView
-        internal var viewName: TextView
-        internal var holderCardView: CardView
+        internal var itemImageView: ImageView = view.findViewById(R.id.itemImageView)
+        internal var viewName: TextView = view.findViewById(R.id.viewName)
+        internal var holderCardView: CardView = view.findViewById(R.id.holderCardView)
 
-        init {
-
-            itemImageView = view.findViewById(R.id.itemImageView)
-            holderCardView = view.findViewById(R.id.holderCardView)
-            viewName = view.findViewById(R.id.viewName)
-
-        }
     }
 }

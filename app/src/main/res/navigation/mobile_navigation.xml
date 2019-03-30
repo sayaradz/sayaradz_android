@@ -3,22 +3,22 @@
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/mobile_navigation"
-            app:startDestination="@id/homeMain">
+            app:startDestination="@+id/homeMain">
 
     <fragment android:id="@+id/homeMain"
-              android:name="com.sayaradz.views.fragments.usedCars.UsedCarsDetailFragment"
+              android:name="com.sayaradz.views.fragments.home.HomeFragment"
               android:label="Accuille"
-              tools:layout="@layout/used_cars_detail_fragment"/>
+              tools:layout="@layout/fragment_home"/>
     <fragment android:id="@+id/newCarsMain"
               android:name="com.sayaradz.views.fragments.newCars.NewCarsMainFragment"
               android:label="NewCarsHome"
-    />
+              tools:layout="@layout/new_cars_main_fragment"/>
     <fragment android:id="@+id/usedCarsMain"
               android:name="com.sayaradz.views.fragments.usedCars.UsedCarsFragment"
               android:label="UsedCarsHome"
               tools:layout="@layout/used_cars_fragment"/>
-    <fragment android:id="@+id/myAnnouncesMain"
-              android:name="com.sayaradz.views.fragments.usedCars.UsedCarsFragment"
+    <fragment android:id="@+id/myAcount"
+              android:name="com.sayaradz.views.fragments.myAccount.AccountFragment"
               android:label="MyAnnounces"
-              tools:layout="@layout/used_cars_fragment"/>
+              tools:layout="@layout/fragment_account"/>
 </navigation>
