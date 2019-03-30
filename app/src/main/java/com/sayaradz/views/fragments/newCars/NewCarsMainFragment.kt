@@ -23,7 +23,6 @@ import com.sayaradz.views.activities.ModelsActivity
 import com.sayaradz.views.activities.NewCarsDetailsActivity
 import com.sayaradz.views.adapters.NewCarsBrandAdapter
 import com.sayaradz.views.adapters.NewCarsOfferAdapter
-import io.reactivex.Observable
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -34,7 +33,6 @@ class NewCarsMainFragment : Fragment(), NewCarsBrandAdapter.OnItemClickListener,
     NewCarsOfferAdapter.OnItemClickListener {
 
     private var itemArrayList: List<Offer>? = null
-    private var brandsObservable: Observable<List<Brand>>? = null
     private lateinit var brandList: List<Brand>
 
     var TAG = "NewCarsMainFragment: "
@@ -62,8 +60,8 @@ class NewCarsMainFragment : Fragment(), NewCarsBrandAdapter.OnItemClickListener,
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.new_cars_main_fragment, container, false)
 
-        brandRecyclerView = view.findViewById(R.id.categoryRecyclerView)
-        newCarsOfferRecyclerView = view.findViewById(R.id.photoRecyclerView)
+        brandRecyclerView = view.findViewById(R.id.new_recycler_view)
+        newCarsOfferRecyclerView = view.findViewById(R.id.old_recycler_view)
         //linking the textView
         moreBrands = view.findViewById(R.id.moreBrandsButton)
         noInternetTextView = view.findViewById(R.id.no_internet)

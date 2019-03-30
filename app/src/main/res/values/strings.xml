@@ -27,7 +27,7 @@
     <string name="menu_home">Accuille</string>
     <string name="menu_new">Nouveau</string>
     <string name="menu_used">Utilise</string>
-    <string name="menu_anounce">Mes announces</string>
+    <string name="menu_acount">Compte</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -42,7 +42,8 @@
     <string name="brands_title">Marques</string>
     <string name="models_title">Modéles</string>
     <string name="most_used">Plus demandés</string>
-
+    <string name="trends_new">Trending Nouveaux</string>
+    <string name="trends_used">Trending Utilisé</string>
 
 
     <string name="normal_order_button">Commande Normale</string>
@@ -50,6 +51,21 @@
     <string name="order_dialog_title">Type de Commande</string>
 
     <string name="no_internet">Connexion échoué</string>
+
+
+    //Login Activity
+    <string name="google_login">Login avec google</string>
+    <string name="facebook_login">Login avec facebook</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    //My Account Activity Strings
+    <string name="notifs">Mes Notifications</string>
+    <string name="announces">Mes Announces</string>
+    <string name="fav">Mes Favoris</string>
+    <string name="payment">Paiment</string>
+    <string name="logout">Logout</string>
 
 
 </resources>

@@ -48,7 +48,7 @@
                     android:layout_height="match_parent">
 
                 <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/photoRecyclerView"
+                        android:id="@+id/old_recycler_view"
                         android:overScrollMode="never"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -85,7 +85,7 @@
                         android:textColor="@color/TitleColor"
                         android:textSize="@dimen/font_title_size"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/categoryRecyclerView"/>
+                        app:layout_constraintTop_toBottomOf="@+id/new_recycler_view"/>
 
                 <TextView
                         android:id="@+id/moreBrandsButton"
@@ -102,7 +102,7 @@
 
 
                 <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/categoryRecyclerView"
+                        android:id="@+id/new_recycler_view"
                         android:overScrollMode="never"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

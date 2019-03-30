@@ -3,22 +3,22 @@
 
     <item
             android:id="@+id/homeMain"
-            android:icon="@drawable/ic_home_black_24dp"
+            android:icon="@drawable/ic_home"
             android:title="@string/menu_home"/>
 
     <item
             android:id="@+id/newCarsMain"
-            android:icon="@drawable/ic_car"
+            android:icon="@drawable/ic_new_cars"
             android:title="@string/menu_new"/>
 
     <item
             android:id="@+id/usedCarsMain"
-            android:icon="@drawable/ic_car"
+            android:icon="@drawable/ic_used_cars"
             android:title="@string/menu_used"/>
 
     <item
-            android:id="@+id/myAnnouncesMain"
-            android:icon="@drawable/ic_car"
-            android:title="@string/menu_anounce"/>
+            android:id="@+id/myAcount"
+            android:icon="@drawable/ic_user"
+            android:title="@string/menu_acount"/>
 
 </menu>
