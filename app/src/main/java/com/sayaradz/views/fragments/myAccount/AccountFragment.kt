@@ -1,33 +1,29 @@
 package com.sayaradz.views.fragments.myAccount
 
 import android.content.Context
-import android.net.Uri
 import android.os.Bundle
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
-
 import com.sayaradz.R
 import kotlinx.android.synthetic.main.fragment_account.view.*
 
 class AccountFragment : Fragment() {
 
     private var listener: OnFragmentInteractionListener? = null
-    private lateinit var notifTextView:TextView
-    private lateinit var notifImageView:ImageView
-    private lateinit var announcesTextView:TextView
-    private lateinit var announcesImageView:ImageView
-    private lateinit var favTextView:TextView
-    private lateinit var favImageView:ImageView
-    private lateinit var payTextView:TextView
-    private lateinit var payImageView:ImageView
-    private lateinit var logoutTextView:TextView
-    private lateinit var logoutImageView:ImageView
+    private lateinit var notifTextView: TextView
+    private lateinit var notifImageView: ImageView
+    private lateinit var announcesTextView: TextView
+    private lateinit var announcesImageView: ImageView
+    private lateinit var favTextView: TextView
+    private lateinit var favImageView: ImageView
+    private lateinit var payTextView: TextView
+    private lateinit var payImageView: ImageView
+    private lateinit var logoutTextView: TextView
+    private lateinit var logoutImageView: ImageView
 
     private lateinit var profilePic: ImageView
     private lateinit var fullName: TextView
@@ -60,11 +56,11 @@ class AccountFragment : Fragment() {
         logoutImageView = view.logoutIcon
         logoutTextView = view.logout
 
-        notifImageView.setOnClickListener{
+        notifImageView.setOnClickListener {
             listener!!.onNotifPressed()
         }
 
-        notifTextView.setOnClickListener{
+        notifTextView.setOnClickListener {
             listener!!.onNotifPressed()
         }
 
@@ -100,7 +96,7 @@ class AccountFragment : Fragment() {
             listener!!.onPaymentPressed()
         }
 
-        listener!!.onUpdateUserData(fullName,address,profilePic)
+        listener!!.onUpdateUserData(fullName, address, profilePic)
 
         return view
     }

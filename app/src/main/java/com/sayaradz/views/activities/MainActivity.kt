@@ -2,33 +2,27 @@ package com.sayaradz.views.activities
 
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
-import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.GravityCompat
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import androidx.preference.PreferenceManager
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.sayaradz.R
-import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
+import com.sayaradz.R
 import com.sayaradz.views.fragments.home.HomeFragment
 import com.sayaradz.views.fragments.myAccount.AccountFragment
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.nav_header_main.*
 
 class MainActivity : AppCompatActivity(),
     HomeFragment.OnFragmentInteractionListener,
-    AccountFragment.OnFragmentInteractionListener{
+    AccountFragment.OnFragmentInteractionListener {
 
-    private lateinit var navHostFragment:NavHostFragment
+    private lateinit var navHostFragment: NavHostFragment
     private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,10 +42,7 @@ class MainActivity : AppCompatActivity(),
         }
 
 
-
     }
-
-
 
 
     private fun signOut() {
@@ -71,7 +62,7 @@ class MainActivity : AppCompatActivity(),
         fullName.text = prefs.getString("fullName", "Jean Doe")
         address.text = prefs.getString("address", "xyz@gmail.com")
         Glide.with(this)
-            .load(prefs.getString("profilePicLink","test"))
+            .load(prefs.getString("profilePicLink", "test"))
             .into(profilePic)
     }
 
@@ -94,7 +85,6 @@ class MainActivity : AppCompatActivity(),
     override fun onFavoritesPressed() {
         //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
-
 
 
     companion object {

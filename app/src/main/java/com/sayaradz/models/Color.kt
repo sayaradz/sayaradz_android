@@ -2,7 +2,7 @@ package com.sayaradz.models
 
 import com.google.gson.annotations.SerializedName
 
-data class Color (
+data class Color(
     @SerializedName("_id")
     val id: String? = null,
     val code: String? = null,

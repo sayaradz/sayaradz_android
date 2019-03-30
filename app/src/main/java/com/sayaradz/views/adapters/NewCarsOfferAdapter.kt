@@ -8,8 +8,8 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.sayaradz.R
-import com.sayaradz.models.Offer
 import com.sayaradz.Utils.Utils
+import com.sayaradz.models.Offer
 
 
 class NewCarsOfferAdapter(private val offerArrayList: List<Offer>?) :

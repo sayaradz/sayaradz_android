@@ -36,7 +36,7 @@ class VersionsRecyclerViewAdapter(private val versionsArrayList: List<Version>?)
 
             val version = this.versionsArrayList!![position]
 
-            if(version!=null ){
+            if (version != null) {
 
                 viewHolder.detailTextView.text = "Details"
 
@@ -71,7 +71,7 @@ class VersionsRecyclerViewAdapter(private val versionsArrayList: List<Version>?)
         internal var itemImageView: ImageView = view.findViewById(R.id.car_pic)
         internal var viewName: TextView = view.findViewById(R.id.model_button)
         internal var holderCardView: CardView = view.findViewById(R.id.card_view_holder)
-        internal var detailTextView:TextView = view.findViewById(R.id.version_text_view)
+        internal var detailTextView: TextView = view.findViewById(R.id.version_text_view)
 
 
     }

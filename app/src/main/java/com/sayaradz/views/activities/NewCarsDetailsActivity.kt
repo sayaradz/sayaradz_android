@@ -1,7 +1,5 @@
 package com.sayaradz.views.activities
 
-import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.widget.Button
 import android.widget.Toast
@@ -83,7 +81,7 @@ class NewCarsDetailsActivity : AppCompatActivity(), OrderDialogFragment.OrderDia
     override fun onDialogNormalOrderClick(dialog: DialogFragment) {
         Toast.makeText(
             this,
-            "Clicked button" ,
+            "Clicked button",
             Toast.LENGTH_SHORT
         ).show()
     }

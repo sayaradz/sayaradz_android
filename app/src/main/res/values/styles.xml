@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
@@ -29,8 +29,6 @@
     <style name="ActionBarTheme" parent="ThemeOverlay.MaterialComponents.ActionBar">
         <item name="android:background">@color/colorPrimary</item>
     </style>
-
-
 
 
     <style name="AppTheme.NoActionBar">

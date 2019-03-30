@@ -36,7 +36,7 @@ class ModelsRecyclerViewAdapter(private val modelsArrayList: List<Model>?) :
 
             val model = this.modelsArrayList!![position]
 
-            if(model!=null ){
+            if (model != null) {
 
                 viewHolder.detailTextView.text = "Versions"
 
@@ -47,7 +47,7 @@ class ModelsRecyclerViewAdapter(private val modelsArrayList: List<Model>?) :
                 val id = Utils.getDrawableInt(context, model.image)
                 Utils.setImageToImageView(context, viewHolder.itemImageView, id)
 
-                viewHolder.followImageView.setOnClickListener{
+                viewHolder.followImageView.setOnClickListener {
                     viewHolder.followImageView.setImageResource(R.drawable.ic_followed)
                     //TODO implement the notification System and link it
                 }

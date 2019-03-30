@@ -25,9 +25,6 @@ import kotlinx.android.synthetic.main.activity_login.*
 import org.json.JSONException
 
 
-
-
-
 /**
  * A login screen that offers login via google/facebook.
  **/

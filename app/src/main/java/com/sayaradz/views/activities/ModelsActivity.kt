@@ -1,10 +1,10 @@
 package com.sayaradz.views.activities
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -16,7 +16,8 @@ import com.sayaradz.models.VersionRepository
 import com.sayaradz.views.adapters.ModelsRecyclerViewAdapter
 import com.sayaradz.views.adapters.VersionsRecyclerViewAdapter
 
-class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClickListener, VersionsRecyclerViewAdapter.OnItemClickListener {
+class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClickListener,
+    VersionsRecyclerViewAdapter.OnItemClickListener {
 
     private var modelsList: List<Model>? = null
     private var versionsList: List<Version>? = null
@@ -73,11 +74,11 @@ class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClic
     }
 
     override fun onVersionItemClick(view: View, obj: Version, position: Int) {
-        startActivity(Intent(this,NewCarsDetailsActivity::class.java))
+        startActivity(Intent(this, NewCarsDetailsActivity::class.java))
     }
 
     override fun onBackPressed() {
-        if(titleTextView.text.toString() == "Versions"){
+        if (titleTextView.text.toString() == "Versions") {
             titleTextView.text = "Modéles"
 
 
@@ -87,8 +88,7 @@ class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClic
 
             modelsRecyclerView.adapter = modelsRecyclerViewAdapter
             modelsRecyclerViewAdapter.setOnItemClickListener(this)
-        }
-        else super.onBackPressed()
+        } else super.onBackPressed()
     }
 
     override fun onSupportNavigateUp(): Boolean {

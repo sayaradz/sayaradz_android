@@ -1,13 +1,7 @@
 package com.sayaradz.viewModels
 
 import androidx.lifecycle.ViewModel
-import com.sayaradz.models.Brand
-import com.sayaradz.models.BrandsResponse
-import com.sayaradz.models.apiClient.ApiService
-import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 
 
 class NewCarsViewModel : ViewModel() {

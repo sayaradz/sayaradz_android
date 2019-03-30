@@ -39,7 +39,8 @@ object Utils {
         imageView: ImageView,
         drawable: Int,
         borderWidth: Int,
-        color: Int) {
+        color: Int
+    ) {
         val requestOptions = RequestOptions()
             .diskCacheStrategy(DiskCacheStrategy.NONE) // because file name is always same
             .skipMemoryCache(true)
