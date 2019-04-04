@@ -46,7 +46,7 @@ class BrandsActivity : AppCompatActivity(), BrandRecyclerViewAdapter.OnItemClick
         //set back button
         actionbar.setDisplayHomeAsUpEnabled(true)
 
-        brandRecyclerView = findViewById(R.id.brand_recycler_view)
+        brandRecyclerView = findViewById(R.id.comparing_recycler_view)
 
         noInternetTextView = findViewById(R.id.no_internet)
         contentView = findViewById(R.id.content_view)

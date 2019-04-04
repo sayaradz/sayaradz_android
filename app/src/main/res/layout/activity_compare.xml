@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <androidx.core.widget.NestedScrollView
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
@@ -20,6 +19,7 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
+                android:visibility="visible"
                 android:id="@+id/progressBar"/>
 
         <TextView
@@ -35,40 +35,47 @@
                 android:visibility="invisible"
                 android:id="@+id/no_internet"/>
 
-        <LinearLayout
+        <TextView
+                android:id="@+id/compareTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="@dimen/space_8"
+                android:fontFamily="@font/roboto_bold"
+                android:text="@string/compare_title"
+                android:textColor="@color/TitleColor"
+                android:textSize="@dimen/font_title_size"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:visibility="invisible"/>
+
+        <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/compareTextView"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:id="@+id/content_view"
-                android:visibility="invisible"
-                android:orientation="vertical">
-            <TextView
-                    android:id="@+id/compareTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginBottom="@dimen/space_8"
-                    android:fontFamily="@font/roboto_bold"
-                    android:text="@string/brands_title"
-                    android:textColor="@color/TitleColor"
-                    android:textSize="@dimen/font_title_size"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
+                android:layout_marginBottom="@dimen/space_16"
+                android:layout_marginTop="@dimen/space_16"
+                android:layout_marginStart="@dimen/space_16"
+                android:layout_marginEnd="@dimen/space_16"
+                android:id="@+id/holderCompareCardView"
+                android:visibility="visible">
+
             <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/comparing_recycler_view"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    tools:listitem="@layout/brands_recycler_view_item"
+                    android:layout_height="wrap_content"
+                    tools:listitem="@layout/comparing_recycler_view_item"
                     android:paddingEnd="@dimen/space_8"
                     android:paddingRight="@dimen/space_8"
                     android:paddingLeft="@dimen/space_8"
-                    android:paddingStart="@dimen/space_8"
-                    tools:spanCount="2"
-                    tools:layoutManager="StaggeredGridLayoutManager"/>
-        </LinearLayout>
+                    android:paddingStart="@dimen/space_8"/>
+
+        </androidx.cardview.widget.CardView>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.core.widget.NestedScrollView>

@@ -62,7 +62,7 @@
                         app:layout_constraintTop_toBottomOf="@+id/most_asked_for_textView"/>
 
                 <TextView
-                        android:id="@+id/brandsTextView"
+                        android:id="@+id/compareTextView"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
@@ -117,7 +117,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         android:orientation="horizontal"
-                        app:layout_constraintTop_toBottomOf="@+id/brandsTextView"/>
+                        app:layout_constraintTop_toBottomOf="@+id/compareTextView"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

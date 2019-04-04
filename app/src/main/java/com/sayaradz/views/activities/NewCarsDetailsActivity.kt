@@ -16,6 +16,7 @@ import com.sayaradz.models.OptionRepository
 import com.sayaradz.views.adapters.ColorsRecyclerViewAdapter
 import com.sayaradz.views.adapters.OptionsRecyclerViewAdapter
 import com.sayaradz.views.fragments.OrderDialogFragment
+import kotlinx.android.synthetic.main.activity_new_cars_details.*
 
 class NewCarsDetailsActivity : AppCompatActivity(), OrderDialogFragment.OrderDialogListener {
 
@@ -67,7 +68,7 @@ class NewCarsDetailsActivity : AppCompatActivity(), OrderDialogFragment.OrderDia
         //modelsRecyclerViewAdapter.setOnItemClickListener(this)
 
 
-        buyButton = findViewById(R.id.command_button)
+        buyButton = command_button
 
         buyButton.setOnClickListener {
 

@@ -5,23 +5,28 @@ import android.content.Context
 import android.os.Bundle
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.Spinner
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.DialogFragment
 import com.sayaradz.R
+import kotlinx.android.synthetic.main.fragment_compare_dialog.view.*
 
 
-class OrderDialogFragment : DialogFragment() {
+class CompareDialogFragment : DialogFragment() {
 
     // Use this instance of the interface to deliver action events
-    internal lateinit var listener: OrderDialogListener
-    internal lateinit var normalOrder: Button
-    internal lateinit var acceleratedOrder: Button
+    private lateinit var listener: OrderDialogListener
+    private lateinit var confirmChoice: Button
+    internal lateinit var choiceList1: Spinner
+    internal lateinit var choiceList2: Spinner
+    internal lateinit var title: TextView
 
 
     interface OrderDialogListener {
-        fun onDialogNormalOrderClick(dialog: DialogFragment)
-        fun onDialogAcceleratedOrderClick(dialog: DialogFragment)
+        fun onConfirmClick(dialog: DialogFragment)
+        fun onFillSpinner(spinner: Spinner)
     }
 
     // Override the Fragment.onAttach() method to instantiate the OrderDialogListener
@@ -47,23 +52,22 @@ class OrderDialogFragment : DialogFragment() {
             val container: ViewGroup = ConstraintLayout(it)
             val builder = AlertDialog.Builder(it)
             val inflater = requireActivity().layoutInflater
-            val view = inflater.inflate(R.layout.fragment_order_dialog, container)
+            val view = inflater.inflate(R.layout.fragment_compare_dialog, container)
 
-            normalOrder = view.findViewById(R.id.dialog_normal_button)
-            acceleratedOrder = view.findViewById(R.id.confirm_button)
+            confirmChoice = view.confirm_button
             if (listener != null) {
-                normalOrder.setOnClickListener {
-                    listener!!.onDialogNormalOrderClick(
+                confirmChoice.setOnClickListener {
+                    listener!!.onConfirmClick(
                         this
                     )
                 }
 
-                acceleratedOrder.setOnClickListener {
-                    listener!!.onDialogAcceleratedOrderClick(
-                        this
-                    )
-                }
             }
+
+            choiceList1 = view.choiceCar1
+            choiceList2 = view.choiceCar2
+            listener.onFillSpinner(choiceList1)
+            listener.onFillSpinner(choiceList2)
 
             builder.setView(view)
 

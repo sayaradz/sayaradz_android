@@ -45,10 +45,14 @@
     <string name="trends_new">Trending Nouveaux</string>
     <string name="trends_used">Trending Utilisé</string>
 
+    <string name="compare_title">Comparaison</string>
+
 
     <string name="normal_order_button">Commande Normale</string>
     <string name="accelerated_order_button">Commande Accéléré</string>
     <string name="order_dialog_title">Type de Commande</string>
+
+    <string name="compare_confirm_choice">Confirmer</string>
 
     <string name="no_internet">Connexion échoué</string>
 
