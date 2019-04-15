@@ -12,7 +12,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.sayaradz"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 28
         multiDexEnabled true
         versionCode 1
@@ -55,10 +55,6 @@ dependencies {
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
 
-    // Glide
-    implementation 'com.github.bumptech.glide:glide:4.8.0'
-    implementation 'com.google.android.gms:play-services-maps:16.1.0'
-    kapt 'com.github.bumptech.glide:compiler:4.8.0'
 
     // Firebase
     implementation 'com.google.firebase:firebase-core:16.0.8'
