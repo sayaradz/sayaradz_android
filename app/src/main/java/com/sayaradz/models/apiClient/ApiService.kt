@@ -7,6 +7,7 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 import java.util.concurrent.TimeUnit
 
@@ -18,25 +19,15 @@ interface ApiService {
         @Query("limit") limit: Int
     ): Observable<BrandsResponse>
 
-    @GET("models")
-    fun getModels(
-        @Query("limit") limit: Int
-    ): Observable<ModelsResponse>
+    @GET("brands/{id}")
+    fun getBrand(
+        @Path("id") id: String
+    ): Observable<Brand>
 
-    @GET("versions")
-    fun getVersions(
-        @Query("limit") limit: Int
-    ): Observable<VersionsResponse>
-
-    @GET("options")
-    fun getOptions(
-        @Query("limit") limit: Int
-    ): Observable<OptionsResponse>
-
-    @GET("colors")
-    fun getColors(
-        @Query("limit") limit: Int
-    ): Observable<ColorsResponse>
+    @GET("models/{id}")
+    fun getModel(
+        @Path("id") id: String
+    ): Observable<Model>
 
     companion object {
         operator fun invoke(): ApiService {

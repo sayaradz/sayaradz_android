@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.sayaradz.R
 import com.sayaradz.models.Brand
-import com.sayaradz.viewModels.BrandViewModel
+import com.sayaradz.viewModels.BrandsViewModel
 import com.sayaradz.views.adapters.BrandRecyclerViewAdapter
 
 class BrandsActivity : AppCompatActivity(), BrandRecyclerViewAdapter.OnItemClickListener {
@@ -28,7 +28,7 @@ class BrandsActivity : AppCompatActivity(), BrandRecyclerViewAdapter.OnItemClick
 
     private lateinit var itemAdapter: BrandRecyclerViewAdapter
 
-    private lateinit var mBrandViewModel: BrandViewModel
+    private lateinit var mBrandsViewModel: BrandsViewModel
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,24 +52,24 @@ class BrandsActivity : AppCompatActivity(), BrandRecyclerViewAdapter.OnItemClick
     override fun onStart() {
         super.onStart()
 
-        mBrandViewModel = ViewModelProviders.of(this).get(BrandViewModel::class.java)
-        mBrandViewModel.loadingVisibility.observe(this, Observer { progressBar ->
+        mBrandsViewModel = ViewModelProviders.of(this).get(BrandsViewModel::class.java)
+        mBrandsViewModel.loadingVisibility.observe(this, Observer { progressBar ->
             progressBar?.let {
                 this.progressBar.visibility = it
             }
         })
-        mBrandViewModel.internetErrorVisibility.observe(this, Observer { internet ->
+        mBrandsViewModel.internetErrorVisibility.observe(this, Observer { internet ->
             internet?.let {
                 noInternetTextView.visibility = it
             }
         })
-        mBrandViewModel.contentViewVisibility.observe(this, Observer { content ->
+        mBrandsViewModel.contentViewVisibility.observe(this, Observer { content ->
             content?.let {
                 contentView.visibility = it
             }
         })
 
-        mBrandViewModel.brandLiveData.observe(this, Observer { brandsResponse ->
+        mBrandsViewModel.brandLiveData.observe(this, Observer { brandsResponse ->
             brandsResponse?.let {
                 itemAdapter = BrandRecyclerViewAdapter(it.brands)
                 brandRecyclerView.adapter = itemAdapter
@@ -91,7 +91,9 @@ class BrandsActivity : AppCompatActivity(), BrandRecyclerViewAdapter.OnItemClick
     }
 
     override fun onItemClick(view: View, obj: Brand, position: Int) {
-        startActivity(Intent(this, ModelsActivity::class.java))
+        val intent = Intent(view.context, ModelsActivity::class.java)
+        intent.putExtra("brandId",obj.id)
+        startActivity(intent)
     }
 
 

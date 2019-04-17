@@ -16,7 +16,7 @@ import com.sayaradz.R
 import com.sayaradz.models.Brand
 import com.sayaradz.models.Offer
 import com.sayaradz.models.OfferRepository
-import com.sayaradz.viewModels.BrandViewModel
+import com.sayaradz.viewModels.BrandsViewModel
 import com.sayaradz.views.activities.BrandsActivity
 import com.sayaradz.views.activities.ModelsActivity
 import com.sayaradz.views.activities.NewCarsDetailsActivity
@@ -32,7 +32,7 @@ class NewCarsMainFragment : Fragment(), NewCarsBrandAdapter.OnItemClickListener,
     private lateinit var newCarsBrandAdapter: NewCarsBrandAdapter
     private lateinit var newCarsOfferAdapter: NewCarsOfferAdapter
 
-    private lateinit var mBrandViewModel: BrandViewModel
+    private lateinit var mBrandsViewModel: BrandsViewModel
 
     // RecyclerView
     private lateinit var brandRecyclerView: RecyclerView
@@ -62,24 +62,24 @@ class NewCarsMainFragment : Fragment(), NewCarsBrandAdapter.OnItemClickListener,
         itemArrayList = OfferRepository.offerList
 
 
-        mBrandViewModel = ViewModelProviders.of(this).get(BrandViewModel::class.java)
-        mBrandViewModel.loadingVisibility.observe(this, Observer { progressBar ->
+        mBrandsViewModel = ViewModelProviders.of(this).get(BrandsViewModel::class.java)
+        mBrandsViewModel.loadingVisibility.observe(this, Observer { progressBar ->
             progressBar?.let {
                 this.progressBar.visibility = it
             }
         })
-        mBrandViewModel.internetErrorVisibility.observe(this, Observer { internet ->
+        mBrandsViewModel.internetErrorVisibility.observe(this, Observer { internet ->
             internet?.let {
                 noInternetTextView.visibility = it
             }
         })
-        mBrandViewModel.contentViewVisibility.observe(this, Observer { content ->
+        mBrandsViewModel.contentViewVisibility.observe(this, Observer { content ->
             content?.let {
                 contentNestedScrollView.visibility = it
             }
         })
 
-        mBrandViewModel.brandLiveData.observe(this, Observer { brandsResponse ->
+        mBrandsViewModel.brandLiveData.observe(this, Observer { brandsResponse ->
             brandsResponse?.let {
                 newCarsBrandAdapter = NewCarsBrandAdapter(it.brands)
                 newCarsOfferAdapter = NewCarsOfferAdapter(itemArrayList)
@@ -110,7 +110,9 @@ class NewCarsMainFragment : Fragment(), NewCarsBrandAdapter.OnItemClickListener,
     }
 
     override fun onItemClick(view: View, obj: Brand, position: Int) {
-        startActivity(Intent(view.context, ModelsActivity::class.java))
+        val intent = Intent(view.context, ModelsActivity::class.java)
+        intent.putExtra("brandId",obj.id)
+        startActivity(intent)
     }
 
     override fun onOfferItemClick(view: View, obj: Offer, position: Int) {
