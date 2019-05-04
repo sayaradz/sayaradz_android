@@ -24,8 +24,14 @@ interface ApiService {
         @Path("id") id: String
     ): Observable<Brand>
 
+
     @GET("models/{id}")
     fun getModel(
+        @Path("id") id: String
+    ): Observable<Model>
+
+    @GET("versions/{id}")
+    fun getVersion(
         @Path("id") id: String
     ): Observable<Model>
 

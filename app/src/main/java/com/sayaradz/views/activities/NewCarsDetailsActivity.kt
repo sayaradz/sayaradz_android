@@ -5,6 +5,9 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
+import androidx.recyclerview.selection.SelectionPredicates
+import androidx.recyclerview.selection.SelectionTracker
+import androidx.recyclerview.selection.StorageStrategy
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -13,6 +16,8 @@ import com.sayaradz.models.Color
 import com.sayaradz.models.ColorRepository
 import com.sayaradz.models.Option
 import com.sayaradz.models.OptionRepository
+import com.sayaradz.views.MyItemDetailsLookup
+import com.sayaradz.views.MyItemKeyProvider
 import com.sayaradz.views.adapters.ColorsRecyclerViewAdapter
 import com.sayaradz.views.adapters.OptionsRecyclerViewAdapter
 import com.sayaradz.views.fragments.OrderDialogFragment
@@ -24,6 +29,8 @@ class NewCarsDetailsActivity : AppCompatActivity(), OrderDialogFragment.OrderDia
     private var colorsList: List<Color>? = null
     private lateinit var colorsRecyclerViewAdapter: ColorsRecyclerViewAdapter
     private lateinit var optionsRecyclerViewAdapter: OptionsRecyclerViewAdapter
+
+    var tracker: SelectionTracker<Long>? = null
 
     private lateinit var colorsRecyclerView: RecyclerView
     private lateinit var optionsRecyclerView: RecyclerView
@@ -57,6 +64,8 @@ class NewCarsDetailsActivity : AppCompatActivity(), OrderDialogFragment.OrderDia
 
         colorsRecyclerView.adapter = colorsRecyclerViewAdapter
 
+
+
         optionsRecyclerView = findViewById(R.id.options_recycler_view)
         val vLayoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         optionsRecyclerView.layoutManager = vLayoutManager
@@ -66,6 +75,19 @@ class NewCarsDetailsActivity : AppCompatActivity(), OrderDialogFragment.OrderDia
         optionsRecyclerView.adapter = optionsRecyclerViewAdapter
 
         //modelsRecyclerViewAdapter.setOnItemClickListener(this)
+
+
+        tracker = SelectionTracker.Builder<Long>(
+            "mySelection",
+            colorsRecyclerView,
+            MyItemKeyProvider(colorsRecyclerView),
+            MyItemDetailsLookup(colorsRecyclerView),
+            StorageStrategy.createLongStorage()
+        ).withSelectionPredicate(
+            SelectionPredicates.createSelectSingleAnything()
+        ).build()
+        colorsRecyclerViewAdapter.tracker = tracker
+
 
 
         buyButton = command_button
