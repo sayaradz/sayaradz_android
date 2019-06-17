@@ -2,6 +2,7 @@ package com.sayaradz.views.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.Spinner
@@ -92,7 +93,7 @@ class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClic
 
         mBrandViewModel.modelLiveData.observe(this, Observer { brandsResponse ->
             brandsResponse?.let {
-                modelsRecyclerViewAdapter = ModelsRecyclerViewAdapter(it.models as List<Model>?)
+                modelsRecyclerViewAdapter = ModelsRecyclerViewAdapter(it.models)
                 modelsRecyclerView.adapter = modelsRecyclerViewAdapter
                 modelsRecyclerViewAdapter.setOnItemClickListener(this)
             }
@@ -114,10 +115,13 @@ class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClic
     override fun onItemClick(view: View, obj: Model, position: Int) {
 
         titleTextView.text = "Versions"
+        progressBar.visibility = View.VISIBLE
+        versionsRecyclerViewAdapter = VersionsRecyclerViewAdapter(ArrayList())
+        modelsRecyclerView.adapter = versionsRecyclerViewAdapter
 
         mModelViewModel = ViewModelProviders.of(
             this,
-            modelsViewModelFactory { BrandViewModel(obj.id.toString()) }
+            modelsViewModelFactory { ModelViewModel(obj.id.toString()) }
         ).get(ModelViewModel::class.java)
         mModelViewModel.loadingVisibility.observe(this, Observer { progressBar ->
             progressBar?.let {
@@ -137,7 +141,7 @@ class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClic
 
         mModelViewModel.modelLiveData.observe(this, Observer { brandsResponse ->
             brandsResponse?.let {
-                versionsRecyclerViewAdapter = VersionsRecyclerViewAdapter(it.versions as List<Version>?)
+                versionsRecyclerViewAdapter = VersionsRecyclerViewAdapter(it.versions)
                 modelsRecyclerView.adapter = versionsRecyclerViewAdapter
                 versionsRecyclerViewAdapter.setOnItemClickListener(this)
             }
@@ -190,7 +194,7 @@ class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClic
 
             mBrandViewModel.modelLiveData.observe(this, Observer { brandsResponse ->
                 brandsResponse?.let {
-                    modelsRecyclerViewAdapter = ModelsRecyclerViewAdapter(it.models as List<Model>?)
+                    modelsRecyclerViewAdapter = ModelsRecyclerViewAdapter(it.models)
                     modelsRecyclerView.adapter = modelsRecyclerViewAdapter
                     modelsRecyclerViewAdapter.setOnItemClickListener(this)
                 }
@@ -208,7 +212,7 @@ class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClic
         return true
     }
 
-    protected inline fun <VM : ViewModel> modelsViewModelFactory(crossinline f: () -> VM) =
+    private inline fun <VM : ViewModel> modelsViewModelFactory(crossinline f: () -> VM) =
         object : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(aClass: Class<T>): T = f() as T
         }

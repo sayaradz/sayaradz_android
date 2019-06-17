@@ -8,7 +8,7 @@ data class Brand(
     val logo: String = "",
     val code: String? = null,
     val createdAt: String? = null,
-    val models: List<Any>? = null,
+    val models: List<Model>? = null,
     val name: String? = null,
     val updatedAt: String? = null
 )

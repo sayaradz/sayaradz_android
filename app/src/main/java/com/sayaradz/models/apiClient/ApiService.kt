@@ -15,9 +15,7 @@ import java.util.concurrent.TimeUnit
 interface ApiService {
 
     @GET("brands")
-    fun getBrands(
-        @Query("limit") limit: Int
-    ): Observable<BrandsResponse>
+    fun getBrands( ): Observable<BrandsResponse>
 
     @GET("brands/{id}")
     fun getBrand(
@@ -30,10 +28,6 @@ interface ApiService {
         @Path("id") id: String
     ): Observable<Model>
 
-    @GET("versions/{id}")
-    fun getVersion(
-        @Path("id") id: String
-    ): Observable<Model>
 
     companion object {
         operator fun invoke(): ApiService {

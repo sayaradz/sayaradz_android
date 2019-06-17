@@ -25,7 +25,7 @@ class BrandsViewModel : ViewModel() {
 
     fun getData() {
         brandObserver = getBrandssObserver()
-        ApiService.invoke().getBrands(10)
+        ApiService.invoke().getBrands()
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .subscribe(brandObserver)

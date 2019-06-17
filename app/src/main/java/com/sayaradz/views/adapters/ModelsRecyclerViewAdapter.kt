@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
+import com.google.gson.internal.LinkedTreeMap
 import com.sayaradz.R
 import com.sayaradz.Utils.Utils
 import com.sayaradz.models.Model
@@ -34,7 +35,7 @@ class ModelsRecyclerViewAdapter(private val modelsArrayList: List<Model>?) :
 
         if (viewHolder is ItemViewHolder) {
 
-            val model = this.modelsArrayList!![position]
+            val model = this.modelsArrayList?.get(position)
 
             if (model != null) {
 
@@ -54,10 +55,12 @@ class ModelsRecyclerViewAdapter(private val modelsArrayList: List<Model>?) :
 
                 if (itemClickListener != null) {
                     viewHolder.holderCardView.setOnClickListener { v: View ->
-                        itemClickListener!!.onItemClick(
-                            v,
-                            this.modelsArrayList[position], position
-                        )
+                        this.modelsArrayList!![position].let {
+                            itemClickListener!!.onItemClick(
+                                v,
+                                it, position
+                            )
+                        }
                     }
                 }
             }
