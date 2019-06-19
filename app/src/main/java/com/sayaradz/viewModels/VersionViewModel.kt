@@ -3,7 +3,7 @@ package com.sayaradz.viewModels
 import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.sayaradz.models.Model
+import com.sayaradz.models.Version
 import com.sayaradz.models.apiClient.ApiService
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -12,33 +12,33 @@ import io.reactivex.schedulers.Schedulers
 
 class VersionViewModel(var id: String) : ViewModel() {
 
-    private lateinit var modelObserver: Observer<Model>
+    private lateinit var versionObserver: Observer<Version>
     val loadingVisibility: MutableLiveData<Int> = MutableLiveData()
     val contentViewVisibility: MutableLiveData<Int> = MutableLiveData()
     val internetErrorVisibility: MutableLiveData<Int> = MutableLiveData()
 
-    val modelLiveData: MutableLiveData<Model> = MutableLiveData()
+    val versionLiveData: MutableLiveData<Version> = MutableLiveData()
 
     init {
         getData(this.id)
     }
 
     fun getData(id: String) {
-        modelObserver = getBrandssObserver()
-        ApiService.invoke().getModel(id)
+        versionObserver = getVersionObserver()
+        ApiService.invoke().getVersion(id)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
-            .subscribe(modelObserver)
+            .subscribe(versionObserver)
     }
 
-    private fun getBrandssObserver(): Observer<Model> {
-        return object : Observer<Model> {
+    private fun getVersionObserver(): Observer<Version> {
+        return object : Observer<Version> {
             override fun onSubscribe(d: Disposable) {
                 //Log.d(TAG, "onSubscribe")
             }
 
-            override fun onNext(s: Model) {
-                modelLiveData.value = s
+            override fun onNext(s: Version) {
+                versionLiveData.value = s
             }
 
             override fun onError(e: Throwable) {

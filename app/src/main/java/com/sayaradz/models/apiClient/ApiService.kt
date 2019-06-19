@@ -28,6 +28,12 @@ interface ApiService {
         @Path("id") id: String
     ): Observable<Model>
 
+    @GET("versions/{id}")
+    fun getVersion(
+        @Path("id") id: String
+    ): Observable<Version>
+
+
 
     companion object {
         operator fun invoke(): ApiService {
