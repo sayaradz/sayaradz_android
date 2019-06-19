@@ -10,15 +10,7 @@ import com.sayaradz.models.Option
 
 class OptionsRecyclerViewAdapter(private val optionsArrayList: List<Option>?) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    private var itemClickListener: OnItemClickListener? = null
 
-    interface OnItemClickListener {
-        fun onItemClick(view: View, obj: Option, position: Int)
-    }
-
-    fun setOnItemClickListener(mItemClickListener: OnItemClickListener) {
-        this.itemClickListener = mItemClickListener
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val itemView = LayoutInflater.from(parent.context)
@@ -33,12 +25,7 @@ class OptionsRecyclerViewAdapter(private val optionsArrayList: List<Option>?) :
 
             val option = this.optionsArrayList!![position]
 
-            if (option != null) {
-
-                viewHolder.optionTitle.text = option.option + ": "
-                viewHolder.optionValue.text = option.value
-
-            }
+            viewHolder.optionTitle.text = option.name
 
         }
     }
@@ -53,7 +40,6 @@ class OptionsRecyclerViewAdapter(private val optionsArrayList: List<Option>?) :
     inner class ItemViewHolder internal constructor(view: View) : RecyclerView.ViewHolder(view) {
 
         internal var optionTitle: TextView = view.findViewById(R.id.option)
-        internal var optionValue: TextView = view.findViewById(R.id.option_value)
 
     }
 }

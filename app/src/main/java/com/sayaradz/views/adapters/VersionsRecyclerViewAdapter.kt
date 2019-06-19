@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.sayaradz.R
 import com.sayaradz.Utils.Utils
 import com.sayaradz.models.Version
@@ -44,8 +45,12 @@ class VersionsRecyclerViewAdapter(private val versionsArrayList: List<Version>?)
 
                 val context = viewHolder.holderCardView.context
 
-                val id = Utils.getDrawableInt(context, version.image)
-                Utils.setImageToImageView(context, viewHolder.itemImageView, id)
+                //val id = Utils.getDrawableInt(context, version.image)
+                //Utils.setImageToImageView(context, viewHolder.itemImageView, id)
+
+                Glide.with(context)
+                    .load(version.image)
+                    .into(viewHolder.itemImageView)
 
                 if (itemClickListener != null) {
                     viewHolder.holderCardView.setOnClickListener { v: View ->
