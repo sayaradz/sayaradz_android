@@ -42,6 +42,7 @@ class NewCarsDetailsActivity : AppCompatActivity(), OrderDialogFragment.OrderDia
     private lateinit var versionImage: ImageView
     private lateinit var modelTextView: TextView
     private lateinit var versionTextView: TextView
+    private lateinit var brandLogo: ImageView
 
     private lateinit var noInternetTextView: TextView
     private lateinit var contentView: ConstraintLayout
@@ -50,6 +51,12 @@ class NewCarsDetailsActivity : AppCompatActivity(), OrderDialogFragment.OrderDia
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_cars_details)
+
+
+        val actionbar = supportActionBar
+        actionbar!!.title = this.intent.getStringExtra("versionName")
+        //set back button
+        actionbar.setDisplayHomeAsUpEnabled(true)
 
 
         contentView = content_view_details
@@ -61,6 +68,7 @@ class NewCarsDetailsActivity : AppCompatActivity(), OrderDialogFragment.OrderDia
         buyButton = command_button
         modelTextView = model_details_text
         versionTextView = version_details_text
+        brandLogo = brand_logo
 
         contentView.visibility = View.INVISIBLE
         progressBar.visibility = View.VISIBLE
@@ -93,13 +101,12 @@ class NewCarsDetailsActivity : AppCompatActivity(), OrderDialogFragment.OrderDia
         mVersionViewModel.versionLiveData.observe(this, Observer { version ->
             version?.let {
 
-                val actionbar = supportActionBar
-                actionbar!!.title = it.name
-                //set back button
-                actionbar.setDisplayHomeAsUpEnabled(true)
-
                 versionTextView.text = it.name
                 modelTextView.text = this.intent.getStringExtra("modelName")
+
+                Glide.with(brandLogo.context)
+                    .load(this.intent.getStringExtra("brandLogo"))
+                    .into(brandLogo)
 
                 colorsRecyclerViewAdapter = ColorsRecyclerViewAdapter(it.colors)
                 optionsRecyclerViewAdapter = OptionsRecyclerViewAdapter(it.options)
@@ -159,7 +166,11 @@ class NewCarsDetailsActivity : AppCompatActivity(), OrderDialogFragment.OrderDia
     }
 
     override fun onDialogAcceleratedOrderClick(dialog: DialogFragment) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        Toast.makeText(
+            this,
+            "Clicked button",
+            Toast.LENGTH_SHORT
+        ).show()
     }
 
 

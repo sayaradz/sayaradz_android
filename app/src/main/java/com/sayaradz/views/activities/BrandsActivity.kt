@@ -35,11 +35,8 @@ class BrandsActivity : AppCompatActivity(), BrandRecyclerViewAdapter.OnItemClick
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_brands)
 
-        val actionbar = supportActionBar
-        //set actionbar title
-        actionbar!!.title = "back"
-        //set back button
-        actionbar.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = ""
 
         brandRecyclerView = findViewById(R.id.comparing_recycler_view)
 
@@ -93,6 +90,8 @@ class BrandsActivity : AppCompatActivity(), BrandRecyclerViewAdapter.OnItemClick
     override fun onItemClick(view: View, obj: Brand, position: Int) {
         val intent = Intent(view.context, ModelsActivity::class.java)
         intent.putExtra("brandId",obj.id)
+        intent.putExtra("brandLogo",obj.logo)
+        intent.putExtra("brandName",obj.name)
         startActivity(intent)
     }
 

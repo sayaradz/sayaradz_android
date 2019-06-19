@@ -33,7 +33,7 @@
             android:id="@+id/button_facebook_login_copy"
             app:layout_constraintTop_toBottomOf="@+id/main_view_car"
             app:layout_constraintHorizontal_bias="0.5"
-            app:icon="@drawable/ic_favourite"
+            app:icon="@drawable/ic_facebook"
             android:paddingStart="@dimen/space_32"
             android:paddingEnd="@dimen/space_32"
             app:cornerRadius="@dimen/space_28"/>

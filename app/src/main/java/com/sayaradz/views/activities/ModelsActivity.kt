@@ -49,6 +49,7 @@ class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClic
 
 
     private lateinit var modelName: String
+    private lateinit var brandLogo: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,9 +57,11 @@ class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClic
 
         val actionbar = supportActionBar
         //set actionbar title
-        actionbar!!.title = "back"
+        actionbar!!.title = this.intent.getStringExtra("brandName")
         //set back button
         actionbar.setDisplayHomeAsUpEnabled(true)
+
+        brandLogo = this.intent.getStringExtra("brandLogo")
 
         modelsRecyclerView = models_recycler_view
         titleTextView = models_text_view
@@ -114,6 +117,7 @@ class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClic
     override fun onItemClick(view: View, obj: Model, position: Int) {
 
         titleTextView.text = "Versions"
+        supportActionBar?.title = obj.name
         progressBar.visibility = View.VISIBLE
         versionsRecyclerViewAdapter = VersionsRecyclerViewAdapter(ArrayList())
         modelsRecyclerView.adapter = versionsRecyclerViewAdapter
@@ -159,6 +163,8 @@ class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClic
         val intent = Intent(view.context, NewCarsDetailsActivity::class.java)
         intent.putExtra("versionId",obj.id)
         intent.putExtra("modelName",modelName)
+        intent.putExtra("versionName", obj.name)
+        intent.putExtra("brandLogo", brandLogo)
         startActivity(intent)
     }
 
@@ -174,6 +180,7 @@ class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClic
     override fun onBackPressed() {
         if (titleTextView.text.toString() == "Versions") {
             titleTextView.text = "Modéles"
+            supportActionBar?.title = this.intent.getStringExtra("brandName")
 
             mBrandViewModel = ViewModelProviders.of(
                 this,
