@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.google.gson.internal.LinkedTreeMap
 import com.sayaradz.R
 import com.sayaradz.Utils.Utils
@@ -45,8 +46,12 @@ class ModelsRecyclerViewAdapter(private val modelsArrayList: List<Model>?) :
 
                 val context = viewHolder.holderCardView.context
 
-                val id = Utils.getDrawableInt(context, model.image)
-                Utils.setImageToImageView(context, viewHolder.itemImageView, id)
+                //val id = Utils.getDrawableInt(context, model.image)
+                //Utils.setImageToImageView(context, viewHolder.itemImageView, id)
+
+                Glide.with(context)
+                    .load(model.image)
+                    .into(viewHolder.itemImageView)
 
                 viewHolder.followImageView.setOnClickListener {
                     viewHolder.followImageView.setImageResource(R.drawable.ic_followed)

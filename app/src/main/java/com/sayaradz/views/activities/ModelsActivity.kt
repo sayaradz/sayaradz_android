@@ -2,7 +2,6 @@ package com.sayaradz.views.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.Spinner
@@ -48,6 +47,9 @@ class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClic
     private lateinit var contentNestedScrollView: NestedScrollView
     private lateinit var progressBar: ProgressBar
 
+
+    private lateinit var modelName: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_models)
@@ -64,12 +66,7 @@ class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClic
         contentNestedScrollView = content_view
         noInternetTextView = no_internet
         progressBar = progress_bar
-    }
 
-    override fun onStart() {
-        super.onStart()
-
-        //modelsList = ModelRepository.modelsList
 
         mBrandViewModel = ViewModelProviders.of(
             this,
@@ -110,7 +107,9 @@ class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClic
         fAButton.setOnClickListener {
             //TODO implement the Compose car system
         }
+
     }
+
 
     override fun onItemClick(view: View, obj: Model, position: Int) {
 
@@ -118,6 +117,7 @@ class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClic
         progressBar.visibility = View.VISIBLE
         versionsRecyclerViewAdapter = VersionsRecyclerViewAdapter(ArrayList())
         modelsRecyclerView.adapter = versionsRecyclerViewAdapter
+        modelName = obj.name.toString()
 
         mModelViewModel = ViewModelProviders.of(
             this,
@@ -156,7 +156,10 @@ class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClic
     }
 
     override fun onVersionItemClick(view: View, obj: Version, position: Int) {
-        startActivity(Intent(this, NewCarsDetailsActivity::class.java))
+        val intent = Intent(view.context, NewCarsDetailsActivity::class.java)
+        intent.putExtra("versionId",obj.id)
+        intent.putExtra("modelName",modelName)
+        startActivity(intent)
     }
 
     override fun onConfirmClick(dialog: DialogFragment) {

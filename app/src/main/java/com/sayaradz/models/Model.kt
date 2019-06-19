@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName
 data class Model(
     @SerializedName("_id")
     var id: String? = null,
+    @SerializedName("image_url")
     var image: String = "",
     var code: String? = null,
     var createdAt: String? = null,
