@@ -11,6 +11,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import androidx.preference.PreferenceManager
 import com.bumptech.glide.Glide
+import com.facebook.login.LoginManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.sayaradz.R
@@ -46,6 +47,7 @@ class MainActivity : AppCompatActivity(),
 
 
     private fun signOut() {
+        LoginManager.getInstance().logOut()
         auth.signOut()
         val prefs = PreferenceManager.getDefaultSharedPreferences(applicationContext)
         prefs.edit().clear().apply()

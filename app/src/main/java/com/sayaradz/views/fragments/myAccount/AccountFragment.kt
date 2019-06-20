@@ -29,11 +29,6 @@ class AccountFragment : Fragment() {
     private lateinit var fullName: TextView
     private lateinit var address: TextView
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
