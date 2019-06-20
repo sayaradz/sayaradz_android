@@ -2,7 +2,6 @@ package com.sayaradz.views.fragments.newCars
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,38 +9,30 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.*
 import com.sayaradz.R
 import com.sayaradz.models.Brand
-import com.sayaradz.models.BrandsResponse
 import com.sayaradz.models.Offer
 import com.sayaradz.models.OfferRepository
-import com.sayaradz.models.apiClient.ApiService
-import com.sayaradz.viewModels.NewCarsViewModel
+import com.sayaradz.viewModels.BrandsViewModel
 import com.sayaradz.views.activities.BrandsActivity
 import com.sayaradz.views.activities.ModelsActivity
 import com.sayaradz.views.activities.NewCarsDetailsActivity
 import com.sayaradz.views.adapters.NewCarsBrandAdapter
 import com.sayaradz.views.adapters.NewCarsOfferAdapter
-import io.reactivex.Observer
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
 
 
 class NewCarsMainFragment : Fragment(), NewCarsBrandAdapter.OnItemClickListener,
     NewCarsOfferAdapter.OnItemClickListener {
 
     private var itemArrayList: List<Offer>? = null
-    private lateinit var brandList: List<Brand>
 
-    var TAG = "NewCarsMainFragment: "
-
-    private lateinit var brandObserver: Observer<BrandsResponse>
     private lateinit var newCarsBrandAdapter: NewCarsBrandAdapter
     private lateinit var newCarsOfferAdapter: NewCarsOfferAdapter
 
-    private val viewModel: NewCarsViewModel = NewCarsViewModel()
+    private lateinit var mBrandsViewModel: BrandsViewModel
 
     // RecyclerView
     private lateinit var brandRecyclerView: RecyclerView
@@ -70,12 +61,34 @@ class NewCarsMainFragment : Fragment(), NewCarsBrandAdapter.OnItemClickListener,
 
         itemArrayList = OfferRepository.offerList
 
-        brandObserver = getBrandssObserver()
 
-        ApiService.invoke().getBrands(10)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(Schedulers.io())
-            .subscribe(brandObserver)
+        mBrandsViewModel = ViewModelProviders.of(this).get(BrandsViewModel::class.java)
+        mBrandsViewModel.loadingVisibility.observe(this, Observer { progressBar ->
+            progressBar?.let {
+                this.progressBar.visibility = it
+            }
+        })
+        mBrandsViewModel.internetErrorVisibility.observe(this, Observer { internet ->
+            internet?.let {
+                noInternetTextView.visibility = it
+            }
+        })
+        mBrandsViewModel.contentViewVisibility.observe(this, Observer { content ->
+            content?.let {
+                contentNestedScrollView.visibility = it
+            }
+        })
+
+        mBrandsViewModel.brandLiveData.observe(this, Observer { brandsResponse ->
+            brandsResponse?.let {
+                newCarsBrandAdapter = NewCarsBrandAdapter(it.brands)
+                newCarsOfferAdapter = NewCarsOfferAdapter(itemArrayList)
+                brandRecyclerView.adapter = newCarsBrandAdapter
+                newCarsOfferRecyclerView.adapter = newCarsOfferAdapter
+                newCarsBrandAdapter.setOnItemClickListener(this@NewCarsMainFragment)
+                newCarsOfferAdapter.setOnItemClickListener(this@NewCarsMainFragment)
+            }
+        })
 
         val mLayoutManager = LinearLayoutManager(view.context.applicationContext, LinearLayoutManager.HORIZONTAL, false)
         brandRecyclerView.layoutManager = mLayoutManager
@@ -97,48 +110,15 @@ class NewCarsMainFragment : Fragment(), NewCarsBrandAdapter.OnItemClickListener,
     }
 
     override fun onItemClick(view: View, obj: Brand, position: Int) {
-        startActivity(Intent(view.context, ModelsActivity::class.java))
+        val intent = Intent(view.context, ModelsActivity::class.java)
+        intent.putExtra("brandId",obj.id)
+        intent.putExtra("brandLogo",obj.logo)
+        intent.putExtra("brandName",obj.name)
+        startActivity(intent)
     }
 
     override fun onOfferItemClick(view: View, obj: Offer, position: Int) {
         startActivity(Intent(view.context, NewCarsDetailsActivity::class.java))
     }
-
-    private fun getBrandssObserver(): Observer<BrandsResponse> {
-        return object : Observer<BrandsResponse> {
-            override fun onSubscribe(d: Disposable) {
-                Log.d(TAG, "onSubscribe")
-            }
-
-            override fun onNext(s: BrandsResponse) {
-                brandList = s.brands
-            }
-
-            override fun onError(e: Throwable) {
-                progressBar.visibility = View.GONE
-                noInternetTextView.visibility = View.VISIBLE
-            }
-
-            override fun onComplete() {
-                progressBar.visibility = View.GONE
-                contentNestedScrollView.visibility = View.VISIBLE
-                newCarsBrandAdapter = NewCarsBrandAdapter(brandList)
-                newCarsOfferAdapter = NewCarsOfferAdapter(itemArrayList)
-                brandRecyclerView.adapter = newCarsBrandAdapter
-                newCarsOfferRecyclerView.adapter = newCarsOfferAdapter
-                newCarsBrandAdapter.setOnItemClickListener(this@NewCarsMainFragment)
-                newCarsOfferAdapter.setOnItemClickListener(this@NewCarsMainFragment)
-            }
-        }
-    }
-
-
-    companion object {
-
-        fun newInstance(): NewCarsMainFragment {
-            return NewCarsMainFragment()
-        }
-    }
-
 
 }

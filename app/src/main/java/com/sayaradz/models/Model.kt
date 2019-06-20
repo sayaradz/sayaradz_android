@@ -2,13 +2,14 @@ package com.sayaradz.models
 
 import com.google.gson.annotations.SerializedName
 
-data class Model (
+data class Model(
     @SerializedName("_id")
-    val id: String? = null,
-    val image:String = "",
-    val code: String? = null,
-    val createdAt: String? = null,
-    val versions: List<Any>? = null,
-    val name: String? = null,
-    val updatedAt: String? = null
+    var id: String? = null,
+    @SerializedName("image_url")
+    var image: String = "",
+    var code: String? = null,
+    var createdAt: String? = null,
+    var versions: List<Version>? = null,
+    var name: String? = null,
+    var updatedAt: String? = null
 )

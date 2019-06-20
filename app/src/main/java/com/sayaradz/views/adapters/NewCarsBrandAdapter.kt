@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.sayaradz.R
-import com.sayaradz.Utils.Utils
 import com.sayaradz.models.Brand
 
 

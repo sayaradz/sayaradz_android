@@ -1,7 +1,6 @@
 package com.sayaradz.views.fragments.home
 
 import android.content.Context
-import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -59,7 +58,8 @@ class HomeFragment : Fragment() {
         newCarsRecyclerView.itemAnimator = DefaultItemAnimator()
         newCarsRecyclerView.isNestedScrollingEnabled = false
 
-        val mLayoutManager1 = LinearLayoutManager(view.context.applicationContext, LinearLayoutManager.HORIZONTAL, false)
+        val mLayoutManager1 =
+            LinearLayoutManager(view.context.applicationContext, LinearLayoutManager.HORIZONTAL, false)
         oldCarsRecyclerView.layoutManager = mLayoutManager1
         oldCarsRecyclerView.itemAnimator = DefaultItemAnimator()
         oldCarsRecyclerView.isNestedScrollingEnabled = false

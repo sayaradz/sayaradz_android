@@ -7,6 +7,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.google.gson.internal.LinkedTreeMap
 import com.sayaradz.R
 import com.sayaradz.Utils.Utils
 import com.sayaradz.models.Model
@@ -34,9 +36,9 @@ class ModelsRecyclerViewAdapter(private val modelsArrayList: List<Model>?) :
 
         if (viewHolder is ItemViewHolder) {
 
-            val model = this.modelsArrayList!![position]
+            val model = this.modelsArrayList?.get(position)
 
-            if(model!=null ){
+            if (model != null) {
 
                 viewHolder.detailTextView.text = "Versions"
 
@@ -44,20 +46,26 @@ class ModelsRecyclerViewAdapter(private val modelsArrayList: List<Model>?) :
 
                 val context = viewHolder.holderCardView.context
 
-                val id = Utils.getDrawableInt(context, model.image)
-                Utils.setImageToImageView(context, viewHolder.itemImageView, id)
+                //val id = Utils.getDrawableInt(context, model.image)
+                //Utils.setImageToImageView(context, viewHolder.itemImageView, id)
 
-                viewHolder.followImageView.setOnClickListener{
+                Glide.with(context)
+                    .load(model.image)
+                    .into(viewHolder.itemImageView)
+
+                viewHolder.followImageView.setOnClickListener {
                     viewHolder.followImageView.setImageResource(R.drawable.ic_followed)
                     //TODO implement the notification System and link it
                 }
 
                 if (itemClickListener != null) {
                     viewHolder.holderCardView.setOnClickListener { v: View ->
-                        itemClickListener!!.onItemClick(
-                            v,
-                            this.modelsArrayList[position], position
-                        )
+                        this.modelsArrayList!![position].let {
+                            itemClickListener!!.onItemClick(
+                                v,
+                                it, position
+                            )
+                        }
                     }
                 }
             }
