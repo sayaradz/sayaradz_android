@@ -89,9 +89,9 @@ class BrandsActivity : AppCompatActivity(), BrandRecyclerViewAdapter.OnItemClick
 
     override fun onItemClick(view: View, obj: Brand, position: Int) {
         val intent = Intent(view.context, ModelsActivity::class.java)
-        intent.putExtra("brandId",obj.id)
-        intent.putExtra("brandLogo",obj.logo)
-        intent.putExtra("brandName",obj.name)
+        intent.putExtra("brandId", obj.id)
+        intent.putExtra("brandLogo", obj.logo)
+        intent.putExtra("brandName", obj.name)
         startActivity(intent)
     }
 

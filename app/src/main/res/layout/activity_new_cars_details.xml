@@ -60,7 +60,8 @@
                 app:layout_constraintBottom_toTopOf="@id/guideline"
                 android:scaleType="centerCrop"
                 app:srcCompat="@drawable/car2"
-                android:id="@+id/imageView"/>
+                android:id="@+id/imageView"
+                android:contentDescription="@string/detail_car_image_description"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -88,18 +89,18 @@
                     app:layout_constraintGuide_begin="25dp"
                     android:orientation="vertical"/>
             <TextView
-                    android:text="Model"
+                    tools:text="Model"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintLeft_toRightOf="@id/brand_logo"
                     app:layout_constraintRight_toLeftOf="@id/separ"
                     app:layout_constraintTop_toTopOf="parent"
                     android:layout_marginTop="@dimen/space_16"
-                    android:layout_marginLeft="@dimen/space_4"
+                    android:layout_marginStart="@dimen/space_4"
                     android:id="@+id/model_details_text"/>
 
             <TextView
-                    android:text="-"
+                    android:text="@string/separator"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintLeft_toRightOf="@id/model_details_text"
@@ -118,9 +119,10 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintLeft_toLeftOf="@id/guideline2"
                     android:layout_marginTop="@dimen/space_16"
-                    android:id="@+id/brand_logo"/>
+                    android:id="@+id/brand_logo"
+                    android:contentDescription="@string/brand_logo"/>
             <TextView
-                    android:text="Version"
+                    tools:text="Version"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     app:layout_constraintLeft_toRightOf="@id/separ"
@@ -130,7 +132,7 @@
                     android:layout_marginStart="@dimen/space_4"
                     android:id="@+id/version_details_text"/>
             <TextView
-                    android:text="100.000.00 DA"
+                    tools:text="100.000.00 DA"
                     android:textAlignment="viewEnd"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -148,7 +150,7 @@
                     app:barrierDirection="bottom"
                     app:constraint_referenced_ids="price,separ,version_details_text,model_details_text,brand_logo"/>
             <TextView
-                    android:text="Une trés fort automobile avec beaucoup des options ..."
+                    tools:text="Une trés fort automobile avec beaucoup des options ..."
                     android:id="@+id/description"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -208,7 +210,7 @@
                     app:layout_constraintVertical_bias="0.856"/>
 
             <Button
-                    android:text="Commander"
+                    android:text="@string/buy_button"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/command_button"

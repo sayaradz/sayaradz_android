@@ -1,6 +1,9 @@
 package com.sayaradz.models.apiClient
 
-import com.sayaradz.models.*
+import com.sayaradz.models.Brand
+import com.sayaradz.models.BrandsResponse
+import com.sayaradz.models.Model
+import com.sayaradz.models.Version
 import io.reactivex.Observable
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -8,14 +11,13 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Path
-import retrofit2.http.Query
 import java.util.concurrent.TimeUnit
 
 
 interface ApiService {
 
     @GET("brands")
-    fun getBrands( ): Observable<BrandsResponse>
+    fun getBrands(): Observable<BrandsResponse>
 
     @GET("brands/{id}")
     fun getBrand(
@@ -32,7 +34,6 @@ interface ApiService {
     fun getVersion(
         @Path("id") id: String
     ): Observable<Version>
-
 
 
     companion object {

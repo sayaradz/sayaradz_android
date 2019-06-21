@@ -44,7 +44,7 @@
                 android:layout_height="match_parent">
 
             <Button
-                    android:text="Collection"
+                    android:text="@string/Collection_button"
                     android:drawableStart="@android:drawable/ic_menu_search"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -60,7 +60,7 @@
                     android:id="@+id/newCarsCollection"
                     android:drawableTintMode="multiply"/>
             <Button
-                    android:text="Collection"
+                    android:text="@string/Collection_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:cornerRadius="@dimen/space_28"

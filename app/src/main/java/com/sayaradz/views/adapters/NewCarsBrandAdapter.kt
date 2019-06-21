@@ -43,7 +43,7 @@ class NewCarsBrandAdapter(private val brandArrayList: List<Brand>?) :
             val context = viewHolder.constraintLayout.context
 
 
-            Glide.with(viewHolder.itemImageView.context)
+            Glide.with(context)
                 .load(newCarsBrand.logo)
                 .apply(RequestOptions.circleCropTransform())
                 .into(viewHolder.itemImageView)

@@ -12,7 +12,8 @@
             app:layout_constraintLeft_toLeftOf="parent"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_margin="5dp"/>
+            android:layout_margin="5dp"
+            android:contentDescription="@string/color_circle"/>
 
     <ImageView
             android:id="@+id/check"
@@ -25,7 +26,8 @@
             android:visibility="gone"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_margin="5dp"/>
+            android:layout_margin="5dp"
+            android:contentDescription="@string/color_check"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

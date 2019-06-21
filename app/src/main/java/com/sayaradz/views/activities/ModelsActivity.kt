@@ -116,7 +116,7 @@ class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClic
 
     override fun onItemClick(view: View, obj: Model, position: Int) {
 
-        titleTextView.text = "Versions"
+        titleTextView.text = getString(R.string.versions_title)
         supportActionBar?.title = obj.name
         progressBar.visibility = View.VISIBLE
         versionsRecyclerViewAdapter = VersionsRecyclerViewAdapter(ArrayList())
@@ -161,8 +161,8 @@ class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClic
 
     override fun onVersionItemClick(view: View, obj: Version, position: Int) {
         val intent = Intent(view.context, NewCarsDetailsActivity::class.java)
-        intent.putExtra("versionId",obj.id)
-        intent.putExtra("modelName",modelName)
+        intent.putExtra("versionId", obj.id)
+        intent.putExtra("modelName", modelName)
         intent.putExtra("versionName", obj.name)
         intent.putExtra("brandLogo", brandLogo)
         startActivity(intent)
@@ -179,7 +179,7 @@ class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClic
 
     override fun onBackPressed() {
         if (titleTextView.text.toString() == "Versions") {
-            titleTextView.text = "Modéles"
+            titleTextView.text = getString(R.string.models_title)
             supportActionBar?.title = this.intent.getStringExtra("brandName")
 
             mBrandViewModel = ViewModelProviders.of(

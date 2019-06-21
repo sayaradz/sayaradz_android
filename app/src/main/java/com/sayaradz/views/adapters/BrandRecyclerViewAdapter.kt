@@ -36,26 +36,23 @@ class BrandRecyclerViewAdapter(private val brandArrayList: List<Brand>?) :
 
             val brand = this.brandArrayList!![position]
 
-            if(brand!=null ){
+            viewHolder.viewName.text = brand.name
 
-                viewHolder.viewName.text = brand.name
+            val context = viewHolder.holderCardView.context
 
-                val context = viewHolder.holderCardView.context
+            //val id = Utils.getDrawableInt(context, brand.logo)
+            //Utils.setImageToImageView(context, viewHolder.itemImageView, id)
 
-                //val id = Utils.getDrawableInt(context, brand.logo)
-                //Utils.setImageToImageView(context, viewHolder.itemImageView, id)
+            Glide.with(context)
+                .load(brand.logo)
+                .into(viewHolder.itemImageView)
 
-                Glide.with(viewHolder.itemImageView.context)
-                    .load(brand.logo)
-                    .into(viewHolder.itemImageView)
-
-                if (itemClickListener != null) {
-                    viewHolder.holderCardView.setOnClickListener { v: View ->
-                        itemClickListener!!.onItemClick(
-                            v,
-                            this.brandArrayList[position], position
-                        )
-                    }
+            if (itemClickListener != null) {
+                viewHolder.holderCardView.setOnClickListener { v: View ->
+                    itemClickListener!!.onItemClick(
+                        v,
+                        this.brandArrayList[position], position
+                    )
                 }
             }
 

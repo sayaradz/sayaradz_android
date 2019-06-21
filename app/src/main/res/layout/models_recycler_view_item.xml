@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
         app:cardCornerRadius="@dimen/space_8"
         android:layout_marginTop="@dimen/space_8"
         android:layout_marginBottom="@dimen/space_8"
@@ -22,10 +22,11 @@
                 android:adjustViewBounds="true"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent"
+                android:contentDescription="@string/model_car_image_description"/>
 
         <Button
-                android:text="model"
+                tools:text="model"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/car_pic"
@@ -52,7 +53,7 @@
                 android:id="@+id/version_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Versions"
+                tools:text="Versions"
                 android:fontFamily="@font/roboto"
                 android:textSize="12sp"
                 android:textColor="@color/colorPrimaryDark"
@@ -73,7 +74,8 @@
                 app:layout_constraintTop_toBottomOf="@id/divider"
                 android:layout_marginEnd="@dimen/space_16"
                 android:layout_marginBottom="@dimen/space_8"
-                android:layout_marginTop="@dimen/space_8"/>
+                android:layout_marginTop="@dimen/space_8"
+                android:contentDescription="@string/follow_icon"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -19,8 +19,8 @@ class CompareDialogFragment : DialogFragment() {
     // Use this instance of the interface to deliver action events
     private lateinit var listener: OrderDialogListener
     private lateinit var confirmChoice: Button
-    internal lateinit var choiceList1: Spinner
-    internal lateinit var choiceList2: Spinner
+    private lateinit var choiceList1: Spinner
+    private lateinit var choiceList2: Spinner
     internal lateinit var title: TextView
 
 

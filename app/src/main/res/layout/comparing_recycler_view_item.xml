@@ -57,7 +57,7 @@
 
     <TextView
             android:id="@+id/contentV1"
-            android:text="test1"
+            tools:text="test1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="center"

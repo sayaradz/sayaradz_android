@@ -4,6 +4,8 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="title_activity_login">Sign in</string>
+
+
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password (optional)</string>
@@ -41,6 +43,7 @@
     <string name="Plus">Plus</string>
     <string name="brands_title">Marques</string>
     <string name="models_title">Modéles</string>
+    <string name="versions_title">Versions</string>
     <string name="most_used">Plus demandés</string>
     <string name="trends_new">Trending Nouveaux</string>
     <string name="trends_used">Trending Utilisé</string>
@@ -57,19 +60,46 @@
     <string name="no_internet">Connexion échoué</string>
 
 
-    //Login Activity
+    <!-- Login Activity Strings  -->
     <string name="google_login">Login avec google</string>
     <string name="facebook_login">Login avec facebook</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
-    //My Account Activity Strings
+    <!-- My Account Activity Strings  -->
     <string name="notifs">Mes Notifications</string>
     <string name="announces">Mes Announces</string>
     <string name="fav">Mes Favoris</string>
     <string name="payment">Paiment</string>
     <string name="logout">Logout</string>
+
+
+    <!-- Image descriptions -->
+    <string name="main_view_car_description">automobile blue et une arbre de la méme coleur</string>
+    <string name="detail_car_image_description">Image de la version selectioné</string>
+    <string name="model_car_image_description">Image de la modéle</string>
+    <string name="brand_logo">logo de la marque selectioné</string>
+
+    <string name="color_circle">coleur valuable</string>
+    <string name="color_check">signe de color selectioné</string>
+
+    <string name="notifs_icon">Icon de Mes Notifications</string>
+    <string name="announces_icnon">Icon de Mes Announces</string>
+    <string name="fav_icon">Icon de Mes Favoris</string>
+    <string name="payment_icon">Icon de Paiment</string>
+    <string name="logout_icon">Icon de Logout</string>
+    <string name="follow_icon">Icon de suivie</string>
+
+    <string name="user_pic">Profile d\'utilisateur</string>
+
+    <!-- Details activity -->
+    <string name="separator">-</string>
+
+
+    <!-- Buttons texts -->
+    <string name="buy_button">Commander</string>
+    <string name="Collection_button">Collection</string>
 
 
 </resources>

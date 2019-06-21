@@ -14,9 +14,9 @@ import com.sayaradz.R
 class OrderDialogFragment : DialogFragment() {
 
     // Use this instance of the interface to deliver action events
-    internal lateinit var listener: OrderDialogListener
-    internal lateinit var normalOrder: Button
-    internal lateinit var acceleratedOrder: Button
+    private lateinit var listener: OrderDialogListener
+    private lateinit var normalOrder: Button
+    private lateinit var acceleratedOrder: Button
 
 
     interface OrderDialogListener {
@@ -51,18 +51,16 @@ class OrderDialogFragment : DialogFragment() {
 
             normalOrder = view.findViewById(R.id.dialog_normal_button)
             acceleratedOrder = view.findViewById(R.id.confirm_button)
-            if (listener != null) {
-                normalOrder.setOnClickListener {
-                    listener!!.onDialogNormalOrderClick(
-                        this
-                    )
-                }
+            normalOrder.setOnClickListener {
+                listener.onDialogNormalOrderClick(
+                    this
+                )
+            }
 
-                acceleratedOrder.setOnClickListener {
-                    listener!!.onDialogAcceleratedOrderClick(
-                        this
-                    )
-                }
+            acceleratedOrder.setOnClickListener {
+                listener.onDialogAcceleratedOrderClick(
+                    this
+                )
             }
 
             builder.setView(view)

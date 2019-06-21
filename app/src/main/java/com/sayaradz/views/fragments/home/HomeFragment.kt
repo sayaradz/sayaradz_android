@@ -24,21 +24,17 @@ class HomeFragment : Fragment() {
 
     private var listener: OnFragmentInteractionListener? = null
 
-    lateinit var newCarsRecyclerView: RecyclerView
-    lateinit var oldCarsRecyclerView: RecyclerView
-    lateinit var newCarsCollectionButton: Button
-    lateinit var oldCarsCollectionButton: Button
+    private lateinit var newCarsRecyclerView: RecyclerView
+    private lateinit var oldCarsRecyclerView: RecyclerView
+    private lateinit var newCarsCollectionButton: Button
+    private lateinit var oldCarsCollectionButton: Button
 
-    lateinit var newCarsRecyclerViewAdapter: HomeNewCarsRecyclerViewAdapter
-    lateinit var oldCarsRecyclerViewAdapter: HomeOldCarsRecyclerViewAdapter
+    private lateinit var newCarsRecyclerViewAdapter: HomeNewCarsRecyclerViewAdapter
+    private lateinit var oldCarsRecyclerViewAdapter: HomeOldCarsRecyclerViewAdapter
 
     private var newCarsList: List<Version>? = null
     private var oldCarsList: List<Version>? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -84,10 +80,6 @@ class HomeFragment : Fragment() {
         return view
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    fun onButtonPressed(uri: Uri) {
-        listener?.onFragmentInteraction(uri)
-    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -107,16 +99,5 @@ class HomeFragment : Fragment() {
     interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         fun onFragmentInteraction(uri: Uri)
-    }
-
-    companion object {
-
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            HomeFragment().apply {
-                arguments = Bundle().apply {
-
-                }
-            }
     }
 }

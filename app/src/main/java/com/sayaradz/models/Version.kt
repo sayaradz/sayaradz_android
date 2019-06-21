@@ -10,7 +10,7 @@ data class Version(
     val code: String? = null,
     val createdAt: String? = null,
     val options: List<Option>? = null,
-    val colors: List <Color>? = null,
+    val colors: List<Color>? = null,
     val name: String? = null,
     val updatedAt: String? = null
 

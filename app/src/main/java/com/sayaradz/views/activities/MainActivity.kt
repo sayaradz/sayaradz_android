@@ -17,7 +17,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.sayaradz.R
 import com.sayaradz.views.fragments.home.HomeFragment
 import com.sayaradz.views.fragments.myAccount.AccountFragment
-import kotlinx.android.synthetic.main.nav_header_main.*
 
 class MainActivity : AppCompatActivity(),
     HomeFragment.OnFragmentInteractionListener,
@@ -31,11 +30,6 @@ class MainActivity : AppCompatActivity(),
         setContentView(R.layout.activity_main)
 
         auth = FirebaseAuth.getInstance()
-        try {
-            user_mail.text = auth.currentUser?.email
-        } catch (e: Exception) {
-
-        }
 
         navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         findViewById<BottomNavigationView>(R.id.bottom_nav)?.let { bottomNavView ->

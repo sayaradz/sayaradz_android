@@ -21,9 +21,10 @@
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_marginTop="@dimen/space_28"
                 android:src="@drawable/car1"
-                android:id="@+id/profile_pic"/>
+                android:id="@+id/profile_pic"
+                android:contentDescription="@string/user_pic"/>
         <TextView
-                android:text="Abderraouf GATTAL"
+                tools:text="Abderraouf GATTAL"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -35,7 +36,7 @@
                 android:textColor="@color/colorPrimaryDark"
                 android:id="@+id/full_name"/>
         <TextView
-                android:text="Tebessa, Algeria"
+                tools:text="Tebessa, Algeria"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -85,7 +86,8 @@
                         app:srcCompat="@drawable/ic_notification"
                         app:layout_constraintStart_toEndOf="@+id/notificaton"
                         app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintEnd_toEndOf="parent"/>
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:contentDescription="@string/notifs_icon"/>
 
                 <androidx.constraintlayout.widget.Barrier
                         android:layout_width="wrap_content"
@@ -132,7 +134,8 @@
                         app:layout_constraintStart_toEndOf="@+id/announces"
                         app:layout_constraintHorizontal_bias="0.5"
                         app:layout_constraintEnd_toEndOf="parent"
-                        tools:layout_editor_absoluteY="17dp"/>
+                        tools:layout_editor_absoluteY="17dp"
+                        android:contentDescription="@string/announces_icnon"/>
 
                 <androidx.constraintlayout.widget.Barrier
                         android:layout_width="wrap_content"
@@ -178,7 +181,8 @@
                         android:id="@+id/favoriteIcon"
                         app:layout_constraintStart_toEndOf="@+id/favorite"
                         app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintEnd_toEndOf="parent"/>
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:contentDescription="@string/fav_icon"/>
 
 
                 <androidx.constraintlayout.widget.Barrier
@@ -225,7 +229,8 @@
                         android:id="@+id/paimentIcon"
                         app:layout_constraintStart_toEndOf="@+id/paiment"
                         app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintEnd_toEndOf="parent"/>
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:contentDescription="@string/payment_icon"/>
 
                 <androidx.constraintlayout.widget.Barrier
                         android:layout_width="wrap_content"
@@ -273,7 +278,8 @@
                         android:id="@+id/logoutIcon"
                         app:layout_constraintStart_toEndOf="@+id/logout"
                         app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintEnd_toEndOf="parent"/>
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:contentDescription="@string/logout_icon"/>
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

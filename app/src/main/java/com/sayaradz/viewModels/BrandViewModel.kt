@@ -3,16 +3,14 @@ package com.sayaradz.viewModels
 import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import com.sayaradz.models.Brand
-import com.sayaradz.models.BrandsResponse
 import com.sayaradz.models.apiClient.ApiService
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
-class BrandViewModel (var id: String) : ViewModel() {
+class BrandViewModel(var id: String) : ViewModel() {
 
     private lateinit var brandObserver: Observer<Brand>
     val loadingVisibility: MutableLiveData<Int> = MutableLiveData()
@@ -55,8 +53,6 @@ class BrandViewModel (var id: String) : ViewModel() {
         }
 
     }
-
-
 
 
 }

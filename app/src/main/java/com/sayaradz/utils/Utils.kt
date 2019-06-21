@@ -1,18 +1,11 @@
-package com.sayaradz.Utils
+package com.sayaradz.utils
 
 import android.content.Context
-import android.graphics.*
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
-import android.util.Log
 import android.widget.ImageView
-import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
-import com.bumptech.glide.request.target.SimpleTarget
-import com.bumptech.glide.request.transition.Transition
 
 
 object Utils {
@@ -33,7 +26,7 @@ object Utils {
     fun getDrawableInt(context: Context, name: String): Int {
         return context.resources.getIdentifier(name, "drawable", context.packageName)
     }
-
+/*
     fun setCircleImageToImageView(
         context: Context,
         imageView: ImageView,
@@ -182,5 +175,6 @@ object Utils {
         canvas.drawCircle((width / 2).toFloat(), (height / 2).toFloat(), radius - borderWidth / 2, paint)
         return canvasBitmap
     }
+        */
 
 }

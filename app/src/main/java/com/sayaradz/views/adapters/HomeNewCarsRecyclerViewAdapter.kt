@@ -7,8 +7,8 @@ import android.widget.ImageView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.sayaradz.R
-import com.sayaradz.Utils.Utils
 import com.sayaradz.models.Version
+import com.sayaradz.utils.Utils
 
 class HomeNewCarsRecyclerViewAdapter(private val versionsArrayList: List<Version>?) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -35,21 +35,18 @@ class HomeNewCarsRecyclerViewAdapter(private val versionsArrayList: List<Version
 
             val version = this.versionsArrayList!![position]
 
-            if (version != null) {
 
+            val context = viewHolder.holderCardView.context
 
-                val context = viewHolder.holderCardView.context
+            val id = Utils.getDrawableInt(context, version.image)
+            Utils.setImageToImageView(context, viewHolder.itemImageView, id)
 
-                val id = Utils.getDrawableInt(context, version.image)
-                Utils.setImageToImageView(context, viewHolder.itemImageView, id)
-
-                if (itemClickListener != null) {
-                    viewHolder.holderCardView.setOnClickListener { v: View ->
-                        itemClickListener!!.onVersionItemClick(
-                            v,
-                            this.versionsArrayList[position], position
-                        )
-                    }
+            if (itemClickListener != null) {
+                viewHolder.holderCardView.setOnClickListener { v: View ->
+                    itemClickListener!!.onVersionItemClick(
+                        v,
+                        this.versionsArrayList[position], position
+                    )
                 }
             }
 

@@ -36,13 +36,9 @@ class CompareOptionsRecyclerViewAdapter(private val carsArrayList: List<Car>?) :
             val option1 = this.carsArrayList!![0].options!![position]
             val option2 = this.carsArrayList[1].options!![position]
 
-            if (option1 != null && option2 != null) {
-
-                viewHolder.optionTitle.text = option1.name
-                viewHolder.optionValueV1.text = option1.code
-                viewHolder.optionValueV2.text = option2.code
-
-            }
+            viewHolder.optionTitle.text = option1.name
+            viewHolder.optionValueV1.text = option1.code
+            viewHolder.optionValueV2.text = option2.code
 
         }
     }

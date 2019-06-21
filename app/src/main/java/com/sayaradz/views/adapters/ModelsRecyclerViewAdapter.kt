@@ -8,9 +8,7 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.google.gson.internal.LinkedTreeMap
 import com.sayaradz.R
-import com.sayaradz.Utils.Utils
 import com.sayaradz.models.Model
 
 class ModelsRecyclerViewAdapter(private val modelsArrayList: List<Model>?) :

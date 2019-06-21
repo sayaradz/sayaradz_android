@@ -228,8 +228,6 @@ class LoginActivity : AppCompatActivity() {
             if (it.isSuccessful) {
                 val user = firebaseAuth.currentUser
 
-//                Toast.makeText(this, "${user?.email} -  ${user?.uid}", Toast.LENGTH_LONG).show()
-
                 startActivity(MainActivity.getLaunchIntent(this))
 
             } else {

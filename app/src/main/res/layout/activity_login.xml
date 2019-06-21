@@ -18,7 +18,8 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/main_view_car"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintBottom_toTopOf="@+id/buttonFacebookLogin"/>
+            app:layout_constraintBottom_toTopOf="@+id/buttonFacebookLogin"
+            android:contentDescription="@string/main_view_car_description"/>
 
     <Button
             android:text="@string/facebook_login"

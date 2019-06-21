@@ -123,13 +123,4 @@ class AccountFragment : Fragment() {
         fun onUpdateUserData(fullName: TextView, address: TextView, profilePic: ImageView)
     }
 
-    companion object {
-
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            AccountFragment().apply {
-
-            }
-    }
 }

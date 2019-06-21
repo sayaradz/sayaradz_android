@@ -22,7 +22,8 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@drawable/baseline_image_black_24"/>
+            tools:srcCompat="@drawable/baseline_image_black_24"
+            android:contentDescription="@string/main_view_car_description"/>
     <TextView
             android:id="@+id/itemNameTextView"
             android:layout_width="0dp"
@@ -33,7 +34,7 @@
             android:ellipsize="end"
             android:fontFamily="@font/roboto"
             android:maxLines="1"
-            android:text="Product"
+            tools:text="Product"
             android:textAlignment="center"
             android:textColor="@color/TitleColor"
             android:textSize="@dimen/font_body_size"

@@ -45,13 +45,9 @@ class ColorsRecyclerViewAdapter(private val colorsArrayList: List<Color>?) :
                 viewHolder.bind(it.isSelected(position.toLong()))
             }
 
-            if (color != null) {
-
-                val colorValue = android.graphics.Color.parseColor(color.value)
-                val porterDuffColorFilter = PorterDuffColorFilter(colorValue, PorterDuff.Mode.SRC_ATOP)
-                viewHolder.colorOval.colorFilter = porterDuffColorFilter
-
-            }
+            val colorValue = android.graphics.Color.parseColor(color.value)
+            val porterDuffColorFilter = PorterDuffColorFilter(colorValue, PorterDuff.Mode.SRC_ATOP)
+            viewHolder.colorOval.colorFilter = porterDuffColorFilter
 
         }
     }
