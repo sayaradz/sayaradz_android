@@ -23,8 +23,9 @@
     <string name="facebook_application_id" translatable="false">1070784103094537</string>
     <string name="facebook_login_protocol_scheme" translatable="false">fb1070784103094537</string>
 
-    <string name="facebook_app_id">1070784103094537</string>
-    <string name="fb_login_protocol_scheme">fb1070784103094537</string>
+    <string name="facebook_app_id">834745510246057</string>
+    <string name="fb_login_protocol_scheme">fb834745510246057</string>
+
 
     <string name="menu_home">Accuille</string>
     <string name="menu_new">Nouveau</string>

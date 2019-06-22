@@ -1,52 +1,45 @@
 {
   "project_info": {
-    "project_number": "604090262238",
-    "firebase_url": "https://sayaradz-942de.firebaseio.com",
-    "project_id": "sayaradz-942de",
-    "storage_bucket": "sayaradz-942de.appspot.com"
+    "project_number": "772963588215",
+    "firebase_url": "https://sayaradz-47663.firebaseio.com",
+    "project_id": "sayaradz-47663",
+    "storage_bucket": "sayaradz-47663.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:604090262238:android:0194bc8986c5253c",
+        "mobilesdk_app_id": "1:772963588215:android:0c4a2b588b06bfab",
         "android_client_info": {
           "package_name": "com.sayaradz"
         }
       },
       "oauth_client": [
         {
-          "client_id": "604090262238-l94g98pl4a9vdmnr2jvbp2ssftb7dsd4.apps.googleusercontent.com",
+          "client_id": "772963588215-3bc2bpe0ldkddtnvpkl06sa4nb3r5e08.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.sayaradz",
-            "certificate_hash": "315a6d0d835ca132207bf6f45901fd5163f3a84c"
+            "certificate_hash": "4dd7c2a91cf07e49d1a0cd9b0620df1879870ced"
           }
         },
         {
-          "client_id": "604090262238-bdh0ccepjnh0h8gi1g9jc8uoa0ih3m26.apps.googleusercontent.com",
+          "client_id": "772963588215-5m0deosprli96pr962e1qs60lg87sngi.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDTeFLmlk6kEbzulGuFIXm6NbAiy62JaLw"
+          "current_key": "AIzaSyANNPxgYPpUWqXs0bszF40iJqgmjK1_ATA"
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 1
-        },
         "appinvite_service": {
-          "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "604090262238-bdh0ccepjnh0h8gi1g9jc8uoa0ih3m26.apps.googleusercontent.com",
+              "client_id": "772963588215-5m0deosprli96pr962e1qs60lg87sngi.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
-        },
-        "ads_service": {
-          "status": 2
         }
       }
     }
