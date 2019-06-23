@@ -58,6 +58,8 @@ class LoginActivity : AppCompatActivity() {
 
         buttonFacebookLogin.setOnClickListener {
             signInFacebook()
+            progressBar.visibility = View.VISIBLE
+            loading_background.visibility = View.VISIBLE
         }
 
         configureGoogleSignIn()
@@ -65,6 +67,7 @@ class LoginActivity : AppCompatActivity() {
         google_btn.setOnClickListener {
             signInGoogle()
             progressBar.visibility = View.VISIBLE
+            loading_background.visibility = View.VISIBLE
         }
 
     }
@@ -88,11 +91,15 @@ class LoginActivity : AppCompatActivity() {
             }
 
             override fun onCancel() {
+                progressBar.visibility = View.GONE
+                loading_background.visibility = View.GONE
                 Toast.makeText(this@LoginActivity, "facebook Login annulé", Toast.LENGTH_SHORT).show()
 
             }
 
             override fun onError(error: FacebookException) {
+                progressBar.visibility = View.GONE
+                loading_background.visibility = View.GONE
                 Toast.makeText(this@LoginActivity, "facebook Login erreur!", Toast.LENGTH_SHORT).show()
             }
         })
@@ -186,6 +193,7 @@ class LoginActivity : AppCompatActivity() {
 
             } catch (e: ApiException) {
                 progressBar.visibility = View.GONE
+                loading_background.visibility = View.GONE
                 // Google Sign In failed, update UI appropriately
                 Log.w("Login", "Google sign in failed", e)
                 Toast.makeText(this, "Auth Failed", Toast.LENGTH_LONG).show()
@@ -228,6 +236,8 @@ class LoginActivity : AppCompatActivity() {
             editor.putString("address", user.email)
             editor.apply()
 
+            progressBar.visibility = View.GONE
+            loading_background.visibility = View.GONE
             startActivity(MainActivity.getLaunchIntent(this))
             finish()
         }
