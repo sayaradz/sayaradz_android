@@ -12,6 +12,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.DialogFragment
 import com.sayaradz.R
 import kotlinx.android.synthetic.main.fragment_compare_dialog.view.*
+import okhttp3.internal.Version
 
 
 class CompareDialogFragment : DialogFragment() {
@@ -25,7 +26,7 @@ class CompareDialogFragment : DialogFragment() {
 
 
     interface OrderDialogListener {
-        fun onConfirmClick(dialog: DialogFragment)
+        fun onConfirmClick(dialog: DialogFragment,version1:Int,version2:Int )
         fun onFillSpinner(spinner: Spinner)
     }
 
@@ -55,13 +56,12 @@ class CompareDialogFragment : DialogFragment() {
             val view = inflater.inflate(R.layout.fragment_compare_dialog, container)
 
             confirmChoice = view.confirm_button
-            if (listener != null) {
-                confirmChoice.setOnClickListener {
-                    listener!!.onConfirmClick(
-                        this
-                    )
-                }
-
+            confirmChoice.setOnClickListener {
+                listener.onConfirmClick(
+                    this,
+                    choiceList1.selectedItemPosition,
+                    choiceList2.selectedItemPosition
+                )
             }
 
             choiceList1 = view.choiceCar1

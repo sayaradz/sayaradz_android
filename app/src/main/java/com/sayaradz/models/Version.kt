@@ -1,6 +1,7 @@
 package com.sayaradz.models
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class Version(
     @SerializedName("_id")
@@ -14,4 +15,4 @@ data class Version(
     val name: String? = null,
     val updatedAt: String? = null
 
-)
+): Serializable
