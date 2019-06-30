@@ -1,26 +1,19 @@
 package com.sayaradz.views.adapters
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.sayaradz.R
-import com.sayaradz.models.Car
-import com.sayaradz.models.Option
+import com.sayaradz.models.CarCompare
+import com.sayaradz.models.Color
 import kotlinx.android.synthetic.main.comparing_recycler_view_item.view.*
 
-class CompareOptionsRecyclerViewAdapter(private val carsArrayList: List<Car>?) :
+class CompareOptionsRecyclerViewAdapter(private val carsArrayList: List<CarCompare>?) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    private var itemClickListener: OnItemClickListener? = null
 
-    interface OnItemClickListener {
-        fun onItemClick(view: View, obj: Option, position: Int)
-    }
-
-    fun setOnItemClickListener(mItemClickListener: OnItemClickListener) {
-        this.itemClickListener = mItemClickListener
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val itemView = LayoutInflater.from(parent.context)
@@ -33,14 +26,36 @@ class CompareOptionsRecyclerViewAdapter(private val carsArrayList: List<Car>?) :
 
         if (viewHolder is ItemViewHolder) {
 
-            val option1 = this.carsArrayList!![0].options!![position]
-            val option2 = this.carsArrayList[1].options!![position]
+            val comparing = this.carsArrayList!![position]
 
-            viewHolder.optionTitle.text = option1.name
-            viewHolder.optionValueV1.text = option1.code
-            viewHolder.optionValueV2.text = option2.code
+            viewHolder.optionTitle.text = comparing.name
+            if (comparing.name == viewHolder.context.getString(R.string.Colors)) {
+                if (comparing.colorsV1.isNotEmpty())
+                    viewHolder.optionValueV1.text = getColors(comparing.colorsV1)
+                else viewHolder.optionValueV1.text = "-"
+                if (comparing.colorsV2.isNotEmpty())
+                    viewHolder.optionValueV2.text = getColors(comparing.colorsV2)
+                else viewHolder.optionValueV2.text = "-"
+
+            } else {
+                if (comparing.vOption1 != null)
+                    viewHolder.optionValueV1.text = comparing.vOption1.name
+                else viewHolder.optionValueV1.text = "-"
+                if (comparing.vOption2 != null)
+                    viewHolder.optionValueV2.text = comparing.vOption2!!.name
+                else viewHolder.optionValueV2.text = "-"
+            }
 
         }
+    }
+
+    private fun getColors(colors: List<Color>): String {
+        var str = ""
+        for (color: Color in colors) {
+            if(str!="") str+= ", "
+            str += color.name
+        }
+        return str
     }
 
     override fun getItemCount(): Int {
@@ -55,6 +70,7 @@ class CompareOptionsRecyclerViewAdapter(private val carsArrayList: List<Car>?) :
         internal var optionTitle: TextView = view.titleComparingItem
         internal var optionValueV1: TextView = view.contentV1
         internal var optionValueV2: TextView = view.contentV2
+        internal var context: Context = view.context
 
     }
 }

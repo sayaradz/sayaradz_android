@@ -3,6 +3,7 @@ package com.sayaradz.views.activities
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.ArrayAdapter
 import android.widget.ProgressBar
 import android.widget.Spinner
 import android.widget.TextView
@@ -28,6 +29,7 @@ import com.sayaradz.views.fragments.CompareDialogFragment
 import kotlinx.android.synthetic.main.activity_models.*
 import kotlinx.android.synthetic.main.versions_models_view.*
 
+
 class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClickListener,
     VersionsRecyclerViewAdapter.OnItemClickListener,
     CompareDialogFragment.OrderDialogListener {
@@ -50,6 +52,8 @@ class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClic
 
     private lateinit var modelName: String
     private lateinit var brandLogo: String
+
+    private lateinit var versionList: List<Version>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -148,6 +152,7 @@ class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClic
                 versionsRecyclerViewAdapter = VersionsRecyclerViewAdapter(it.versions)
                 modelsRecyclerView.adapter = versionsRecyclerViewAdapter
                 versionsRecyclerViewAdapter.setOnItemClickListener(this)
+                versionList = it.versions!!
             }
         })
 
@@ -168,13 +173,25 @@ class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClic
         startActivity(intent)
     }
 
-    override fun onConfirmClick(dialog: DialogFragment) {
-        //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-        startActivity(Intent(this, CompareActivity::class.java))
+    override fun onConfirmClick(dialog: DialogFragment, version1: Int, version2: Int) {
+        val intent = Intent(this, CompareActivity::class.java)
+        intent.putExtra("firstVersion",versionList[version1])
+        intent.putExtra("secondVersion",versionList[version2])
+        startActivity(intent)
     }
 
     override fun onFillSpinner(spinner: Spinner) {
-        //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
+        val versionNames = ArrayList<String>()
+        for (version: Version in versionList){
+            version.name?.let { versionNames.add(it) }
+        }
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, versionNames)
+
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        // Apply the adapter to the spinner
+        spinner.adapter = adapter
     }
 
     override fun onBackPressed() {
