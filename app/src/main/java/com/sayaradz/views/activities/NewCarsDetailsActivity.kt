@@ -2,31 +2,27 @@ package com.sayaradz.views.activities
 
 import android.os.Bundle
 import android.view.View
-import android.widget.*
+import android.widget.ImageView
+import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.selection.SelectionPredicates
 import androidx.recyclerview.selection.SelectionTracker
-import androidx.recyclerview.selection.StorageStrategy
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.sayaradz.R
 import com.sayaradz.viewModels.VersionViewModel
-import com.sayaradz.views.MyItemDetailsLookup
-import com.sayaradz.views.MyItemKeyProvider
 import com.sayaradz.views.adapters.ColorsRecyclerViewAdapter
 import com.sayaradz.views.adapters.OptionsRecyclerViewAdapter
-import com.sayaradz.views.fragments.OrderDialogFragment
 import kotlinx.android.synthetic.main.activity_new_cars_details.*
 
-class NewCarsDetailsActivity : AppCompatActivity(), OrderDialogFragment.OrderDialogListener {
+class NewCarsDetailsActivity : AppCompatActivity() {
 
     private lateinit var colorsRecyclerViewAdapter: ColorsRecyclerViewAdapter
     private lateinit var optionsRecyclerViewAdapter: OptionsRecyclerViewAdapter
@@ -38,7 +34,6 @@ class NewCarsDetailsActivity : AppCompatActivity(), OrderDialogFragment.OrderDia
     private lateinit var colorsRecyclerView: RecyclerView
     private lateinit var optionsRecyclerView: RecyclerView
 
-    private lateinit var buyButton: Button
     private lateinit var versionImage: ImageView
     private lateinit var modelTextView: TextView
     private lateinit var versionTextView: TextView
@@ -65,7 +60,7 @@ class NewCarsDetailsActivity : AppCompatActivity(), OrderDialogFragment.OrderDia
         versionImage = imageView
         colorsRecyclerView = colors_recycler_view
         optionsRecyclerView = options_recycler_view
-        buyButton = command_button
+        //buyButton = command_button
         modelTextView = model_details_text
         versionTextView = version_details_text
         brandLogo = brand_logo
@@ -118,7 +113,8 @@ class NewCarsDetailsActivity : AppCompatActivity(), OrderDialogFragment.OrderDia
                     .load(it.image)
                     .into(versionImage)
 
-                tracker = SelectionTracker.Builder<Long>(
+
+                /*tracker = SelectionTracker.Builder(
                     "mySelection",
                     colorsRecyclerView,
                     MyItemKeyProvider(colorsRecyclerView),
@@ -127,13 +123,10 @@ class NewCarsDetailsActivity : AppCompatActivity(), OrderDialogFragment.OrderDia
                 ).withSelectionPredicate(
                     SelectionPredicates.createSelectSingleAnything()
                 ).build()
-                colorsRecyclerViewAdapter.tracker = tracker
+                colorsRecyclerViewAdapter.tracker = tracker*/
 
             }
         })
-
-        //colorsList = ColorRepository.modelsList
-        //optionsList = OptionRepository.modelsList
 
         val mLayoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
         colorsRecyclerView.layoutManager = mLayoutManager
@@ -146,31 +139,6 @@ class NewCarsDetailsActivity : AppCompatActivity(), OrderDialogFragment.OrderDia
         optionsRecyclerView.itemAnimator = DefaultItemAnimator()
         optionsRecyclerView.isNestedScrollingEnabled = false
 
-        //modelsRecyclerViewAdapter.setOnItemClickListener(this)
-
-        buyButton.setOnClickListener {
-
-            val builder = OrderDialogFragment()
-            builder.show(supportFragmentManager, "OrderDialogFragment")
-
-
-        }
-    }
-
-    override fun onDialogNormalOrderClick(dialog: DialogFragment) {
-        Toast.makeText(
-            this,
-            "Clicked button",
-            Toast.LENGTH_SHORT
-        ).show()
-    }
-
-    override fun onDialogAcceleratedOrderClick(dialog: DialogFragment) {
-        Toast.makeText(
-            this,
-            "Clicked button",
-            Toast.LENGTH_SHORT
-        ).show()
     }
 
 

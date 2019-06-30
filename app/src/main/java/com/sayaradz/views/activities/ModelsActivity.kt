@@ -3,10 +3,7 @@ package com.sayaradz.views.activities
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.ArrayAdapter
-import android.widget.ProgressBar
-import android.widget.Spinner
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.DialogFragment
@@ -26,13 +23,14 @@ import com.sayaradz.viewModels.ModelViewModel
 import com.sayaradz.views.adapters.ModelsRecyclerViewAdapter
 import com.sayaradz.views.adapters.VersionsRecyclerViewAdapter
 import com.sayaradz.views.fragments.CompareDialogFragment
+import com.sayaradz.views.fragments.OrderDialogFragment
 import kotlinx.android.synthetic.main.activity_models.*
 import kotlinx.android.synthetic.main.versions_models_view.*
 
 
 class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClickListener,
     VersionsRecyclerViewAdapter.OnItemClickListener,
-    CompareDialogFragment.OrderDialogListener {
+    CompareDialogFragment.OrderDialogListener, OrderDialogFragment.OrderDialogListener {
 
     private lateinit var modelsRecyclerViewAdapter: ModelsRecyclerViewAdapter
     private lateinit var versionsRecyclerViewAdapter: VersionsRecyclerViewAdapter
@@ -164,6 +162,10 @@ class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClic
         }
     }
 
+    override fun onFollowButtonClick(view: View, obj: Model, position: Int) {
+        //TODO Implement the follow action for models
+    }
+
     override fun onVersionItemClick(view: View, obj: Version, position: Int) {
         val intent = Intent(view.context, NewCarsDetailsActivity::class.java)
         intent.putExtra("versionId", obj.id)
@@ -173,17 +175,26 @@ class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClic
         startActivity(intent)
     }
 
+    override fun onFollowButtonClick(view: View, obj: Version, position: Int) {
+        //TODO Implement the follow action for versions
+    }
+
+    override fun onBuyButtonClick(view: View, obj: Version, position: Int) {
+        val builder = OrderDialogFragment()
+        builder.show(supportFragmentManager, "OrderDialogFragment")
+    }
+
     override fun onConfirmClick(dialog: DialogFragment, version1: Int, version2: Int) {
         val intent = Intent(this, CompareActivity::class.java)
-        intent.putExtra("firstVersion",versionList[version1])
-        intent.putExtra("secondVersion",versionList[version2])
+        intent.putExtra("firstVersion", versionList[version1])
+        intent.putExtra("secondVersion", versionList[version2])
         startActivity(intent)
     }
 
     override fun onFillSpinner(spinner: Spinner) {
 
         val versionNames = ArrayList<String>()
-        for (version: Version in versionList){
+        for (version: Version in versionList) {
             version.name?.let { versionNames.add(it) }
         }
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, versionNames)
@@ -238,6 +249,26 @@ class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClic
         onBackPressed()
         return true
     }
+
+    override fun onDialogNormalOrderClick(dialog: DialogFragment) {
+        Toast.makeText(
+            this,
+            "Clicked button",
+            Toast.LENGTH_SHORT
+        ).show()
+
+        //TODO implement the normal order action
+    }
+
+    override fun onDialogAcceleratedOrderClick(dialog: DialogFragment) {
+        Toast.makeText(
+            this,
+            "Clicked button",
+            Toast.LENGTH_SHORT
+        ).show()
+        //TODO implement the Accelerated order action
+    }
+
 
     private inline fun <VM : ViewModel> modelsViewModelFactory(crossinline f: () -> VM) =
         object : ViewModelProvider.Factory {

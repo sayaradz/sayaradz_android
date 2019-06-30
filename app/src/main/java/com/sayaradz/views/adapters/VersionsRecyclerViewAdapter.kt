@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.sayaradz.R
 import com.sayaradz.models.Version
+import kotlinx.android.synthetic.main.models_recycler_view_item.view.*
 
 class VersionsRecyclerViewAdapter(private val versionsArrayList: List<Version>?) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -17,6 +18,8 @@ class VersionsRecyclerViewAdapter(private val versionsArrayList: List<Version>?)
 
     interface OnItemClickListener {
         fun onVersionItemClick(view: View, obj: Version, position: Int)
+        fun onFollowButtonClick(view: View, obj: Version, position: Int)
+        fun onBuyButtonClick(view: View, obj: Version, position: Int)
     }
 
     fun setOnItemClickListener(mItemClickListener: OnItemClickListener) {
@@ -56,6 +59,16 @@ class VersionsRecyclerViewAdapter(private val versionsArrayList: List<Version>?)
                         this.versionsArrayList[position], position
                     )
                 }
+
+                viewHolder.buyButton.setOnClickListener {
+                    itemClickListener!!.onBuyButtonClick(it, this.versionsArrayList[position], position)
+                }
+
+                viewHolder.followButton.setOnClickListener {
+                    itemClickListener!!.onFollowButtonClick(it, this.versionsArrayList[position], position)
+                    viewHolder.followButton.setImageResource(R.drawable.ic_followed)
+                }
+
             }
 
         }
@@ -73,7 +86,7 @@ class VersionsRecyclerViewAdapter(private val versionsArrayList: List<Version>?)
         internal var viewName: TextView = view.findViewById(R.id.model_button)
         internal var holderCardView: CardView = view.findViewById(R.id.card_view_holder)
         internal var detailTextView: TextView = view.findViewById(R.id.version_text_view)
-
-
+        internal var buyButton: ImageView = view.buy_button
+        internal var followButton: ImageView = view.follow_button
     }
 }

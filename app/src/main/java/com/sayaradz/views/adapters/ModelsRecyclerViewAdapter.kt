@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.sayaradz.R
 import com.sayaradz.models.Model
+import kotlinx.android.synthetic.main.models_recycler_view_item.view.*
 
 class ModelsRecyclerViewAdapter(private val modelsArrayList: List<Model>?) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -17,6 +18,7 @@ class ModelsRecyclerViewAdapter(private val modelsArrayList: List<Model>?) :
 
     interface OnItemClickListener {
         fun onItemClick(view: View, obj: Model, position: Int)
+        fun onFollowButtonClick(view: View, obj: Model, position: Int)
     }
 
     fun setOnItemClickListener(mItemClickListener: OnItemClickListener) {
@@ -40,6 +42,8 @@ class ModelsRecyclerViewAdapter(private val modelsArrayList: List<Model>?) :
 
                 viewHolder.detailTextView.text = "Versions"
 
+                viewHolder.buyButton.visibility = View.GONE
+
                 viewHolder.viewName.text = model.name
 
                 val context = viewHolder.holderCardView.context
@@ -51,10 +55,6 @@ class ModelsRecyclerViewAdapter(private val modelsArrayList: List<Model>?) :
                     .load(model.image)
                     .into(viewHolder.itemImageView)
 
-                viewHolder.followImageView.setOnClickListener {
-                    viewHolder.followImageView.setImageResource(R.drawable.ic_followed)
-                    //TODO implement the notification System and link it
-                }
 
                 if (itemClickListener != null) {
                     viewHolder.holderCardView.setOnClickListener { v: View ->
@@ -64,6 +64,11 @@ class ModelsRecyclerViewAdapter(private val modelsArrayList: List<Model>?) :
                                 it, position
                             )
                         }
+                    }
+
+                    viewHolder.followButton.setOnClickListener {
+                        itemClickListener!!.onFollowButtonClick(it, this.modelsArrayList!![position], position)
+                        viewHolder.followButton.setImageResource(R.drawable.ic_followed)
                     }
                 }
             }
@@ -83,7 +88,8 @@ class ModelsRecyclerViewAdapter(private val modelsArrayList: List<Model>?) :
         internal var viewName: TextView = view.findViewById(R.id.model_button)
         internal var holderCardView: CardView = view.findViewById(R.id.card_view_holder)
         internal var detailTextView: TextView = view.findViewById(R.id.version_text_view)
-        internal var followImageView: ImageView = view.findViewById(R.id.follow_button)
+        internal var buyButton: ImageView = view.buy_button
+        internal var followButton: ImageView = view.follow_button
 
     }
 }
