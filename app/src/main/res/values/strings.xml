@@ -104,6 +104,8 @@
 
 
     <string name="Colors">Coleurs</string>
+    <string name="compose_your_car">Composer</string>
+    <string name="compare_versions">Comparer</string>
 
 
 </resources>

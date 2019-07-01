@@ -41,16 +41,22 @@
 
     </androidx.core.widget.NestedScrollView>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:clickable="true"
-            tools:src="@tools:sample/avatars"
+            style="@style/Widget.MaterialComponents.FloatingActionButton"
             android:id="@+id/floatingActionButton"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginEnd="@dimen/space_16"
             android:layout_marginBottom="@dimen/space_16"
-            android:focusable="true"/>
+            android:layout_marginEnd="@dimen/space_16"
+            android:text="@string/compose_your_car"
+            app:icon="@drawable/ic_construct_car"
+            android:focusable="true"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            app:backgroundTint="@color/colorAccent"
+            app:iconTint="@color/white"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

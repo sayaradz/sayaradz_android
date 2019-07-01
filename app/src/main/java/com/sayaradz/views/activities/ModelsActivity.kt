@@ -2,6 +2,7 @@ package com.sayaradz.views.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.DisplayMetrics
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
@@ -14,7 +15,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.sayaradz.R
 import com.sayaradz.models.Model
 import com.sayaradz.models.Version
@@ -34,7 +35,7 @@ class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClic
 
     private lateinit var modelsRecyclerViewAdapter: ModelsRecyclerViewAdapter
     private lateinit var versionsRecyclerViewAdapter: VersionsRecyclerViewAdapter
-    private lateinit var fAButton: FloatingActionButton
+    private lateinit var fAButton: ExtendedFloatingActionButton
 
     private lateinit var titleTextView: TextView
     private lateinit var mBrandViewModel: BrandViewModel
@@ -57,6 +58,7 @@ class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClic
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_models)
 
+
         val actionbar = supportActionBar
         //set actionbar title
         actionbar!!.title = this.intent.getStringExtra("brandName")
@@ -73,6 +75,7 @@ class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClic
         progressBar = progress_bar
 
 
+        fAButton.visibility = View.GONE
         mBrandViewModel = ViewModelProviders.of(
             this,
             modelsViewModelFactory { BrandViewModel(this.intent.getStringExtra("brandId")) }
@@ -98,6 +101,36 @@ class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClic
                 modelsRecyclerViewAdapter = ModelsRecyclerViewAdapter(it.models)
                 modelsRecyclerView.adapter = modelsRecyclerViewAdapter
                 modelsRecyclerViewAdapter.setOnItemClickListener(this)
+                fAButton.visibility = View.VISIBLE
+            }
+        })
+
+
+
+
+        contentNestedScrollView.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, _, scrollY, _, oldScrollY ->
+            if (scrollY > oldScrollY) {
+                //scroll down
+                fAButton.shrink(true)
+            }
+            if (scrollY < oldScrollY) {
+                //scroll up
+                if (!fAButton.isShown) fAButton.visibility = View.VISIBLE
+                else fAButton.extend(true)
+            }
+
+            if (scrollY == 0) {
+                //top scroll
+                fAButton.visibility = View.VISIBLE
+            }
+
+            if (scrollY == v.getChildAt(0).measuredHeight - v.measuredHeight) {
+                // end of the scroll view
+                val displayMetrics = DisplayMetrics()
+                windowManager.defaultDisplay.getMetrics(displayMetrics)
+
+                if (v.getChildAt(0).measuredHeight - v.measuredHeight > displayMetrics.heightPixels)
+                    fAButton.visibility = View.GONE
             }
         })
 
@@ -121,6 +154,7 @@ class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClic
         titleTextView.text = getString(R.string.versions_title)
         supportActionBar?.title = obj.name
         progressBar.visibility = View.VISIBLE
+        fAButton.visibility = View.GONE
         versionsRecyclerViewAdapter = VersionsRecyclerViewAdapter(ArrayList())
         modelsRecyclerView.adapter = versionsRecyclerViewAdapter
         modelName = obj.name.toString()
@@ -151,9 +185,12 @@ class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClic
                 modelsRecyclerView.adapter = versionsRecyclerViewAdapter
                 versionsRecyclerViewAdapter.setOnItemClickListener(this)
                 versionList = it.versions!!
+                fAButton.visibility = View.VISIBLE
             }
         })
 
+        fAButton.setIconResource(R.drawable.ic_versus)
+        fAButton.setText(R.string.compare_versions)
         fAButton.setOnClickListener {
 
             val builder = CompareDialogFragment()
@@ -210,6 +247,9 @@ class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClic
             titleTextView.text = getString(R.string.models_title)
             supportActionBar?.title = this.intent.getStringExtra("brandName")
 
+            fAButton.setIconResource(R.drawable.ic_construct_car)
+            fAButton.setText(R.string.compose_your_car)
+
             mBrandViewModel = ViewModelProviders.of(
                 this,
                 modelsViewModelFactory { BrandViewModel(this.intent.getStringExtra("brandId")) }
@@ -230,6 +270,8 @@ class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClic
                 }
             })
 
+
+
             mBrandViewModel.modelLiveData.observe(this, Observer { brandsResponse ->
                 brandsResponse?.let {
                     modelsRecyclerViewAdapter = ModelsRecyclerViewAdapter(it.models)
@@ -237,6 +279,8 @@ class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClic
                     modelsRecyclerViewAdapter.setOnItemClickListener(this)
                 }
             })
+
+            fAButton.visibility = View.VISIBLE
 
             fAButton.setOnClickListener {
                 //TODO reset the fab functionning
