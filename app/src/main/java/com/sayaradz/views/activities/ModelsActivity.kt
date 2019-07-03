@@ -4,7 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.view.View
-import android.widget.*
+import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.DialogFragment
@@ -12,6 +13,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.selection.SelectionPredicates
+import androidx.recyclerview.selection.SelectionTracker
+import androidx.recyclerview.selection.StorageStrategy
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -21,25 +25,29 @@ import com.sayaradz.models.Model
 import com.sayaradz.models.Version
 import com.sayaradz.viewModels.BrandViewModel
 import com.sayaradz.viewModels.ModelViewModel
+import com.sayaradz.views.MyChosenModelLookup
+import com.sayaradz.views.MyItemKeyProvider
+import com.sayaradz.views.adapters.ModelChooseComposeCarAdapter
 import com.sayaradz.views.adapters.ModelsRecyclerViewAdapter
+import com.sayaradz.views.adapters.VersionChooseComposeCarAdapter
 import com.sayaradz.views.adapters.VersionsRecyclerViewAdapter
-import com.sayaradz.views.fragments.CompareDialogFragment
-import com.sayaradz.views.fragments.OrderDialogFragment
+import com.sayaradz.views.fragments.ComposeModelDialogFragment
+import com.sayaradz.views.fragments.ComposeVersionDialogFragment
 import kotlinx.android.synthetic.main.activity_models.*
 import kotlinx.android.synthetic.main.versions_models_view.*
 
 
 class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClickListener,
-    VersionsRecyclerViewAdapter.OnItemClickListener,
-    CompareDialogFragment.OrderDialogListener, OrderDialogFragment.OrderDialogListener {
+    ComposeModelDialogFragment.ComposeDialogListener, ComposeVersionDialogFragment.ComposeDialogListener,
+    ModelChooseComposeCarAdapter.SelectModelListner {
 
     private lateinit var modelsRecyclerViewAdapter: ModelsRecyclerViewAdapter
-    private lateinit var versionsRecyclerViewAdapter: VersionsRecyclerViewAdapter
     private lateinit var fAButton: ExtendedFloatingActionButton
 
     private lateinit var titleTextView: TextView
     private lateinit var mBrandViewModel: BrandViewModel
-    private lateinit var mModelViewModel: ModelViewModel
+
+    private lateinit var mModelViewModel1: ModelViewModel
 
     // RecyclerView
     private lateinit var modelsRecyclerView: RecyclerView
@@ -48,11 +56,11 @@ class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClic
     private lateinit var contentNestedScrollView: NestedScrollView
     private lateinit var progressBar: ProgressBar
 
-
-    private lateinit var modelName: String
     private lateinit var brandLogo: String
 
-    private lateinit var versionList: List<Version>
+    private var versionList: List<Version>? = null
+    private lateinit var modelList: List<Model>
+    private lateinit var chosenModel: Model
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -102,6 +110,7 @@ class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClic
                 modelsRecyclerView.adapter = modelsRecyclerViewAdapter
                 modelsRecyclerViewAdapter.setOnItemClickListener(this)
                 fAButton.visibility = View.VISIBLE
+                modelList = it.models!!
             }
         })
 
@@ -144,149 +153,10 @@ class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClic
 
         fAButton.setOnClickListener {
             //TODO implement the Compose car system
+            val builder = ComposeModelDialogFragment()
+            builder.show(supportFragmentManager, "ComposeModelDialogFragment")
         }
 
-    }
-
-
-    override fun onItemClick(view: View, obj: Model, position: Int) {
-
-        titleTextView.text = getString(R.string.versions_title)
-        supportActionBar?.title = obj.name
-        progressBar.visibility = View.VISIBLE
-        fAButton.visibility = View.GONE
-        versionsRecyclerViewAdapter = VersionsRecyclerViewAdapter(ArrayList())
-        modelsRecyclerView.adapter = versionsRecyclerViewAdapter
-        modelName = obj.name.toString()
-
-        mModelViewModel = ViewModelProviders.of(
-            this,
-            modelsViewModelFactory { ModelViewModel(obj.id.toString()) }
-        ).get(ModelViewModel::class.java)
-        mModelViewModel.loadingVisibility.observe(this, Observer { progressBar ->
-            progressBar?.let {
-                this.progressBar.visibility = it
-            }
-        })
-        mModelViewModel.internetErrorVisibility.observe(this, Observer { internet ->
-            internet?.let {
-                noInternetTextView.visibility = it
-            }
-        })
-        mModelViewModel.contentViewVisibility.observe(this, Observer { content ->
-            content?.let {
-                contentNestedScrollView.visibility = it
-            }
-        })
-
-        mModelViewModel.modelLiveData.observe(this, Observer { brandsResponse ->
-            brandsResponse?.let {
-                versionsRecyclerViewAdapter = VersionsRecyclerViewAdapter(it.versions)
-                modelsRecyclerView.adapter = versionsRecyclerViewAdapter
-                versionsRecyclerViewAdapter.setOnItemClickListener(this)
-                versionList = it.versions!!
-                fAButton.visibility = View.VISIBLE
-            }
-        })
-
-        fAButton.setIconResource(R.drawable.ic_versus)
-        fAButton.setText(R.string.compare_versions)
-        fAButton.setOnClickListener {
-
-            val builder = CompareDialogFragment()
-            builder.show(supportFragmentManager, "CompareDialogFragment")
-
-        }
-    }
-
-    override fun onFollowButtonClick(view: View, obj: Model, position: Int) {
-        //TODO Implement the follow action for models
-    }
-
-    override fun onVersionItemClick(view: View, obj: Version, position: Int) {
-        val intent = Intent(view.context, NewCarsDetailsActivity::class.java)
-        intent.putExtra("versionId", obj.id)
-        intent.putExtra("modelName", modelName)
-        intent.putExtra("versionName", obj.name)
-        intent.putExtra("brandLogo", brandLogo)
-        startActivity(intent)
-    }
-
-    override fun onFollowButtonClick(view: View, obj: Version, position: Int) {
-        //TODO Implement the follow action for versions
-    }
-
-    override fun onBuyButtonClick(view: View, obj: Version, position: Int) {
-        val builder = OrderDialogFragment()
-        builder.show(supportFragmentManager, "OrderDialogFragment")
-    }
-
-    override fun onConfirmClick(dialog: DialogFragment, version1: Int, version2: Int) {
-        val intent = Intent(this, CompareActivity::class.java)
-        intent.putExtra("firstVersion", versionList[version1])
-        intent.putExtra("secondVersion", versionList[version2])
-        startActivity(intent)
-    }
-
-    override fun onFillSpinner(spinner: Spinner) {
-
-        val versionNames = ArrayList<String>()
-        for (version: Version in versionList) {
-            version.name?.let { versionNames.add(it) }
-        }
-        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, versionNames)
-
-        // Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        // Apply the adapter to the spinner
-        spinner.adapter = adapter
-    }
-
-    override fun onBackPressed() {
-        if (titleTextView.text.toString() == "Versions") {
-            titleTextView.text = getString(R.string.models_title)
-            supportActionBar?.title = this.intent.getStringExtra("brandName")
-
-            fAButton.setIconResource(R.drawable.ic_construct_car)
-            fAButton.setText(R.string.compose_your_car)
-
-            mBrandViewModel = ViewModelProviders.of(
-                this,
-                modelsViewModelFactory { BrandViewModel(this.intent.getStringExtra("brandId")) }
-            ).get(BrandViewModel::class.java)
-            mBrandViewModel.loadingVisibility.observe(this, Observer { progressBar ->
-                progressBar?.let {
-                    this.progressBar.visibility = it
-                }
-            })
-            mBrandViewModel.internetErrorVisibility.observe(this, Observer { internet ->
-                internet?.let {
-                    noInternetTextView.visibility = it
-                }
-            })
-            mBrandViewModel.contentViewVisibility.observe(this, Observer { content ->
-                content?.let {
-                    contentNestedScrollView.visibility = it
-                }
-            })
-
-
-
-            mBrandViewModel.modelLiveData.observe(this, Observer { brandsResponse ->
-                brandsResponse?.let {
-                    modelsRecyclerViewAdapter = ModelsRecyclerViewAdapter(it.models)
-                    modelsRecyclerView.adapter = modelsRecyclerViewAdapter
-                    modelsRecyclerViewAdapter.setOnItemClickListener(this)
-                }
-            })
-
-            fAButton.visibility = View.VISIBLE
-
-            fAButton.setOnClickListener {
-                //TODO reset the fab functionning
-
-            }
-        } else super.onBackPressed()
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -294,23 +164,105 @@ class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClic
         return true
     }
 
-    override fun onDialogNormalOrderClick(dialog: DialogFragment) {
-        Toast.makeText(
-            this,
-            "Clicked button",
-            Toast.LENGTH_SHORT
-        ).show()
 
-        //TODO implement the normal order action
+    override fun onItemClick(view: View, obj: Model, position: Int) {
+        val intent = Intent(view.context, VersionsActivity::class.java)
+        intent.putExtra("model", obj)
+        intent.putExtra("brandLogo", brandLogo)
+        startActivity(intent)
     }
 
-    override fun onDialogAcceleratedOrderClick(dialog: DialogFragment) {
-        Toast.makeText(
+    override fun onFollowButtonClick(view: View, obj: Model, position: Int) {
+        //TODO Implement the follow action for models
+    }
+
+
+    override fun onPopulateVersions(recyclerView: RecyclerView) {
+        //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
+
+        val mLayoutManager =
+            LinearLayoutManager(recyclerView.context.applicationContext, LinearLayoutManager.HORIZONTAL, false)
+        recyclerView.layoutManager = mLayoutManager
+        recyclerView.itemAnimator = DefaultItemAnimator()
+        recyclerView.isNestedScrollingEnabled = false
+        val recyclerViewAdapter = VersionChooseComposeCarAdapter(versionList)
+        recyclerView.adapter = recyclerViewAdapter
+        val tracker = SelectionTracker.Builder(
+            "mySelection",
+            recyclerView,
+            MyItemKeyProvider(recyclerView),
+            MyChosenModelLookup(recyclerView),
+            StorageStrategy.createLongStorage()
+        ).withSelectionPredicate(
+            SelectionPredicates.createSelectSingleAnything()
+        ).build()
+        recyclerViewAdapter.tracker = tracker
+    }
+
+    override fun onPopulateModels(recyclerView: RecyclerView) {
+        //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val mLayoutManager =
+            LinearLayoutManager(recyclerView.context.applicationContext, LinearLayoutManager.HORIZONTAL, false)
+        recyclerView.layoutManager = mLayoutManager
+        recyclerView.itemAnimator = DefaultItemAnimator()
+        recyclerView.isNestedScrollingEnabled = false
+
+        val recyclerViewAdapter = ModelChooseComposeCarAdapter(modelList)
+        recyclerView.adapter = recyclerViewAdapter
+        val tracker = SelectionTracker.Builder(
+            "mySelection",
+            recyclerView,
+            MyItemKeyProvider(recyclerView),
+            MyChosenModelLookup(recyclerView),
+            StorageStrategy.createLongStorage()
+        ).withSelectionPredicate(
+            SelectionPredicates.createSelectSingleAnything()
+        ).build()
+        recyclerViewAdapter.tracker = tracker
+        recyclerViewAdapter.setOnItemClickListener(this)
+    }
+
+    override fun onSelectModel(modelPosition: Int) {
+        chosenModel = modelList[modelPosition]
+    }
+
+    override fun onNextClick(dialog: DialogFragment) {
+
+        mModelViewModel1 = ViewModelProviders.of(
             this,
-            "Clicked button",
-            Toast.LENGTH_SHORT
-        ).show()
-        //TODO implement the Accelerated order action
+            modelsViewModelFactory { ModelViewModel(chosenModel.id.toString()) }
+        ).get(ModelViewModel::class.java)
+
+        mModelViewModel1.loadingVisibility.observe(this, Observer { progressBar ->
+            progressBar?.let {
+                this.progressBar.visibility = it
+            }
+        })
+        mModelViewModel1.internetErrorVisibility.observe(this, Observer { internet ->
+            internet?.let {
+                noInternetTextView.visibility = it
+            }
+        })
+        mModelViewModel1.contentViewVisibility.observe(this, Observer { content ->
+            content?.let {
+                contentNestedScrollView.visibility = it
+            }
+        })
+
+        mModelViewModel1.modelLiveData.observe(this, Observer { brandsResponse ->
+            brandsResponse?.let {
+                versionList = it.versions!!
+                val builder = ComposeVersionDialogFragment()
+                builder.show(supportFragmentManager, "ComposeVersionDialogFragment")
+
+            }
+        })
+
+    }
+
+    override fun onConfirmComposeClick(dialog: DialogFragment) {
+        //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
 
