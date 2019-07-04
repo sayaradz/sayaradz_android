@@ -3,7 +3,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        tools:context=".views.fragments.OrderDialogFragment"
+        tools:context=".views.fragments.DialogFragments.OrderDialogFragment"
         android:background="@drawable/dialog_rounded_corners_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -50,7 +50,7 @@
             android:layout_marginStart="@dimen/space_16"
             android:id="@+id/choiceCar2"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintBottom_toTopOf="@+id/next_button"/>
+            app:layout_constraintBottom_toTopOf="@+id/confirm_button"/>
 
     <Button
             android:text="@string/compare_confirm_choice"

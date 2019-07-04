@@ -23,7 +23,7 @@ class VersionViewModel(var id: String) : ViewModel() {
         getData(this.id)
     }
 
-    fun getData(id: String) {
+    private fun getData(id: String) {
         versionObserver = getVersionObserver()
         ApiService.invoke().getVersion(id)
             .observeOn(AndroidSchedulers.mainThread())

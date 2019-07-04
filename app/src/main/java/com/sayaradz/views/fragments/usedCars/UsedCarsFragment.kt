@@ -9,10 +9,6 @@ import com.sayaradz.R
 
 class UsedCarsFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = UsedCarsFragment()
-    }
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -21,9 +17,5 @@ class UsedCarsFragment : Fragment() {
         return inflater.inflate(R.layout.used_cars_fragment, container, false)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-    }
 
 }

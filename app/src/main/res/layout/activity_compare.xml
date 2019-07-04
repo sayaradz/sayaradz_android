@@ -117,7 +117,8 @@
                         android:layout_marginBottom="@dimen/space_8"
                         app:layout_goneMarginEnd="@dimen/space_8"
                         android:scaleType="centerCrop"
-                        android:id="@+id/version_1_image"/>
+                        android:id="@+id/version_1_image"
+                        android:contentDescription="@string/detail_car_image_description"/>
 
                 <ImageView
                         android:layout_width="wrap_content"
@@ -131,7 +132,8 @@
                         android:layout_marginStart="@dimen/space_8"
                         android:layout_marginBottom="@dimen/space_8"
                         android:scaleType="centerCrop"
-                        android:id="@+id/version_2_image"/>
+                        android:id="@+id/version_2_image"
+                        android:contentDescription="@string/detail_car_image_description"/>
 
                 <ImageView
                         android:layout_width="wrap_content"
@@ -142,7 +144,8 @@
                         app:layout_constraintBottom_toTopOf="@id/barrier5"
                         android:scaleType="centerCrop"
                         android:id="@+id/vs_image"
-                        app:srcCompat="@drawable/ic_versus"/>
+                        app:srcCompat="@drawable/ic_versus"
+                        android:contentDescription="@string/versus_description"/>
 
                 <androidx.constraintlayout.widget.Barrier
                         android:layout_width="wrap_content"

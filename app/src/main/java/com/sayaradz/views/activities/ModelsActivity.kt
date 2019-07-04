@@ -31,16 +31,15 @@ import com.sayaradz.views.MyItemKeyProvider
 import com.sayaradz.views.adapters.ModelChooseComposeCarAdapter
 import com.sayaradz.views.adapters.ModelsRecyclerViewAdapter
 import com.sayaradz.views.adapters.VersionChooseComposeCarAdapter
-import com.sayaradz.views.fragments.ComposeModelDialogFragment
-import com.sayaradz.views.fragments.ComposeVersionDialogFragment
+import com.sayaradz.views.fragments.DialogFragments.ComposeModelDialogFragment
+import com.sayaradz.views.fragments.DialogFragments.ComposeVersionDialogFragment
 import kotlinx.android.synthetic.main.activity_models.*
 import kotlinx.android.synthetic.main.versions_models_view.*
 
 
-
 class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClickListener,
     ComposeModelDialogFragment.ComposeDialogListener, ComposeVersionDialogFragment.ComposeDialogListener,
-    ModelChooseComposeCarAdapter.SelectModelListener, VersionChooseComposeCarAdapter.SelectVersionListner {
+    ModelChooseComposeCarAdapter.SelectModelListener, VersionChooseComposeCarAdapter.SelectVersionListener {
 
     private lateinit var fAButton: ExtendedFloatingActionButton
     private lateinit var titleTextView: TextView
@@ -186,7 +185,7 @@ class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClic
 
 
     override fun onPopulateVersions(recyclerView: RecyclerView) {
-
+        //TODO Integrate the right API
         val mLayoutManager =
             LinearLayoutManager(recyclerView.context.applicationContext, LinearLayoutManager.HORIZONTAL, false)
         recyclerView.layoutManager = mLayoutManager
@@ -209,7 +208,7 @@ class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClic
     }
 
     override fun onPopulateModels(recyclerView: RecyclerView) {
-        //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        ///TODO Integrate the right API
         val mLayoutManager =
             LinearLayoutManager(recyclerView.context.applicationContext, LinearLayoutManager.HORIZONTAL, false)
         recyclerView.layoutManager = mLayoutManager
@@ -244,7 +243,7 @@ class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClic
     override fun onNextClick(
         dialog: DialogFragment,
         progressBar: ProgressBar,
-        noIntenet: TextView,
+        noInternet: TextView,
         content: ConstraintLayout
     ) {
 
@@ -258,7 +257,7 @@ class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClic
 
         mModelViewModel.internetErrorVisibility.observe(dialog, Observer { internet ->
             internet?.let {
-                noIntenet.visibility = it
+                noInternet.visibility = it
             }
         })
 

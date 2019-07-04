@@ -40,16 +40,13 @@ class ModelsRecyclerViewAdapter(private val modelsArrayList: List<Model>?) :
 
             if (model != null) {
 
-                viewHolder.detailTextView.text = "Versions"
+                viewHolder.detailTextView.text = R.string.versions_title.toString()
 
                 viewHolder.buyButton.visibility = View.GONE
 
                 viewHolder.viewName.text = model.name
 
                 val context = viewHolder.holderCardView.context
-
-                //val id = Utils.getDrawableInt(context, model.image)
-                //Utils.setImageToImageView(context, viewHolder.itemImageView, id)
 
                 Glide.with(context)
                     .load(model.image)

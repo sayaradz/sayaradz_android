@@ -19,8 +19,8 @@ import com.sayaradz.R
 import com.sayaradz.models.CarCompare
 import com.sayaradz.models.Option
 import com.sayaradz.models.Version
-import com.sayaradz.views.adapters.CompareOptionsRecyclerViewAdapter
 import com.sayaradz.viewModels.TwoVersionsViewModel
+import com.sayaradz.views.adapters.CompareOptionsRecyclerViewAdapter
 import kotlinx.android.synthetic.main.activity_compare.*
 
 
@@ -133,7 +133,7 @@ class CompareActivity : AppCompatActivity() {
         val carCompareList = ArrayList<CarCompare>()
         var exists: Boolean
         var car: CarCompare
-        var colorCar: CarCompare
+        val colorCar: CarCompare
         if (version1 != null) {
             for (option: Option in version1.options!!) {
                 car = CarCompare(option.code, option, null, ArrayList(), ArrayList())

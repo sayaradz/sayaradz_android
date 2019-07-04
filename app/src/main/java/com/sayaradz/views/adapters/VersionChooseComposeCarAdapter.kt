@@ -21,7 +21,7 @@ import com.sayaradz.models.Version
 class VersionChooseComposeCarAdapter(private val versionToChooseArrayList: List<Version>?) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     var tracker: SelectionTracker<Long>? = null
-    private lateinit var listener: SelectVersionListner
+    private lateinit var listener: SelectVersionListener
     private lateinit var buttonStateListener: ButtonStateListener
 
 
@@ -29,11 +29,11 @@ class VersionChooseComposeCarAdapter(private val versionToChooseArrayList: List<
         setHasStableIds(true)
     }
 
-    interface SelectVersionListner {
+    interface SelectVersionListener {
         fun onSelectVersion(versionPosition: Int)
     }
 
-    fun setOnItemClickListener(mItemClickListener: SelectVersionListner) {
+    fun setOnItemClickListener(mItemClickListener: SelectVersionListener) {
         this.listener = mItemClickListener
     }
 

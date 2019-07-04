@@ -47,8 +47,6 @@ class NewCarsBrandAdapter(private val brandArrayList: List<Brand>?) :
                 .load(newCarsBrand.logo)
                 .apply(RequestOptions.circleCropTransform())
                 .into(viewHolder.itemImageView)
-            //val id = Utils.getDrawableInt(context, newCarsBrand.logo)
-            //Utils.setCircleImageToImageView(context, viewHolder.itemImageView, id, 6, R.color.TitleColor)
 
             if (itemClickListener != null) {
                 viewHolder.constraintLayout.setOnClickListener { v: View ->

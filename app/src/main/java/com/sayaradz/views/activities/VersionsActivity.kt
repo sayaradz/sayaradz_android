@@ -21,8 +21,8 @@ import com.sayaradz.models.Model
 import com.sayaradz.models.Version
 import com.sayaradz.viewModels.ModelViewModel
 import com.sayaradz.views.adapters.VersionsRecyclerViewAdapter
-import com.sayaradz.views.fragments.CompareDialogFragment
-import com.sayaradz.views.fragments.OrderDialogFragment
+import com.sayaradz.views.fragments.DialogFragments.CompareDialogFragment
+import com.sayaradz.views.fragments.DialogFragments.OrderDialogFragment
 import kotlinx.android.synthetic.main.activity_models.*
 import kotlinx.android.synthetic.main.versions_models_view.*
 

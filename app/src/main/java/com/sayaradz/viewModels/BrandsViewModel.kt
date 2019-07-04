@@ -23,15 +23,15 @@ class BrandsViewModel : ViewModel() {
         getData()
     }
 
-    fun getData() {
-        brandObserver = getBrandssObserver()
+    private fun getData() {
+        brandObserver = getBrandsObserver()
         ApiService.invoke().getBrands()
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .subscribe(brandObserver)
     }
 
-    private fun getBrandssObserver(): Observer<BrandsResponse> {
+    private fun getBrandsObserver(): Observer<BrandsResponse> {
         return object : Observer<BrandsResponse> {
             override fun onSubscribe(d: Disposable) {
                 //Log.d(TAG, "onSubscribe")
