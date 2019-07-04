@@ -1,4 +1,4 @@
-package com.sayaradz.views.adapters
+package com.sayaradz.viewModels
 
 import android.view.View
 import androidx.lifecycle.MutableLiveData
@@ -27,7 +27,7 @@ class TwoVersionsViewModel(var id1: String, var id2: String) : ViewModel() {
         getData(this.id1, this.id2)
     }
 
-    fun getData(id1: String, id2: String) {
+    private fun getData(id1: String, id2: String) {
         twoVersionsObserver = getTwoVersionsObserver()
         val version1Observable = ApiService.invoke().getVersion(id1)
             .observeOn(AndroidSchedulers.mainThread())

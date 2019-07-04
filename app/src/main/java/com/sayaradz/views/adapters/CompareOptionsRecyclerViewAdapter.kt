@@ -52,7 +52,7 @@ class CompareOptionsRecyclerViewAdapter(private val carsArrayList: List<CarCompa
     private fun getColors(colors: List<Color>): String {
         var str = ""
         for (color: Color in colors) {
-            if(str!="") str+= ", "
+            if (str != "") str += ", "
             str += color.name
         }
         return str

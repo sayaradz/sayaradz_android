@@ -1,6 +1,7 @@
 package com.sayaradz.models
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class Model(
     @SerializedName("_id")
@@ -12,4 +13,4 @@ data class Model(
     var versions: List<Version>? = null,
     var name: String? = null,
     var updatedAt: String? = null
-)
+): Serializable

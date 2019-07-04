@@ -39,7 +39,7 @@ class VersionsRecyclerViewAdapter(private val versionsArrayList: List<Version>?)
 
             val version = this.versionsArrayList!![position]
 
-            viewHolder.detailTextView.text = "Details"
+            viewHolder.detailTextView.text = R.string.Details.toString()
 
             viewHolder.viewName.text = version.name
 
