@@ -5,10 +5,13 @@ import android.content.Context
 import android.os.Bundle
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.DialogFragment
 import com.sayaradz.R
+import kotlinx.android.synthetic.main.fragment_compose_version_dialog.view.*
+import kotlinx.android.synthetic.main.fragment_order_dialog.view.*
 
 
 class OrderDialogFragment : DialogFragment() {
@@ -17,6 +20,7 @@ class OrderDialogFragment : DialogFragment() {
     private lateinit var listener: OrderDialogListener
     private lateinit var normalOrder: Button
     private lateinit var acceleratedOrder: Button
+    private lateinit var title: TextView
 
 
     interface OrderDialogListener {
@@ -24,19 +28,19 @@ class OrderDialogFragment : DialogFragment() {
         fun onDialogAcceleratedOrderClick(dialog: DialogFragment)
     }
 
-    // Override the Fragment.onAttach() method to instantiate the OrderDialogListener
+    // Override the Fragment.onAttach() method to instantiate the ComposeDialogListener
     override fun onAttach(context: Context) {
         super.onAttach(context)
         // Verify that the host activity implements the callback interface
         try {
-            // Instantiate the OrderDialogListener so we can send events to the host
+            // Instantiate the ComposeDialogListener so we can send events to the host
             listener = context as OrderDialogListener
 
         } catch (e: ClassCastException) {
             // The activity doesn't implement the interface, throw exception
             throw ClassCastException(
                 (context.toString() +
-                        " must implement OrderDialogListener")
+                        " must implement ComposeDialogListener")
             )
         }
     }
@@ -51,6 +55,10 @@ class OrderDialogFragment : DialogFragment() {
 
             normalOrder = view.findViewById(R.id.dialog_normal_button)
             acceleratedOrder = view.findViewById(R.id.confirm_button)
+            title = view.dialog_title
+
+            title.setText(R.string.order_dialog_title)
+
             normalOrder.setOnClickListener {
                 listener.onDialogNormalOrderClick(
                     this

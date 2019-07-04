@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
@@ -30,27 +31,26 @@ import com.sayaradz.views.MyItemKeyProvider
 import com.sayaradz.views.adapters.ModelChooseComposeCarAdapter
 import com.sayaradz.views.adapters.ModelsRecyclerViewAdapter
 import com.sayaradz.views.adapters.VersionChooseComposeCarAdapter
-import com.sayaradz.views.adapters.VersionsRecyclerViewAdapter
 import com.sayaradz.views.fragments.ComposeModelDialogFragment
 import com.sayaradz.views.fragments.ComposeVersionDialogFragment
 import kotlinx.android.synthetic.main.activity_models.*
 import kotlinx.android.synthetic.main.versions_models_view.*
 
 
+
 class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClickListener,
     ComposeModelDialogFragment.ComposeDialogListener, ComposeVersionDialogFragment.ComposeDialogListener,
-    ModelChooseComposeCarAdapter.SelectModelListner {
+    ModelChooseComposeCarAdapter.SelectModelListener, VersionChooseComposeCarAdapter.SelectVersionListner {
 
-    private lateinit var modelsRecyclerViewAdapter: ModelsRecyclerViewAdapter
     private lateinit var fAButton: ExtendedFloatingActionButton
-
     private lateinit var titleTextView: TextView
-    private lateinit var mBrandViewModel: BrandViewModel
 
-    private lateinit var mModelViewModel1: ModelViewModel
+    private lateinit var mBrandViewModel: BrandViewModel
+    private lateinit var mModelViewModel: ModelViewModel
 
     // RecyclerView
     private lateinit var modelsRecyclerView: RecyclerView
+    private lateinit var modelsRecyclerViewAdapter: ModelsRecyclerViewAdapter
 
     private lateinit var noInternetTextView: TextView
     private lateinit var contentNestedScrollView: NestedScrollView
@@ -61,6 +61,9 @@ class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClic
     private var versionList: List<Version>? = null
     private lateinit var modelList: List<Model>
     private lateinit var chosenModel: Model
+    private lateinit var chosenVersion: Version
+    private lateinit var recyclerPopulatedVersionsViewAdapter: VersionChooseComposeCarAdapter
+    private lateinit var tracker: SelectionTracker<Long>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -84,6 +87,11 @@ class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClic
 
 
         fAButton.visibility = View.GONE
+
+    }
+
+    override fun onResume() {
+        super.onResume()
         mBrandViewModel = ViewModelProviders.of(
             this,
             modelsViewModelFactory { BrandViewModel(this.intent.getStringExtra("brandId")) }
@@ -152,12 +160,12 @@ class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClic
 
 
         fAButton.setOnClickListener {
-            //TODO implement the Compose car system
             val builder = ComposeModelDialogFragment()
             builder.show(supportFragmentManager, "ComposeModelDialogFragment")
         }
 
     }
+
 
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
@@ -178,16 +186,14 @@ class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClic
 
 
     override fun onPopulateVersions(recyclerView: RecyclerView) {
-        //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-
 
         val mLayoutManager =
             LinearLayoutManager(recyclerView.context.applicationContext, LinearLayoutManager.HORIZONTAL, false)
         recyclerView.layoutManager = mLayoutManager
         recyclerView.itemAnimator = DefaultItemAnimator()
         recyclerView.isNestedScrollingEnabled = false
-        val recyclerViewAdapter = VersionChooseComposeCarAdapter(versionList)
-        recyclerView.adapter = recyclerViewAdapter
+        recyclerPopulatedVersionsViewAdapter = VersionChooseComposeCarAdapter(versionList)
+        recyclerView.adapter = recyclerPopulatedVersionsViewAdapter
         val tracker = SelectionTracker.Builder(
             "mySelection",
             recyclerView,
@@ -197,7 +203,9 @@ class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClic
         ).withSelectionPredicate(
             SelectionPredicates.createSelectSingleAnything()
         ).build()
-        recyclerViewAdapter.tracker = tracker
+        recyclerPopulatedVersionsViewAdapter.tracker = tracker
+        recyclerPopulatedVersionsViewAdapter.setOnItemClickListener(this)
+
     }
 
     override fun onPopulateModels(recyclerView: RecyclerView) {
@@ -210,7 +218,7 @@ class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClic
 
         val recyclerViewAdapter = ModelChooseComposeCarAdapter(modelList)
         recyclerView.adapter = recyclerViewAdapter
-        val tracker = SelectionTracker.Builder(
+        tracker = SelectionTracker.Builder(
             "mySelection",
             recyclerView,
             MyItemKeyProvider(recyclerView),
@@ -223,46 +231,55 @@ class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClic
         recyclerViewAdapter.setOnItemClickListener(this)
     }
 
+
     override fun onSelectModel(modelPosition: Int) {
         chosenModel = modelList[modelPosition]
     }
 
-    override fun onNextClick(dialog: DialogFragment) {
+    override fun onSelectVersion(versionPosition: Int) {
+        chosenVersion = versionList!![versionPosition]
+    }
 
-        mModelViewModel1 = ViewModelProviders.of(
-            this,
+
+    override fun onNextClick(
+        dialog: DialogFragment,
+        progressBar: ProgressBar,
+        noIntenet: TextView,
+        content: ConstraintLayout
+    ) {
+
+        mModelViewModel = ViewModelProviders.of(
+            dialog,
             modelsViewModelFactory { ModelViewModel(chosenModel.id.toString()) }
         ).get(ModelViewModel::class.java)
 
-        mModelViewModel1.loadingVisibility.observe(this, Observer { progressBar ->
-            progressBar?.let {
-                this.progressBar.visibility = it
-            }
-        })
-        mModelViewModel1.internetErrorVisibility.observe(this, Observer { internet ->
+        progressBar.visibility = View.VISIBLE
+        content.visibility = View.INVISIBLE
+
+        mModelViewModel.internetErrorVisibility.observe(dialog, Observer { internet ->
             internet?.let {
-                noInternetTextView.visibility = it
-            }
-        })
-        mModelViewModel1.contentViewVisibility.observe(this, Observer { content ->
-            content?.let {
-                contentNestedScrollView.visibility = it
+                noIntenet.visibility = it
             }
         })
 
-        mModelViewModel1.modelLiveData.observe(this, Observer { brandsResponse ->
+        mModelViewModel.modelLiveData.observe(dialog, Observer { brandsResponse ->
             brandsResponse?.let {
                 versionList = it.versions!!
                 val builder = ComposeVersionDialogFragment()
                 builder.show(supportFragmentManager, "ComposeVersionDialogFragment")
+                dialog.dismiss()
 
             }
         })
 
+
     }
 
     override fun onConfirmComposeClick(dialog: DialogFragment) {
-        //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val intent = Intent(this, CarComposingActivity::class.java)
+        intent.putExtra("model", chosenModel)
+        intent.putExtra("version", chosenVersion)
+        startActivity(intent)
     }
 
 

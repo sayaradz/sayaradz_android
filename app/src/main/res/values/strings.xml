@@ -58,6 +58,8 @@
 
     <string name="compare_confirm_choice">Confirmer</string>
 
+    <string name="next_compose">Suivant</string>
+
     <string name="no_internet">Connexion échoué</string>
 
 
@@ -107,5 +109,10 @@
     <string name="compose_your_car">Composer</string>
     <string name="compare_versions">Comparer</string>
 
+
+    <!-- Dialog windows titles -->
+    <string name="Choose_your_version">choix de version</string>
+    <string name="Choose_your_model">choix de modéle</string>
+    <string name="compare">Choix des versions</string>
 
 </resources>

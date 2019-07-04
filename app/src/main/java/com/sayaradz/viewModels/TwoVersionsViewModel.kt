@@ -1,4 +1,4 @@
-package com.sayaradz.views.adapters
+package com.sayaradz.viewModels
 
 import android.view.View
 import androidx.lifecycle.MutableLiveData

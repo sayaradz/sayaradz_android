@@ -20,7 +20,7 @@ import com.sayaradz.models.CarCompare
 import com.sayaradz.models.Option
 import com.sayaradz.models.Version
 import com.sayaradz.views.adapters.CompareOptionsRecyclerViewAdapter
-import com.sayaradz.views.adapters.TwoVersionsViewModel
+import com.sayaradz.viewModels.TwoVersionsViewModel
 import kotlinx.android.synthetic.main.activity_compare.*
 
 
@@ -70,7 +70,12 @@ class CompareActivity : AppCompatActivity() {
 
         mTwoVersionsViewModel = ViewModelProviders.of(
             this,
-            twoVersionsViewModelFactory { TwoVersionsViewModel(version1.id.toString(), version2.id.toString()) }
+            twoVersionsViewModelFactory {
+                TwoVersionsViewModel(
+                    version1.id.toString(),
+                    version2.id.toString()
+                )
+            }
         ).get(TwoVersionsViewModel::class.java)
 
         mTwoVersionsViewModel.contentViewVisibility.observe(this, Observer { content ->

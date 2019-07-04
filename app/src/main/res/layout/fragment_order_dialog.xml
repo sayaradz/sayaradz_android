@@ -40,7 +40,7 @@
             android:id="@+id/dialog_normal_button"
             app:cornerRadius="@dimen/space_28"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintBottom_toTopOf="@+id/confirm_button"/>
+            app:layout_constraintBottom_toTopOf="@+id/next_button"/>
 
     <Button
             android:text="@string/accelerated_order_button"
