@@ -101,6 +101,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     android:orientation="horizontal"
                     app:layout_constraintTop_toBottomOf="@+id/trends_new_text_view"
+                    app:layout_constraintBottom_toTopOf="@id/trends_old_text_view"
                     tools:listitem="@layout/home_recycler_view_item"
                     tools:spanCount="5"
                     tools:layoutManager="LinearLayoutManager"/>
@@ -116,6 +117,8 @@
                     android:textColor="@color/TitleColor"
                     android:textSize="@dimen/font_title_size"
                     app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/old_recycler_view"
                     app:layout_constraintTop_toBottomOf="@+id/new_recycler_view"/>
 
             <androidx.recyclerview.widget.RecyclerView

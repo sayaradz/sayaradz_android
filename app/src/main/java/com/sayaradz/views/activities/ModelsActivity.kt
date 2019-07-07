@@ -2,7 +2,6 @@ package com.sayaradz.views.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.DisplayMetrics
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -142,11 +141,7 @@ class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClic
 
             if (scrollY == v.getChildAt(0).measuredHeight - v.measuredHeight) {
                 // end of the scroll view
-                val displayMetrics = DisplayMetrics()
-                windowManager.defaultDisplay.getMetrics(displayMetrics)
-
-                if (v.getChildAt(0).measuredHeight - v.measuredHeight > displayMetrics.heightPixels)
-                    fAButton.visibility = View.GONE
+                fAButton.visibility = View.GONE
             }
         })
 
