@@ -1,48 +1,34 @@
-package com.sayaradz.views.fragments.DialogFragments
+package com.sayaradz.views.fragments.dialog_fragments
 
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import android.view.ViewGroup
-import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.RecyclerView
 import com.sayaradz.R
-import com.sayaradz.views.adapters.ModelChooseComposeCarAdapter
-import kotlinx.android.synthetic.main.fragment_compose_model_dialog.view.*
+import com.sayaradz.views.adapters.VersionChooseComposeCarAdapter
+import kotlinx.android.synthetic.main.fragment_compose_version_dialog.view.*
 
 
-class ComposeModelDialogFragment : DialogFragment(), ModelChooseComposeCarAdapter.ButtonStateListener {
+class ComposeVersionDialogFragment : DialogFragment(), VersionChooseComposeCarAdapter.ButtonStateListener {
 
     // Use this instance of the interface to deliver action events
     private lateinit var listener: ComposeDialogListener
     private lateinit var confirmChoice: TextView
-    private lateinit var modelChoiceList: RecyclerView
-
-    private lateinit var noInternetTextView: TextView
-    private lateinit var content: ConstraintLayout
-    private lateinit var progressBar: ProgressBar
-
-
-    private lateinit var adapter: ModelChooseComposeCarAdapter
+    private lateinit var versionChoiceList: RecyclerView
     private lateinit var title: TextView
+
+    private lateinit var adapter: VersionChooseComposeCarAdapter
 
 
     interface ComposeDialogListener {
-        fun onNextClick(
-            dialog: DialogFragment,
-            progressBar: ProgressBar,
-            noInternet: TextView,
-            content: ConstraintLayout
-        )
-
-        fun onPopulateModels(recyclerView: RecyclerView)
-
+        fun onConfirmComposeClick(dialog: DialogFragment)
+        fun onPopulateVersions(recyclerView: RecyclerView)
     }
-
 
     // Override the Fragment.onAttach() method to instantiate the ComposeDialogListener
     override fun onAttach(context: Context) {
@@ -67,26 +53,22 @@ class ComposeModelDialogFragment : DialogFragment(), ModelChooseComposeCarAdapte
             val container: ViewGroup = ConstraintLayout(it)
             val builder = AlertDialog.Builder(it)
             val inflater = requireActivity().layoutInflater
-            val view = inflater.inflate(R.layout.fragment_compose_model_dialog, container)
-            modelChoiceList = view.choice_model
-            confirmChoice = view.next_button
-            title = view.dialog_title_model
+            val view = inflater.inflate(R.layout.fragment_compose_version_dialog, container)
 
-            listener.onPopulateModels(modelChoiceList)
+            confirmChoice = view.confirm_next_button
+            versionChoiceList = view.choice_version
+            title = view.dialog_title_version
 
-            adapter = modelChoiceList.adapter as ModelChooseComposeCarAdapter
-            adapter.setOnButtonStateListener(this)
-            progressBar = view.progressBarDialog
-            noInternetTextView = view.no_internet_dialog
-            content = view.content_view_Dialog
-
-
-            title.setText(R.string.Choose_your_model)
+            title.setText(R.string.Choose_your_version)
             confirmChoice.setOnClickListener {
-                listener.onNextClick(
-                    this, progressBar, noInternetTextView, content
+                listener.onConfirmComposeClick(
+                    this
                 )
             }
+
+            listener.onPopulateVersions(versionChoiceList)
+            adapter = versionChoiceList.adapter as VersionChooseComposeCarAdapter
+            adapter.setOnButtonStateListener(this)
 
             builder.setView(view)
 
@@ -99,6 +81,4 @@ class ComposeModelDialogFragment : DialogFragment(), ModelChooseComposeCarAdapte
         if (adapter.tracker!!.hasSelection()) confirmChoice.alpha = 1F
         else confirmChoice.alpha = 0.4F
     }
-
-
 }

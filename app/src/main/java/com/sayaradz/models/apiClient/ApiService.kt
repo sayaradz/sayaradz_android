@@ -1,9 +1,6 @@
 package com.sayaradz.models.apiClient
 
-import com.sayaradz.models.Brand
-import com.sayaradz.models.BrandsResponse
-import com.sayaradz.models.Model
-import com.sayaradz.models.Version
+import com.sayaradz.models.*
 import io.reactivex.Observable
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -24,7 +21,6 @@ interface ApiService {
         @Path("id") id: String
     ): Observable<Brand>
 
-
     @GET("models/{id}")
     fun getModel(
         @Path("id") id: String
@@ -35,6 +31,15 @@ interface ApiService {
         @Path("id") id: String
     ): Observable<Version>
 
+    @GET("commands/brands/{id}/models/availables")
+    fun getAvailableModels(
+        @Path("id") id: String
+    ): Observable<List<Model>>
+
+    @GET("commands/models/{id}/versions/availables")
+    fun getAvailableVersions(
+        @Path("id") id: String
+    ): Observable<List<Version>>
 
     companion object {
         operator fun invoke(): ApiService {
