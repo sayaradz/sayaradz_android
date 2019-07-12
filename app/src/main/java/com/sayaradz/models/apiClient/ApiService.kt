@@ -41,6 +41,16 @@ interface ApiService {
         @Path("id") id: String
     ): Observable<List<Version>>
 
+    @GET("commands/versions/{id}/options/availables")
+    fun getAvailableOptions(
+        @Path("id") id: String
+    ): Observable<List<Option>>
+
+    @GET("commands/versions/{id}/colors/availables")
+    fun getAvailableColors(
+        @Path("id") id: String
+    ): Observable<List<Color>>
+
     companion object {
         operator fun invoke(): ApiService {
 
