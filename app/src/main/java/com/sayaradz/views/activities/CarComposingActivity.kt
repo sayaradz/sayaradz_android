@@ -144,6 +144,10 @@ class CarComposingActivity : AppCompatActivity() {
         optionsRecyclerView.itemAnimator = DefaultItemAnimator()
         optionsRecyclerView.isNestedScrollingEnabled = false
 
+        buyButton.setOnClickListener {
+            //TODO implement the Post logic of the command
+        }
+
     }
 
 

@@ -15,7 +15,7 @@
       },
       "oauth_client": [
         {
-          "client_id": "772963588215-3bc2bpe0ldkddtnvpkl06sa4nb3r5e08.apps.googleusercontent.com",
+          "client_id": "772963588215-jtgacvdegisigkol076bn4coqtl1crqd.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.sayaradz",
@@ -23,7 +23,7 @@
           }
         },
         {
-          "client_id": "772963588215-5m0deosprli96pr962e1qs60lg87sngi.apps.googleusercontent.com",
+          "client_id": "772963588215-mjob8dvh2tckvriv2gkfveu019g7u0tp.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -36,7 +36,7 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "772963588215-5m0deosprli96pr962e1qs60lg87sngi.apps.googleusercontent.com",
+              "client_id": "772963588215-mjob8dvh2tckvriv2gkfveu019g7u0tp.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

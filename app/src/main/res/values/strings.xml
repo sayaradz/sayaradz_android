@@ -23,8 +23,8 @@
     <!-- Facebook application ID and custom URL scheme (app ID prefixed by 'fb'). -->
     <string name="facebook_application_id" translatable="false">1070784103094537</string>
     <string name="facebook_login_protocol_scheme" translatable="false">fb1070784103094537</string>
-    <string name="facebook_app_id">834745510246057</string>
-    <string name="fb_login_protocol_scheme">fb834745510246057</string>
+    <string name="facebook_app_id">733366600429700</string>
+    <string name="fb_login_protocol_scheme">fb733366600429700</string>
 
     <!-- Strings related to menu -->
     <string name="menu_home">Accuille</string>
