@@ -15,6 +15,15 @@
             android:label="@string/app_name"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
+
+        <service
+                android:name=".viewModels.services.MyFMService"
+                android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
         <activity android:name=".views.activities.CarComposingActivity">
         </activity>
         <activity android:name=".views.activities.CompareActivity">
@@ -34,12 +43,15 @@
                 android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
+
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
+
                 <data android:scheme="@string/fb_login_protocol_scheme"/>
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
+
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
@@ -47,7 +59,6 @@
                 android:name=".views.activities.MainActivity"
                 android:label="@string/app_name"
                 android:theme="@style/AppTheme.NoActionBar">
-
         </activity>
         <activity
                 android:name="com.facebook.FacebookActivity"
@@ -62,6 +73,7 @@
                 android:name="com.facebook.sdk.ApplicationId"
                 android:value="@string/facebook_app_id"
                 tools:replace="android:value"/>
+
     </application>
 
 </manifest>

@@ -1,13 +1,13 @@
 package com.sayaradz.models.apiClient
 
 import com.sayaradz.models.*
+import io.reactivex.Completable
 import io.reactivex.Observable
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.GET
-import retrofit2.http.Path
+import retrofit2.http.*
 import java.util.concurrent.TimeUnit
 
 
@@ -50,6 +50,19 @@ interface ApiService {
     fun getAvailableColors(
         @Path("id") id: String
     ): Observable<List<Color>>
+
+    @Headers("Content-Type: application/json;charset=utf-8")
+    @POST("users/{userId}/follows/versions")
+    fun followVersion(
+        @Path("userId") userId: String,
+        @Body followed: Followed
+    ): Observable<Followed>
+
+    @DELETE("users/{userId}/follows/versions/{versionId}")
+    fun unfollowVersion(
+        @Path("userId") userId: String,
+        @Path("versionId") versionId: String
+    ): Observable<String>
 
     companion object {
         operator fun invoke(): ApiService {
