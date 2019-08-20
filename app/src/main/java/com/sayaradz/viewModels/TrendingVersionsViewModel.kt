@@ -10,34 +10,34 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
-class TrendingVersionsViewModel(var id: String) : ViewModel() {
+class TrendingVersionsViewModel() : ViewModel() {
 
-    private lateinit var versionObserver: Observer<Version>
+    private lateinit var versionObserver: Observer<List<Version>>
     val loadingVisibility: MutableLiveData<Int> = MutableLiveData()
     val contentViewVisibility: MutableLiveData<Int> = MutableLiveData()
     val internetErrorVisibility: MutableLiveData<Int> = MutableLiveData()
 
-    val versionLiveData: MutableLiveData<Version> = MutableLiveData()
+    val versionLiveData: MutableLiveData<List<Version>> = MutableLiveData()
 
     init {
-        getData(this.id)
+        getData()
     }
 
-    private fun getData(id: String) {
+    private fun getData() {
         versionObserver = getVersionObserver()
-        ApiService.invoke().getVersion(id)
+        ApiService.invoke().getTrendingVersions()
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .subscribe(versionObserver)
     }
 
-    private fun getVersionObserver(): Observer<Version> {
-        return object : Observer<Version> {
+    private fun getVersionObserver(): Observer<List<Version>> {
+        return object : Observer<List<Version>> {
             override fun onSubscribe(d: Disposable) {
                 //Log.d(TAG, "onSubscribe")
             }
 
-            override fun onNext(s: Version) {
+            override fun onNext(s: List<Version>) {
                 versionLiveData.value = s
             }
 

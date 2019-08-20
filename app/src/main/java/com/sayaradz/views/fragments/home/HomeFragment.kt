@@ -7,7 +7,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ProgressBar
+import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,8 +22,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.sayaradz.R
 import com.sayaradz.models.Version
 import com.sayaradz.models.VersionRepository
+import com.sayaradz.viewModels.TrendingVersionsViewModel
 import com.sayaradz.views.adapters.HomeNewCarsRecyclerViewAdapter
 import com.sayaradz.views.adapters.HomeOldCarsRecyclerViewAdapter
+import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
 
 
@@ -35,6 +44,12 @@ class HomeFragment : Fragment() {
     private var newCarsList: List<Version>? = null
     private var oldCarsList: List<Version>? = null
 
+    private lateinit var trendingVersionsViewModel: TrendingVersionsViewModel
+
+    private lateinit var noInternetTextView: TextView
+    private lateinit var contentLayout: ConstraintLayout
+    private lateinit var progressBar: ProgressBar
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,12 +58,47 @@ class HomeFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_home, container, false)
 
-        newCarsList = VersionRepository.modelsList
         oldCarsList = VersionRepository.modelsList
 
         newCarsRecyclerView = view.findViewById(R.id.new_recycler_view)
         oldCarsRecyclerView = view.findViewById(R.id.old_recycler_view)
 
+        contentLayout = view.findViewById(R.id.holder_home)
+        noInternetTextView = view.findViewById(R.id.no_internet_home)
+        progressBar = view.findViewById(R.id.progressBar_home)
+
+        trendingVersionsViewModel = ViewModelProviders.of(
+            this,
+            TrendingVersionsViewModelFactory { TrendingVersionsViewModel() }
+        ).get(TrendingVersionsViewModel::class.java)
+        trendingVersionsViewModel.loadingVisibility.observe(this, Observer { progressBar ->
+            progressBar?.let {
+                this.progressBar.visibility = it
+            }
+        })
+        trendingVersionsViewModel.internetErrorVisibility.observe(this, Observer { internet ->
+            internet?.let {
+                noInternetTextView.visibility = it
+            }
+        })
+        trendingVersionsViewModel.contentViewVisibility.observe(this, Observer { content ->
+            content?.let {
+                contentLayout.visibility = it
+            }
+        })
+
+        trendingVersionsViewModel.versionLiveData.observe(this, Observer { brandsResponse ->
+            brandsResponse?.let {
+                newCarsList = it
+                newCarsRecyclerViewAdapter = HomeNewCarsRecyclerViewAdapter(newCarsList)
+                newCarsRecyclerView.adapter = newCarsRecyclerViewAdapter
+                newCarsCollectionButton = view.newCarsCollection
+                newCarsCollectionButton.setOnClickListener {
+                    view.findNavController().navigate(R.id.newCarsMain)
+                }
+
+            }
+        })
         val mLayoutManager = LinearLayoutManager(view.context.applicationContext, LinearLayoutManager.HORIZONTAL, false)
         newCarsRecyclerView.layoutManager = mLayoutManager
         newCarsRecyclerView.itemAnimator = DefaultItemAnimator()
@@ -60,16 +110,9 @@ class HomeFragment : Fragment() {
         oldCarsRecyclerView.itemAnimator = DefaultItemAnimator()
         oldCarsRecyclerView.isNestedScrollingEnabled = false
 
-        newCarsRecyclerViewAdapter = HomeNewCarsRecyclerViewAdapter(newCarsList)
         oldCarsRecyclerViewAdapter = HomeOldCarsRecyclerViewAdapter(oldCarsList)
 
-        newCarsRecyclerView.adapter = newCarsRecyclerViewAdapter
         oldCarsRecyclerView.adapter = oldCarsRecyclerViewAdapter
-
-        newCarsCollectionButton = view.newCarsCollection
-        newCarsCollectionButton.setOnClickListener {
-            view.findNavController().navigate(R.id.newCarsMain)
-        }
 
         oldCarsCollectionButton = view.oldCarsCollection
         oldCarsCollectionButton.setOnClickListener {
@@ -100,4 +143,10 @@ class HomeFragment : Fragment() {
         // TODO: Update argument type and name
         fun onFragmentInteraction(uri: Uri)
     }
+
+    private inline fun <VM : ViewModel> TrendingVersionsViewModelFactory(crossinline f: () -> VM) =
+        object : ViewModelProvider.Factory {
+            override fun <T : ViewModel> create(aClass: Class<T>): T = f() as T
+        }
+
 }

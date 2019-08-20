@@ -1,7 +1,6 @@
 package com.sayaradz.models.apiClient
 
 import com.sayaradz.models.*
-import io.reactivex.Completable
 import io.reactivex.Observable
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -63,6 +62,9 @@ interface ApiService {
         @Path("userId") userId: String,
         @Path("versionId") versionId: String
     ): Observable<String>
+
+    @GET("orders/trending/versions")
+    fun getTrendingVersions(): Observable<List<Version>>
 
     companion object {
         operator fun invoke(): ApiService {
