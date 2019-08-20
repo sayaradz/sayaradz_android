@@ -235,7 +235,20 @@ class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClic
         mAvailableModelsViewModel.availableModelsLiveData.observe(dialog, Observer { brandsResponse ->
             brandsResponse?.let {
                 modelList = it
-                recyclerView.adapter!!.notifyDataSetChanged()
+                val recyclerViewAdapter = ModelChooseComposeCarAdapter(modelList)
+                recyclerView.adapter = recyclerViewAdapter
+                tracker = SelectionTracker.Builder(
+                    "mySelection",
+                    recyclerView,
+                    MyItemKeyProvider(recyclerView),
+                    MyChosenModelLookup(recyclerView),
+                    StorageStrategy.createLongStorage()
+                ).withSelectionPredicate(
+                    SelectionPredicates.createSelectSingleAnything()
+                ).build()
+                recyclerViewAdapter.tracker = tracker
+                recyclerViewAdapter.setOnItemClickListener(this)
+                ComposeModelDialogFragment.invoke(recyclerViewAdapter,dialog as ComposeModelDialogFragment)
 
             }
         })
@@ -245,19 +258,6 @@ class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClic
         recyclerView.layoutManager = mLayoutManager
         recyclerView.itemAnimator = DefaultItemAnimator()
         recyclerView.isNestedScrollingEnabled = false
-        val recyclerViewAdapter = ModelChooseComposeCarAdapter(modelList)
-        recyclerView.adapter = recyclerViewAdapter
-        tracker = SelectionTracker.Builder(
-            "mySelection",
-            recyclerView,
-            MyItemKeyProvider(recyclerView),
-            MyChosenModelLookup(recyclerView),
-            StorageStrategy.createLongStorage()
-        ).withSelectionPredicate(
-            SelectionPredicates.createSelectSingleAnything()
-        ).build()
-        recyclerViewAdapter.tracker = tracker
-        recyclerViewAdapter.setOnItemClickListener(this)
 
     }
 
@@ -325,7 +325,6 @@ class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClic
         intent.putExtra("version", chosenVersion)
         startActivity(intent)
     }
-
 
     private inline fun <VM : ViewModel> viewModelFactory(crossinline f: () -> VM) =
         object : ViewModelProvider.Factory {

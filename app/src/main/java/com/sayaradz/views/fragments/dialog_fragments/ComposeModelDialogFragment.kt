@@ -8,7 +8,6 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.isEmpty
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.RecyclerView
 import com.sayaradz.R
@@ -93,9 +92,6 @@ class ComposeModelDialogFragment : DialogFragment(), ModelChooseComposeCarAdapte
 
             listener.onPopulateModels(modelChoiceList, this, progressBar, noInternetTextView, content)
 
-                adapter = modelChoiceList.adapter as ModelChooseComposeCarAdapter
-                adapter.setOnButtonStateListener(this)
-
             builder.setView(view)
 
             builder.create()
@@ -108,5 +104,10 @@ class ComposeModelDialogFragment : DialogFragment(), ModelChooseComposeCarAdapte
         else confirmChoice.alpha = 0.4F
     }
 
+    companion object {
+        operator fun invoke(adapter: ModelChooseComposeCarAdapter, dialog: ComposeModelDialogFragment) {
+            adapter.setOnButtonStateListener(dialog)
+        }
+    }
 
 }
