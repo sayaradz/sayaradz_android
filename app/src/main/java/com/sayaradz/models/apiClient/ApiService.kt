@@ -63,6 +63,11 @@ interface ApiService {
         @Path("versionId") versionId: String
     ): Observable<String>
 
+    @GET("users/{userId}/notifications")
+    fun getNotificationList(
+        @Path("userId") userId: String
+    ): Observable<NotifsResponse>
+
     @GET("orders/trending/versions")
     fun getTrendingVersions(): Observable<List<Version>>
 

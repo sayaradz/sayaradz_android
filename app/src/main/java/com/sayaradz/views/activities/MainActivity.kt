@@ -67,7 +67,8 @@ class MainActivity : AppCompatActivity(),
     }
 
     override fun onNotifPressed() {
-        //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val intent = Intent(this, NotifsListActivity::class.java)
+        startActivity(intent)
     }
 
     override fun onAnnouncesPressed() {
