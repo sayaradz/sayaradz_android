@@ -64,6 +64,17 @@ interface ApiService {
     ): Observable<String>
 
     @GET("users/{userId}/notifications")
+    fun getFollowedVersions(
+        @Path("userId") userId: String
+    ): Observable<List<Version>>
+
+    @GET("users/{userId}/notifications")
+    fun getFollowedModels(
+        @Path("userId") userId: String
+    ): Observable<List<Model>>
+
+
+    @GET("users/{userId}/notifications")
     fun getNotificationList(
         @Path("userId") userId: String
     ): Observable<NotifsResponse>

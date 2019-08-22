@@ -80,7 +80,8 @@ class MainActivity : AppCompatActivity(),
     }
 
     override fun onFavoritesPressed() {
-        //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val intent = Intent(this, FollowedListActivity::class.java)
+        startActivity(intent)
     }
 
 
