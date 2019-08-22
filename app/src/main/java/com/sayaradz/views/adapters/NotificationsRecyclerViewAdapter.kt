@@ -25,7 +25,7 @@ class NotificationsRecyclerViewAdapter(private val notifsArrayList: List<Notific
 
             val notification = this.notifsArrayList!![position]
 
-            viewHolder.viewName.text = notification.name
+            viewHolder.viewName.text = notification.message
 
         }
     }
