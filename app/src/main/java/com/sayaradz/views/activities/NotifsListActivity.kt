@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -55,10 +56,12 @@ class NotifsListActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        //TODO put the right id in place
+        val prefs = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+        val id = prefs.getString("id", "")!!
+
         mNotificationViewModel = ViewModelProviders.of(
             this,
-            viewModelFactory { NotificationViewModel("test") }
+            viewModelFactory { NotificationViewModel(id) }
         ).get(NotificationViewModel::class.java)
 
         mNotificationViewModel.loadingVisibility.observe(this, Observer { progressBar ->

@@ -119,7 +119,6 @@ class AccountFragment : Fragment() {
         fun onAnnouncesPressed()
         fun onPaymentPressed()
         fun onFavoritesPressed()
-
         fun onUpdateUserData(fullName: TextView, address: TextView, profilePic: ImageView)
     }
 

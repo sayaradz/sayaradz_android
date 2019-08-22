@@ -11,7 +11,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceManager
 import com.facebook.*
-import com.facebook.appevents.AppEventsLogger
 import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -165,7 +164,6 @@ class LoginActivity : AppCompatActivity() {
 
     // --------------------------- START GOOGLE LOGIN -------------------------------//
 
-    //TODO fix google auth
     private fun configureGoogleSignIn() {
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -188,7 +186,7 @@ class LoginActivity : AppCompatActivity() {
         if (fb == 0) callbackManager.onActivityResult(requestCode, resultCode, data)
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == rcSignIn) {
-            Log.e("Tag","Discover: "+ data!!.getParcelableExtra("googleSignInStatus"))
+            Log.e("Tag", "Discover: " + data!!.getParcelableExtra("googleSignInStatus"))
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             try {
                 // Google Sign In was successful, authenticate with Firebase
@@ -238,6 +236,7 @@ class LoginActivity : AppCompatActivity() {
             editor.putString("fullName", user.displayName)
             editor.putString("profilePicLink", user.photoUrl.toString())
             editor.putString("address", user.email)
+            editor.putString("id", user.uid)
             editor.apply()
 
             progressBar.visibility = View.GONE

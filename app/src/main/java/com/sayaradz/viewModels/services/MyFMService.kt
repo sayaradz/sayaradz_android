@@ -1,16 +1,18 @@
 package com.sayaradz.viewModels.services
 
 import android.util.Log
+import androidx.preference.PreferenceManager
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import com.sayaradz.viewModels.UserViewModel
 
 
 class MyFMService : FirebaseMessagingService() {
 
     val TAG = "Service"
+    private var mUserViewModel: UserViewModel? = null
 
     override fun onMessageReceived(remoteMessage: RemoteMessage?) {
-        // ...
 
         // TODO(developer): Handle FCM messages here.
         // Not getting messages here? See why this may be: https://goo.gl/39bRNJ
@@ -51,6 +53,11 @@ class MyFMService : FirebaseMessagingService() {
         // manage this apps subscriptions on the server side, send the
         // Instance ID token to your app server.
         //sendRegistrationToServer(token)
+
+        val prefs = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+        val email = prefs.getString("address", "")!!
+        val id = prefs.getString("id", "")!!
+        mUserViewModel = UserViewModel(email, id, token)
     }
 
 }

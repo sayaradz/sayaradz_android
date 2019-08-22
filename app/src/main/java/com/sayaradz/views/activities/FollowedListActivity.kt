@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -55,10 +56,12 @@ class FollowedListActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        //TODO put the right id in place
+        val prefs = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+        val id = prefs.getString("id", "")!!
+
         mFollowedVersionViewModel = ViewModelProviders.of(
             this,
-            viewModelFactory { FollowedVersionViewModel("test") }
+            viewModelFactory { FollowedVersionViewModel(id) }
         ).get(FollowedVersionViewModel::class.java)
 
         mFollowedVersionViewModel.loadingVisibility.observe(this, Observer { progressBar ->

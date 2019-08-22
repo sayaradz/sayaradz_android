@@ -82,6 +82,9 @@ interface ApiService {
     @GET("orders/trending/versions")
     fun getTrendingVersions(): Observable<List<Version>>
 
+    @PUT("users/firebase_user")
+    fun updateUser(@Body user: User): Observable<User>
+
     companion object {
         operator fun invoke(): ApiService {
 
