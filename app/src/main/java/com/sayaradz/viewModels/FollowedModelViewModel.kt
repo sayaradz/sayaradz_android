@@ -1,56 +1,53 @@
 package com.sayaradz.viewModels
 
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.sayaradz.models.BrandsResponse
+import com.sayaradz.models.FollowedModelsResponse
+import com.sayaradz.models.Model
 import com.sayaradz.models.apiClient.ApiService
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import okhttp3.OkHttpClient
-import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
-import retrofit2.converter.gson.GsonConverterFactory
-import java.util.concurrent.TimeUnit
 
-class BrandsViewModel : ViewModel() {
+class FollowedModelViewModel(var id: String) : ViewModel() {
 
-    private lateinit var brandObserver: Observer<BrandsResponse>
+    private lateinit var versionObserver: Observer<FollowedModelsResponse>
     val loadingVisibility: MutableLiveData<Int> = MutableLiveData()
     val contentViewVisibility: MutableLiveData<Int> = MutableLiveData()
     val internetErrorVisibility: MutableLiveData<Int> = MutableLiveData()
 
-    val brandLiveData: MutableLiveData<BrandsResponse> = MutableLiveData()
-
+    val versionLiveData: MutableLiveData<FollowedModelsResponse> = MutableLiveData()
 
     init {
         getData()
     }
 
-
-    fun getData() {
-        brandObserver = getBrandsObserver()
-        ApiService.invoke().getBrands()
+    private fun getData() {
+        versionObserver = getVersionObserver()
+        ApiService.invoke().getFollowedModels(id)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
-            .subscribe(brandObserver)
+            .subscribe(versionObserver)
     }
 
-    private fun getBrandsObserver(): Observer<BrandsResponse> {
-        return object : Observer<BrandsResponse> {
+    private fun getVersionObserver(): Observer<FollowedModelsResponse> {
+        return object : Observer<FollowedModelsResponse> {
             override fun onSubscribe(d: Disposable) {
                 //Log.d(TAG, "onSubscribe")
             }
 
-            override fun onNext(s: BrandsResponse) {
-                brandLiveData.value = s
+            override fun onNext(s: FollowedModelsResponse) {
+                versionLiveData.value = s
+                Log.d("kjhkj",s.count.toString() + "-" + id)
             }
 
             override fun onError(e: Throwable) {
                 loadingVisibility.value = View.GONE
                 internetErrorVisibility.value = View.VISIBLE
+                Log.e("kjhkj", e.message)
             }
 
             override fun onComplete() {
@@ -59,12 +56,6 @@ class BrandsViewModel : ViewModel() {
             }
         }
 
-    }
-
-    companion object {
-        operator fun invoke() {
-
-        }
     }
 
 

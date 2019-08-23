@@ -10,7 +10,7 @@ data class Model(
     var image: String = "",
     var code: String? = null,
     var createdAt: String? = null,
-    var versions: List<Version>? = null,
+    var  versions: List<Version>? = null,
     var name: String? = null,
     var updatedAt: String? = null
 ): Serializable

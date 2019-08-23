@@ -9,15 +9,10 @@ import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import okhttp3.OkHttpClient
-import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
-import retrofit2.converter.gson.GsonConverterFactory
-import java.util.concurrent.TimeUnit
 
-class BrandsViewModel : ViewModel() {
+class UnfollowModelViewModel(var id: String, var modelId: String) : ViewModel() {
 
-    private lateinit var brandObserver: Observer<BrandsResponse>
+    private lateinit var followedObserver: Observer<String>
     val loadingVisibility: MutableLiveData<Int> = MutableLiveData()
     val contentViewVisibility: MutableLiveData<Int> = MutableLiveData()
     val internetErrorVisibility: MutableLiveData<Int> = MutableLiveData()
@@ -31,21 +26,21 @@ class BrandsViewModel : ViewModel() {
 
 
     fun getData() {
-        brandObserver = getBrandsObserver()
-        ApiService.invoke().getBrands()
+        followedObserver = getBrandsObserver()
+        ApiService.invoke().unfollowModel(id, modelId)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
-            .subscribe(brandObserver)
+            .subscribe(followedObserver)
     }
 
-    private fun getBrandsObserver(): Observer<BrandsResponse> {
-        return object : Observer<BrandsResponse> {
+    private fun getBrandsObserver(): Observer<String> {
+        return object : Observer<String> {
             override fun onSubscribe(d: Disposable) {
                 //Log.d(TAG, "onSubscribe")
             }
 
-            override fun onNext(s: BrandsResponse) {
-                brandLiveData.value = s
+            override fun onNext(s: String) {
+
             }
 
             override fun onError(e: Throwable) {

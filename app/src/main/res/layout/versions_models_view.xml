@@ -24,14 +24,16 @@
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/models_recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="@dimen/space_16"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="@dimen/space_16"
             android:layout_marginTop="@dimen/space_8"
+            android:layout_marginBottom="@dimen/space_16"
             tools:listitem="@layout/models_recycler_view_item"
             tools:itemCount="22"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/models_text_view">
     </androidx.recyclerview.widget.RecyclerView>
 

@@ -3,7 +3,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        tools:context=".views.fragments.DialogFragments.OrderDialogFragment"
+        tools:context=".views.fragments.dialog_fragments.OrderDialogFragment"
         android:background="@drawable/dialog_rounded_corners_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">

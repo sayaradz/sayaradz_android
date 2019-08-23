@@ -2,8 +2,10 @@ package com.sayaradz.views.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.DisplayMetrics
+import android.os.CountDownTimer
+import android.util.Log
 import android.view.View
+import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -14,6 +16,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.selection.SelectionPredicates
 import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.selection.StorageStrategy
@@ -24,15 +27,14 @@ import com.google.android.material.floatingactionbutton.ExtendedFloatingActionBu
 import com.sayaradz.R
 import com.sayaradz.models.Model
 import com.sayaradz.models.Version
-import com.sayaradz.viewModels.BrandViewModel
-import com.sayaradz.viewModels.ModelViewModel
+import com.sayaradz.viewModels.*
 import com.sayaradz.views.MyChosenModelLookup
 import com.sayaradz.views.MyItemKeyProvider
 import com.sayaradz.views.adapters.ModelChooseComposeCarAdapter
 import com.sayaradz.views.adapters.ModelsRecyclerViewAdapter
 import com.sayaradz.views.adapters.VersionChooseComposeCarAdapter
-import com.sayaradz.views.fragments.DialogFragments.ComposeModelDialogFragment
-import com.sayaradz.views.fragments.DialogFragments.ComposeVersionDialogFragment
+import com.sayaradz.views.fragments.dialog_fragments.ComposeModelDialogFragment
+import com.sayaradz.views.fragments.dialog_fragments.ComposeVersionDialogFragment
 import kotlinx.android.synthetic.main.activity_models.*
 import kotlinx.android.synthetic.main.versions_models_view.*
 
@@ -45,7 +47,12 @@ class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClic
     private lateinit var titleTextView: TextView
 
     private lateinit var mBrandViewModel: BrandViewModel
-    private lateinit var mModelViewModel: ModelViewModel
+    private lateinit var mAvailableModelsViewModel: AvailableModelsViewModel
+    private lateinit var mAvailableVersionsViewModel: AvailableVersionsViewModel
+    private lateinit var mFollowModelViewModel: FollowModelViewModel
+    private lateinit var mUnFollowModelViewModel: UnfollowModelViewModel
+
+    private lateinit var mIsModelFollowedViewModel: IsModelFollowedViewModel
 
     // RecyclerView
     private lateinit var modelsRecyclerView: RecyclerView
@@ -67,7 +74,6 @@ class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClic
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_models)
-
 
         val actionbar = supportActionBar
         //set actionbar title
@@ -93,7 +99,7 @@ class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClic
         super.onResume()
         mBrandViewModel = ViewModelProviders.of(
             this,
-            modelsViewModelFactory { BrandViewModel(this.intent.getStringExtra("brandId")) }
+            viewModelFactory { BrandViewModel(this.intent.getStringExtra("brandId")) }
         ).get(BrandViewModel::class.java)
         mBrandViewModel.loadingVisibility.observe(this, Observer { progressBar ->
             progressBar?.let {
@@ -117,7 +123,7 @@ class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClic
                 modelsRecyclerView.adapter = modelsRecyclerViewAdapter
                 modelsRecyclerViewAdapter.setOnItemClickListener(this)
                 fAButton.visibility = View.VISIBLE
-                modelList = it.models!!
+
             }
         })
 
@@ -142,11 +148,7 @@ class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClic
 
             if (scrollY == v.getChildAt(0).measuredHeight - v.measuredHeight) {
                 // end of the scroll view
-                val displayMetrics = DisplayMetrics()
-                windowManager.defaultDisplay.getMetrics(displayMetrics)
-
-                if (v.getChildAt(0).measuredHeight - v.measuredHeight > displayMetrics.heightPixels)
-                    fAButton.visibility = View.GONE
+                fAButton.visibility = View.GONE
             }
         })
 
@@ -180,12 +182,61 @@ class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClic
     }
 
     override fun onFollowButtonClick(view: View, obj: Model, position: Int) {
-        //TODO Implement the follow action for models
+        val imageView = view as ImageView
+
+        val prefs = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+        val id = prefs.getString("id", "")!!
+
+        if (imageView.drawable.constantState == getDrawable(R.drawable.ic_follow)!!.constantState) {
+
+            mFollowModelViewModel = ViewModelProviders.of(
+                this,
+                viewModelFactory { FollowModelViewModel(id, obj.id!!) }
+            ).get(FollowModelViewModel::class.java)
+
+            mFollowModelViewModel.brandLiveData.observe(this, Observer { brandsResponse ->
+                brandsResponse?.let {
+                    Log.e("kjhkj", it.toString())
+
+                }
+            })
+            imageView.setImageResource(R.drawable.ic_followed)
+
+        } else {
+
+            mUnFollowModelViewModel = ViewModelProviders.of(
+                this,
+                viewModelFactory { UnfollowModelViewModel(id, obj.id!!) }
+            ).get(UnfollowModelViewModel::class.java)
+
+            imageView.setImageResource(R.drawable.ic_follow)
+
+        }
+
+    }
+
+    override fun isFollowed(id: String): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+        val userId = prefs.getString("id", "")!!
+        var boolea = false
+
+        mIsModelFollowedViewModel = ViewModelProviders.of(
+            this,
+            viewModelFactory { IsModelFollowedViewModel(userId, id) }
+        ).get(IsModelFollowedViewModel::class.java)
+
+        mIsModelFollowedViewModel.brandLiveData.observe(this, Observer { brandsResponse ->
+            brandsResponse?.let {
+                boolea = it.following!!
+            }
+        })
+
+        return boolea
+
     }
 
 
     override fun onPopulateVersions(recyclerView: RecyclerView) {
-        //TODO Integrate the right API
         val mLayoutManager =
             LinearLayoutManager(recyclerView.context.applicationContext, LinearLayoutManager.HORIZONTAL, false)
         recyclerView.layoutManager = mLayoutManager
@@ -207,27 +258,61 @@ class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClic
 
     }
 
-    override fun onPopulateModels(recyclerView: RecyclerView) {
-        ///TODO Integrate the right API
+    override fun onPopulateModels(
+        recyclerView: RecyclerView,
+        dialog: DialogFragment,
+        progressBar: ProgressBar,
+        noInternet: TextView,
+        content: ConstraintLayout
+    ) {
+
+        progressBar.visibility = View.VISIBLE
+        content.visibility = View.INVISIBLE
+
+        mAvailableModelsViewModel = ViewModelProviders.of(
+            dialog,
+            viewModelFactory { AvailableModelsViewModel(this.intent.getStringExtra("brandId")) }
+        ).get(AvailableModelsViewModel::class.java)
+
+
+        mAvailableModelsViewModel.loadingVisibility.observe(dialog, Observer { progress ->
+            progress?.let {
+                progressBar.visibility = it
+            }
+        })
+        mAvailableModelsViewModel.internetErrorVisibility.observe(dialog, Observer { internet ->
+            internet?.let {
+                noInternet.visibility = it
+            }
+        })
+
+        mAvailableModelsViewModel.availableModelsLiveData.observe(dialog, Observer { brandsResponse ->
+            brandsResponse?.let {
+                modelList = it
+                val recyclerViewAdapter = ModelChooseComposeCarAdapter(modelList)
+                recyclerView.adapter = recyclerViewAdapter
+                tracker = SelectionTracker.Builder(
+                    "mySelection",
+                    recyclerView,
+                    MyItemKeyProvider(recyclerView),
+                    MyChosenModelLookup(recyclerView),
+                    StorageStrategy.createLongStorage()
+                ).withSelectionPredicate(
+                    SelectionPredicates.createSelectSingleAnything()
+                ).build()
+                recyclerViewAdapter.tracker = tracker
+                recyclerViewAdapter.setOnItemClickListener(this)
+                ComposeModelDialogFragment.invoke(recyclerViewAdapter, dialog as ComposeModelDialogFragment)
+
+            }
+        })
+
         val mLayoutManager =
             LinearLayoutManager(recyclerView.context.applicationContext, LinearLayoutManager.HORIZONTAL, false)
         recyclerView.layoutManager = mLayoutManager
         recyclerView.itemAnimator = DefaultItemAnimator()
         recyclerView.isNestedScrollingEnabled = false
 
-        val recyclerViewAdapter = ModelChooseComposeCarAdapter(modelList)
-        recyclerView.adapter = recyclerViewAdapter
-        tracker = SelectionTracker.Builder(
-            "mySelection",
-            recyclerView,
-            MyItemKeyProvider(recyclerView),
-            MyChosenModelLookup(recyclerView),
-            StorageStrategy.createLongStorage()
-        ).withSelectionPredicate(
-            SelectionPredicates.createSelectSingleAnything()
-        ).build()
-        recyclerViewAdapter.tracker = tracker
-        recyclerViewAdapter.setOnItemClickListener(this)
     }
 
 
@@ -247,26 +332,40 @@ class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClic
         content: ConstraintLayout
     ) {
 
-        mModelViewModel = ViewModelProviders.of(
+        mAvailableVersionsViewModel = ViewModelProviders.of(
             dialog,
-            modelsViewModelFactory { ModelViewModel(chosenModel.id.toString()) }
-        ).get(ModelViewModel::class.java)
+            viewModelFactory { AvailableVersionsViewModel(chosenModel.id.toString()) }
+        ).get(AvailableVersionsViewModel::class.java)
 
         progressBar.visibility = View.VISIBLE
         content.visibility = View.INVISIBLE
 
-        mModelViewModel.internetErrorVisibility.observe(dialog, Observer { internet ->
+        mAvailableVersionsViewModel.internetErrorVisibility.observe(dialog, Observer { internet ->
             internet?.let {
                 noInternet.visibility = it
+                if (it == View.VISIBLE)
+                    progressBar.visibility = View.INVISIBLE
             }
         })
 
-        mModelViewModel.modelLiveData.observe(dialog, Observer { brandsResponse ->
+        mAvailableVersionsViewModel.availableVersionsLiveData.observe(dialog, Observer { brandsResponse ->
             brandsResponse?.let {
-                versionList = it.versions!!
+                versionList = it
+
                 val builder = ComposeVersionDialogFragment()
                 builder.show(supportFragmentManager, "ComposeVersionDialogFragment")
-                dialog.dismiss()
+
+                val timer = object : CountDownTimer(200, 100) {
+                    override fun onTick(p0: Long) {
+
+                    }
+
+                    override fun onFinish() {
+                        dialog.dismiss()
+                    }
+                }
+                timer.start()
+
 
             }
         })
@@ -281,8 +380,7 @@ class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClic
         startActivity(intent)
     }
 
-
-    private inline fun <VM : ViewModel> modelsViewModelFactory(crossinline f: () -> VM) =
+    private inline fun <VM : ViewModel> viewModelFactory(crossinline f: () -> VM) =
         object : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(aClass: Class<T>): T = f() as T
         }

@@ -2,7 +2,6 @@ package com.sayaradz.views.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.DisplayMetrics
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
@@ -12,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -19,10 +19,13 @@ import com.google.android.material.floatingactionbutton.ExtendedFloatingActionBu
 import com.sayaradz.R
 import com.sayaradz.models.Model
 import com.sayaradz.models.Version
+import com.sayaradz.viewModels.FollowVersionViewModel
+import com.sayaradz.viewModels.IsModelFollowedViewModel
 import com.sayaradz.viewModels.ModelViewModel
+import com.sayaradz.viewModels.UnfollowVersionViewModel
 import com.sayaradz.views.adapters.VersionsRecyclerViewAdapter
-import com.sayaradz.views.fragments.DialogFragments.CompareDialogFragment
-import com.sayaradz.views.fragments.DialogFragments.OrderDialogFragment
+import com.sayaradz.views.fragments.dialog_fragments.CompareDialogFragment
+import com.sayaradz.views.fragments.dialog_fragments.OrderDialogFragment
 import kotlinx.android.synthetic.main.activity_models.*
 import kotlinx.android.synthetic.main.versions_models_view.*
 
@@ -36,6 +39,8 @@ class VersionsActivity : AppCompatActivity(),
 
     private lateinit var titleTextView: TextView
     private var mModelViewModel: ModelViewModel? = null
+    private lateinit var mFollowVersionViewModel: FollowVersionViewModel
+    private lateinit var mUnFollowVersionViewModel: UnfollowVersionViewModel
 
     // RecyclerView
     private lateinit var versionsRecyclerView: RecyclerView
@@ -146,11 +151,7 @@ class VersionsActivity : AppCompatActivity(),
 
             if (scrollY == v.getChildAt(0).measuredHeight - v.measuredHeight) {
                 // end of the scroll view
-                val displayMetrics = DisplayMetrics()
-                windowManager.defaultDisplay.getMetrics(displayMetrics)
-
-                if (v.getChildAt(0).measuredHeight - v.measuredHeight > displayMetrics.heightPixels)
-                    fAButton.visibility = View.GONE
+                fAButton.visibility = View.GONE
             }
         })
 
@@ -173,13 +174,57 @@ class VersionsActivity : AppCompatActivity(),
     }
 
     override fun onFollowButtonClick(view: View, obj: Version, position: Int) {
-        //TODO Implement the follow action for versions
+        val imageView = view as ImageView
+
+        val prefs = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+        val id = prefs.getString("id", "")!!
+
+        if (imageView.drawable.constantState == getDrawable(R.drawable.ic_follow)!!.constantState) {
+
+            mFollowVersionViewModel = ViewModelProviders.of(
+                this,
+                modelsViewModelFactory { FollowVersionViewModel(id, obj.id!!) }
+            ).get(FollowVersionViewModel::class.java)
+
+            imageView.setImageResource(R.drawable.ic_followed)
+
+        } else {
+
+            mUnFollowVersionViewModel = ViewModelProviders.of(
+                this,
+                modelsViewModelFactory { UnfollowVersionViewModel(id, obj.id!!) }
+            ).get(UnfollowVersionViewModel::class.java)
+
+            imageView.setImageResource(R.drawable.ic_follow)
+
+        }
     }
 
     override fun onBuyButtonClick(view: View, obj: Version, position: Int) {
         val builder = OrderDialogFragment()
         builder.show(supportFragmentManager, "OrderDialogFragment")
     }
+
+    override fun isFollowed(id: String): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+        val userId = prefs.getString("id", "")!!
+        var boolea = false
+
+        var mIsModelFollowedViewModel = ViewModelProviders.of(
+            this,
+            modelsViewModelFactory { IsModelFollowedViewModel(userId, id) }
+        ).get(IsModelFollowedViewModel::class.java)
+
+        mIsModelFollowedViewModel.brandLiveData.observe(this, Observer { brandsResponse ->
+            brandsResponse?.let {
+                boolea = it.following!!
+            }
+        })
+
+        return boolea
+
+    }
+
 
     override fun onConfirmClick(dialog: DialogFragment, version1: Int, version2: Int) {
         val intent = Intent(this, CompareActivity::class.java)

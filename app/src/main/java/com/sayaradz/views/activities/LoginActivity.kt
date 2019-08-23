@@ -22,6 +22,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.sayaradz.R
+import com.sayaradz.viewModels.UserViewModel
 import kotlinx.android.synthetic.main.activity_login.*
 import org.json.JSONException
 
@@ -37,12 +38,16 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var mGoogleSignInClient: GoogleSignInClient
     private lateinit var mAuth: FirebaseAuth
 
+    private var mUserViewModel: UserViewModel? = null
+
     private lateinit var progressBar: ProgressBar
     private lateinit var callbackManager: CallbackManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+
+
 
         mAuth = FirebaseAuth.getInstance()
 
@@ -162,7 +167,6 @@ class LoginActivity : AppCompatActivity() {
 
     // --------------------------- START GOOGLE LOGIN -------------------------------//
 
-    //TODO fix google auth
     private fun configureGoogleSignIn() {
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -185,6 +189,7 @@ class LoginActivity : AppCompatActivity() {
         if (fb == 0) callbackManager.onActivityResult(requestCode, resultCode, data)
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == rcSignIn) {
+            Log.e("Tag", "Discover: " + data!!.getParcelableExtra("googleSignInStatus"))
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             try {
                 // Google Sign In was successful, authenticate with Firebase
@@ -234,7 +239,10 @@ class LoginActivity : AppCompatActivity() {
             editor.putString("fullName", user.displayName)
             editor.putString("profilePicLink", user.photoUrl.toString())
             editor.putString("address", user.email)
+            editor.putString("id", user.uid)
             editor.apply()
+
+            mUserViewModel = UserViewModel(user.email!!, user.uid, "")
 
             progressBar.visibility = View.GONE
             loading_background.visibility = View.GONE

@@ -1,9 +1,215 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<ScrollView
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:overScrollMode="never"
         tools:context=".views.activities.CarComposingActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <ProgressBar
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:visibility="invisible"
+                android:id="@+id/progress_bar_composing"/>
+
+        <TextView
+                android:text="@string/no_internet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:fontFamily="@font/roboto"
+                android:textColor="@color/colorPrimaryDark"
+                android:visibility="invisible"
+                android:id="@+id/no_internet_composing"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/content_view_composing">
+
+            <androidx.constraintlayout.widget.Guideline
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/guideline"
+                    app:layout_constraintGuide_begin="219dp"/>
+
+            <androidx.constraintlayout.widget.Guideline
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/guideline1"
+                    app:layout_constraintGuide_percent="0.25"/>
+
+            <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintVertical_bias="0.0"
+                    app:layout_constraintHeight_percent="0.3"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/guideline"
+                    android:scaleType="centerCrop"
+                    app:srcCompat="@drawable/car2"
+                    android:id="@+id/imageView_composing"
+                    android:contentDescription="@string/detail_car_image_description"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:background="@drawable/rounded_corners_layout"
+                    app:layout_constraintHeight_percent="0.75"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/guideline1"
+                    android:fillViewport="true">
+
+                <androidx.constraintlayout.widget.Guideline
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/guideline3"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_end="25dp"/>
+                <androidx.constraintlayout.widget.Guideline
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/guideline2"
+                        app:layout_constraintGuide_begin="25dp"
+                        android:orientation="vertical"/>
+                <TextView
+                        tools:text="Model"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintLeft_toRightOf="@id/brand_logo_composing"
+                        app:layout_constraintRight_toLeftOf="@id/separ_composing"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_marginTop="@dimen/space_16"
+                        android:layout_marginStart="@dimen/space_4"
+                        android:id="@+id/model_text_composing"/>
+
+                <TextView
+                        android:text="@string/separator"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintLeft_toRightOf="@id/model_text_composing"
+                        app:layout_constraintRight_toLeftOf="@id/version_text_composing"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_marginTop="@dimen/space_16"
+                        android:layout_marginStart="@dimen/space_4"
+                        android:id="@+id/separ_composing"/>
+
+                <ImageView
+                        android:layout_width="@dimen/space_20"
+                        android:layout_height="wrap_content"
+                        android:scaleType="fitXY"
+                        android:adjustViewBounds="true"
+                        app:srcCompat="@drawable/bmw"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintLeft_toLeftOf="@id/guideline2"
+                        android:layout_marginTop="@dimen/space_16"
+                        android:id="@+id/brand_logo_composing"
+                        android:contentDescription="@string/brand_logo"/>
+                <TextView
+                        tools:text="Version"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintLeft_toRightOf="@id/separ_composing"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_marginTop="@dimen/space_16"
+                        android:layout_marginStart="@dimen/space_4"
+                        android:layout_marginEnd="@dimen/space_16"
+                        android:id="@+id/version_text_composing"/>
+
+
+                <androidx.constraintlayout.widget.Barrier
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/barrier"
+                        app:barrierDirection="bottom"
+                        app:constraint_referenced_ids="separ_composing,version_text_composing,model_text_composing,brand_logo_composing"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/options_recycler_view_composing"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:overScrollMode="never"
+                        app:layout_constraintLeft_toRightOf="@id/guideline2"
+                        app:layout_constraintRight_toLeftOf="@id/guideline3"
+                        app:layout_constraintTop_toBottomOf="@+id/barrier"
+                        tools:listitem="@layout/option_recycler_view_item"
+                        tools:itemCount="4"
+                        app:layout_constraintBottom_toTopOf="@+id/divider"/>
+
+                <View
+                        android:id="@+id/divider"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        app:layout_constraintEnd_toEndOf="@id/guideline3"
+                        app:layout_constraintStart_toStartOf="@id/guideline2"
+                        android:layout_marginEnd="@dimen/space_12"
+                        android:layout_marginStart="@dimen/space_12"
+                        android:layout_marginTop="@dimen/space_8"
+                        android:background="@color/colorPrimaryDark"
+                        app:layout_constraintTop_toBottomOf="@+id/options_recycler_view_composing"
+                        app:layout_constraintBottom_toTopOf="@+id/colors_recycler_view_composing"/>
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/colors_recycler_view_composing"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:overScrollMode="never"
+                        android:layout_marginTop="@dimen/space_8"
+                        android:paddingEnd="@dimen/space_16"
+                        android:paddingStart="@dimen/space_16"
+                        app:layout_constraintLeft_toLeftOf="@id/guideline2"
+                        app:layout_constraintRight_toRightOf="@id/guideline3"
+                        app:layout_constraintTop_toBottomOf="@+id/divider"
+                        app:layout_constraintBottom_toTopOf="@id/command_button"
+                        tools:listitem="@layout/colors_recycler_view_item"
+                        tools:spanCount="5"
+                        tools:layoutManager="LinearLayoutManager"/>
+
+                <Button
+                        android:text="@string/buy_button"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/colorAccent"
+                        app:layout_constraintEnd_toEndOf="@id/guideline3"
+                        app:layout_constraintStart_toStartOf="@id/guideline2"
+                        android:layout_marginTop="@dimen/space_8"
+                        app:cornerRadius="@dimen/space_20"
+                        app:layout_constraintLeft_toLeftOf="@id/guideline2"
+                        app:layout_constraintRight_toRightOf="@id/guideline3"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/colors_recycler_view_composing"
+                        android:layout_marginBottom="@dimen/space_16"
+                        android:id="@+id/command_button"/>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

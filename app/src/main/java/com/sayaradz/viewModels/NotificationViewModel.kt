@@ -3,49 +3,43 @@ package com.sayaradz.viewModels
 import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.sayaradz.models.BrandsResponse
+import com.sayaradz.models.Notification
+import com.sayaradz.models.NotificationsResponse
 import com.sayaradz.models.apiClient.ApiService
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import okhttp3.OkHttpClient
-import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
-import retrofit2.converter.gson.GsonConverterFactory
-import java.util.concurrent.TimeUnit
 
-class BrandsViewModel : ViewModel() {
+class NotificationViewModel(var id: String) : ViewModel() {
 
-    private lateinit var brandObserver: Observer<BrandsResponse>
+    private lateinit var brandObserver: Observer<NotificationsResponse>
     val loadingVisibility: MutableLiveData<Int> = MutableLiveData()
     val contentViewVisibility: MutableLiveData<Int> = MutableLiveData()
     val internetErrorVisibility: MutableLiveData<Int> = MutableLiveData()
 
-    val brandLiveData: MutableLiveData<BrandsResponse> = MutableLiveData()
-
+    val modelLiveData: MutableLiveData<List<Notification>> = MutableLiveData()
 
     init {
-        getData()
+        getData(this.id)
     }
 
-
-    fun getData() {
-        brandObserver = getBrandsObserver()
-        ApiService.invoke().getBrands()
+    private fun getData(id: String) {
+        brandObserver = getBrandObserver()
+        ApiService.invoke().getNotificationList(id)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .subscribe(brandObserver)
     }
 
-    private fun getBrandsObserver(): Observer<BrandsResponse> {
-        return object : Observer<BrandsResponse> {
+    private fun getBrandObserver(): Observer<NotificationsResponse> {
+        return object : Observer<NotificationsResponse> {
             override fun onSubscribe(d: Disposable) {
                 //Log.d(TAG, "onSubscribe")
             }
 
-            override fun onNext(s: BrandsResponse) {
-                brandLiveData.value = s
+            override fun onNext(s: NotificationsResponse) {
+                modelLiveData.value = s.notifications
             }
 
             override fun onError(e: Throwable) {
@@ -59,12 +53,6 @@ class BrandsViewModel : ViewModel() {
             }
         }
 
-    }
-
-    companion object {
-        operator fun invoke() {
-
-        }
     }
 
 
