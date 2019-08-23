@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.View
+import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -14,6 +15,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.selection.SelectionPredicates
 import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.selection.StorageStrategy
@@ -24,9 +26,7 @@ import com.google.android.material.floatingactionbutton.ExtendedFloatingActionBu
 import com.sayaradz.R
 import com.sayaradz.models.Model
 import com.sayaradz.models.Version
-import com.sayaradz.viewModels.AvailableModelsViewModel
-import com.sayaradz.viewModels.AvailableVersionsViewModel
-import com.sayaradz.viewModels.BrandViewModel
+import com.sayaradz.viewModels.*
 import com.sayaradz.views.MyChosenModelLookup
 import com.sayaradz.views.MyItemKeyProvider
 import com.sayaradz.views.adapters.ModelChooseComposeCarAdapter
@@ -48,6 +48,8 @@ class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClic
     private lateinit var mBrandViewModel: BrandViewModel
     private lateinit var mAvailableModelsViewModel: AvailableModelsViewModel
     private lateinit var mAvailableVersionsViewModel: AvailableVersionsViewModel
+    private lateinit var mFollowViewModel: FollowViewModel
+    private lateinit var mUnFollowViewModel: UnfollowViewModel
 
     // RecyclerView
     private lateinit var modelsRecyclerView: RecyclerView
@@ -69,7 +71,6 @@ class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClic
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_models)
-
 
         val actionbar = supportActionBar
         //set actionbar title
@@ -119,7 +120,7 @@ class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClic
                 modelsRecyclerView.adapter = modelsRecyclerViewAdapter
                 modelsRecyclerViewAdapter.setOnItemClickListener(this)
                 fAButton.visibility = View.VISIBLE
-                //modelList = it.models!!
+
             }
         })
 
@@ -178,7 +179,30 @@ class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClic
     }
 
     override fun onFollowButtonClick(view: View, obj: Model, position: Int) {
-        //TODO Implement the follow action for models
+        val imageView = view as ImageView
+
+        val prefs = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+        val id = prefs.getString("id", "")!!
+
+        if (imageView.drawable.constantState == getDrawable(R.drawable.ic_follow)!!.constantState) {
+
+            mFollowViewModel = ViewModelProviders.of(
+                this,
+                viewModelFactory { FollowViewModel(id, obj.id!!) }
+            ).get(FollowViewModel::class.java)
+
+            imageView.setImageResource(R.drawable.ic_followed)
+
+        } else {
+
+            mUnFollowViewModel = ViewModelProviders.of(
+                this,
+                viewModelFactory { UnfollowViewModel(id, obj.id!!) }
+            ).get(UnfollowViewModel::class.java)
+
+            imageView.setImageResource(R.drawable.ic_follow)
+
+        }
 
     }
 

@@ -65,7 +65,7 @@ class ModelsRecyclerViewAdapter(private val modelsArrayList: List<Model>?) :
 
                     viewHolder.followButton.setOnClickListener {
                         itemClickListener!!.onFollowButtonClick(it, this.modelsArrayList!![position], position)
-                        viewHolder.followButton.setImageResource(R.drawable.ic_followed)
+
                     }
                 }
             }

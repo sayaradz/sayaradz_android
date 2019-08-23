@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,7 +19,9 @@ import com.google.android.material.floatingactionbutton.ExtendedFloatingActionBu
 import com.sayaradz.R
 import com.sayaradz.models.Model
 import com.sayaradz.models.Version
+import com.sayaradz.viewModels.FollowViewModel
 import com.sayaradz.viewModels.ModelViewModel
+import com.sayaradz.viewModels.UnfollowViewModel
 import com.sayaradz.views.adapters.VersionsRecyclerViewAdapter
 import com.sayaradz.views.fragments.dialog_fragments.CompareDialogFragment
 import com.sayaradz.views.fragments.dialog_fragments.OrderDialogFragment
@@ -35,6 +38,8 @@ class VersionsActivity : AppCompatActivity(),
 
     private lateinit var titleTextView: TextView
     private var mModelViewModel: ModelViewModel? = null
+    private lateinit var mFollowViewModel: FollowViewModel
+    private lateinit var mUnFollowViewModel: UnfollowViewModel
 
     // RecyclerView
     private lateinit var versionsRecyclerView: RecyclerView
@@ -168,7 +173,30 @@ class VersionsActivity : AppCompatActivity(),
     }
 
     override fun onFollowButtonClick(view: View, obj: Version, position: Int) {
-        //TODO Implement the follow action for versions
+        val imageView = view as ImageView
+
+        val prefs = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+        val id = prefs.getString("id", "")!!
+
+        if (imageView.drawable.constantState == getDrawable(R.drawable.ic_follow)!!.constantState) {
+
+            mFollowViewModel = ViewModelProviders.of(
+                this,
+                modelsViewModelFactory { FollowViewModel(id, obj.id!!) }
+            ).get(FollowViewModel::class.java)
+
+            imageView.setImageResource(R.drawable.ic_followed)
+
+        } else {
+
+            mUnFollowViewModel = ViewModelProviders.of(
+                this,
+                modelsViewModelFactory { UnfollowViewModel(id, obj.id!!) }
+            ).get(UnfollowViewModel::class.java)
+
+            imageView.setImageResource(R.drawable.ic_follow)
+
+        }
     }
 
     override fun onBuyButtonClick(view: View, obj: Version, position: Int) {

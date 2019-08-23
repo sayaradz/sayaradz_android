@@ -66,7 +66,6 @@ class VersionsRecyclerViewAdapter(private val versionsArrayList: List<Version>?)
 
                 viewHolder.followButton.setOnClickListener {
                     itemClickListener!!.onFollowButtonClick(it, this.versionsArrayList[position], position)
-                    viewHolder.followButton.setImageResource(R.drawable.ic_followed)
                 }
 
             }
