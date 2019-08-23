@@ -179,6 +179,7 @@ class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClic
 
     override fun onFollowButtonClick(view: View, obj: Model, position: Int) {
         //TODO Implement the follow action for models
+
     }
 
 
@@ -248,7 +249,7 @@ class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClic
                 ).build()
                 recyclerViewAdapter.tracker = tracker
                 recyclerViewAdapter.setOnItemClickListener(this)
-                ComposeModelDialogFragment.invoke(recyclerViewAdapter,dialog as ComposeModelDialogFragment)
+                ComposeModelDialogFragment.invoke(recyclerViewAdapter, dialog as ComposeModelDialogFragment)
 
             }
         })

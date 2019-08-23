@@ -25,7 +25,6 @@ import com.sayaradz.models.VersionRepository
 import com.sayaradz.viewModels.TrendingVersionsViewModel
 import com.sayaradz.views.adapters.HomeNewCarsRecyclerViewAdapter
 import com.sayaradz.views.adapters.HomeOldCarsRecyclerViewAdapter
-import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
 
 

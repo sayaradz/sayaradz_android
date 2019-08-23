@@ -97,5 +97,8 @@
     <string name="order_dialog_title">Type de Commande</string>
     <string name="compare_confirm_choice">Confirmer</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 
 </resources>
