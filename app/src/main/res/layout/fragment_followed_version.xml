@@ -33,28 +33,29 @@
                 android:visibility="invisible"
                 android:id="@+id/no_internet_followed_version"/>
 
-        <androidx.core.widget.NestedScrollView
+        <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/content_view_followed_version"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:overScrollMode="never">
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
 
             <androidx.recyclerview.widget.RecyclerView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
                     android:id="@+id/followed_version_recycler_view"
-                    app:layout_constraintStart_toStartOf="parent"
                     android:layout_marginStart="@dimen/space_16"
-                    app:layout_constraintEnd_toEndOf="parent"
                     android:layout_marginEnd="@dimen/space_16"
                     android:layout_marginTop="@dimen/space_8"
-                    android:layout_marginBottom="@dimen/space_16"
+                    android:layout_marginBottom="@dimen/space_48"
                     tools:listitem="@layout/models_recycler_view_item"
-                    tools:itemCount="25"
+                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/models_text_view"/>
+                    android:overScrollMode="never"
+                    tools:itemCount="3"/>
 
-        </androidx.core.widget.NestedScrollView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

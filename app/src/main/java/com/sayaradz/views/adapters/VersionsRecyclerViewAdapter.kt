@@ -20,6 +20,7 @@ class VersionsRecyclerViewAdapter(private val versionsArrayList: List<Version>?)
         fun onVersionItemClick(view: View, obj: Version, position: Int)
         fun onFollowButtonClick(view: View, obj: Version, position: Int)
         fun onBuyButtonClick(view: View, obj: Version, position: Int)
+        fun isFollowed(id: String): Boolean
     }
 
     fun setOnItemClickListener(mItemClickListener: OnItemClickListener) {
@@ -41,35 +42,39 @@ class VersionsRecyclerViewAdapter(private val versionsArrayList: List<Version>?)
 
             viewHolder.detailTextView.text = R.string.Details.toString()
 
-            viewHolder.viewName.text = version.name
 
-            val context = viewHolder.holderCardView.context
+            if (version != null) {
+                if (itemClickListener!!.isFollowed(version.id!!)) viewHolder.itemImageView.setImageResource(R.drawable.ic_followed)
+                else viewHolder.itemImageView.setImageResource(R.drawable.ic_follow)
 
-            //val id = Utils.getDrawableInt(context, version.image)
-            //Utils.setImageToImageView(context, viewHolder.itemImageView, id)
+                viewHolder.viewName.text = version.name
 
-            Glide.with(context)
-                .load(version.image)
-                .into(viewHolder.itemImageView)
+                val context = viewHolder.holderCardView.context
 
-            if (itemClickListener != null) {
-                viewHolder.holderCardView.setOnClickListener { v: View ->
-                    itemClickListener!!.onVersionItemClick(
-                        v,
-                        this.versionsArrayList[position], position
-                    )
+                Glide.with(context)
+                    .load(version.image)
+                    .into(viewHolder.itemImageView)
+
+                if (itemClickListener != null) {
+                    viewHolder.holderCardView.setOnClickListener { v: View ->
+                        itemClickListener!!.onVersionItemClick(
+                            v,
+                            this.versionsArrayList[position], position
+                        )
+                    }
+
+                    viewHolder.buyButton.setOnClickListener {
+                        itemClickListener!!.onBuyButtonClick(it, this.versionsArrayList[position], position)
+                    }
+
+                    viewHolder.followButton.setOnClickListener {
+                        itemClickListener!!.onFollowButtonClick(it, this.versionsArrayList[position], position)
+                    }
+
                 }
 
-                viewHolder.buyButton.setOnClickListener {
-                    itemClickListener!!.onBuyButtonClick(it, this.versionsArrayList[position], position)
-                }
-
-                viewHolder.followButton.setOnClickListener {
-                    itemClickListener!!.onFollowButtonClick(it, this.versionsArrayList[position], position)
-                }
 
             }
-
         }
     }
 

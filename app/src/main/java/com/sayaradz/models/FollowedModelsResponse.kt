@@ -2,8 +2,8 @@ package com.sayaradz.models
 
 import com.google.gson.annotations.SerializedName
 
-data class NotifsResponse(
+data class FollowedModelsResponse(
     val count: Int,
     @SerializedName("rows")
-    val notifs: List<Notification>
+    val models: List<Model>
 )

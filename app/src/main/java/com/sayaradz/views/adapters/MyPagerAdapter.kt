@@ -14,10 +14,10 @@ class MyPagerAdapter(fm: FragmentManager, var context: Context) : FragmentPagerA
     override fun getItem(position: Int): Fragment {
         return when (position) {
             0 -> {
-                FollowedVersionFragment()
+                FollowedModelFragment()
             }
             else -> {
-                return FollowedModelFragment()
+                return FollowedVersionFragment()
             }
         }
     }
@@ -28,9 +28,9 @@ class MyPagerAdapter(fm: FragmentManager, var context: Context) : FragmentPagerA
 
     override fun getPageTitle(position: Int): CharSequence {
         return when (position) {
-            0 -> context.getString(R.string.versions_title)
+            0 -> context.getString(R.string.models_title)
             else -> {
-                return context.getString(R.string.models_title)
+                return context.getString(R.string.versions_title)
             }
         }
     }

@@ -31,7 +31,7 @@ class OrderDialogFragment : DialogFragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         // Verify that the host activity implements the callback interface
-        try {
+        /*try {
             // Instantiate the ComposeDialogListener so we can send events to the host
             listener = context as OrderDialogListener
 
@@ -41,7 +41,7 @@ class OrderDialogFragment : DialogFragment() {
                 (context.toString() +
                         " must implement ComposeDialogListener")
             )
-        }
+        }*/
     }
 
 

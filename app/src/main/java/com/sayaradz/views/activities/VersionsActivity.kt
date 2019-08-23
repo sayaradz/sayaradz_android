@@ -19,9 +19,10 @@ import com.google.android.material.floatingactionbutton.ExtendedFloatingActionBu
 import com.sayaradz.R
 import com.sayaradz.models.Model
 import com.sayaradz.models.Version
-import com.sayaradz.viewModels.FollowViewModel
+import com.sayaradz.viewModels.FollowVersionViewModel
+import com.sayaradz.viewModels.IsModelFollowedViewModel
 import com.sayaradz.viewModels.ModelViewModel
-import com.sayaradz.viewModels.UnfollowViewModel
+import com.sayaradz.viewModels.UnfollowVersionViewModel
 import com.sayaradz.views.adapters.VersionsRecyclerViewAdapter
 import com.sayaradz.views.fragments.dialog_fragments.CompareDialogFragment
 import com.sayaradz.views.fragments.dialog_fragments.OrderDialogFragment
@@ -38,8 +39,8 @@ class VersionsActivity : AppCompatActivity(),
 
     private lateinit var titleTextView: TextView
     private var mModelViewModel: ModelViewModel? = null
-    private lateinit var mFollowViewModel: FollowViewModel
-    private lateinit var mUnFollowViewModel: UnfollowViewModel
+    private lateinit var mFollowVersionViewModel: FollowVersionViewModel
+    private lateinit var mUnFollowVersionViewModel: UnfollowVersionViewModel
 
     // RecyclerView
     private lateinit var versionsRecyclerView: RecyclerView
@@ -180,19 +181,19 @@ class VersionsActivity : AppCompatActivity(),
 
         if (imageView.drawable.constantState == getDrawable(R.drawable.ic_follow)!!.constantState) {
 
-            mFollowViewModel = ViewModelProviders.of(
+            mFollowVersionViewModel = ViewModelProviders.of(
                 this,
-                modelsViewModelFactory { FollowViewModel(id, obj.id!!) }
-            ).get(FollowViewModel::class.java)
+                modelsViewModelFactory { FollowVersionViewModel(id, obj.id!!) }
+            ).get(FollowVersionViewModel::class.java)
 
             imageView.setImageResource(R.drawable.ic_followed)
 
         } else {
 
-            mUnFollowViewModel = ViewModelProviders.of(
+            mUnFollowVersionViewModel = ViewModelProviders.of(
                 this,
-                modelsViewModelFactory { UnfollowViewModel(id, obj.id!!) }
-            ).get(UnfollowViewModel::class.java)
+                modelsViewModelFactory { UnfollowVersionViewModel(id, obj.id!!) }
+            ).get(UnfollowVersionViewModel::class.java)
 
             imageView.setImageResource(R.drawable.ic_follow)
 
@@ -203,6 +204,27 @@ class VersionsActivity : AppCompatActivity(),
         val builder = OrderDialogFragment()
         builder.show(supportFragmentManager, "OrderDialogFragment")
     }
+
+    override fun isFollowed(id: String): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+        val userId = prefs.getString("id", "")!!
+        var boolea = false
+
+        var mIsModelFollowedViewModel = ViewModelProviders.of(
+            this,
+            modelsViewModelFactory { IsModelFollowedViewModel(userId, id) }
+        ).get(IsModelFollowedViewModel::class.java)
+
+        mIsModelFollowedViewModel.brandLiveData.observe(this, Observer { brandsResponse ->
+            brandsResponse?.let {
+                boolea = it.following!!
+            }
+        })
+
+        return boolea
+
+    }
+
 
     override fun onConfirmClick(dialog: DialogFragment, version1: Int, version2: Int) {
         val intent = Intent(this, CompareActivity::class.java)

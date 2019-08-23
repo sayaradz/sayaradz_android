@@ -16,7 +16,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
-class FollowViewModel(var id: String, var followed: String) : ViewModel() {
+class FollowVersionViewModel(var id: String, var followed: String) : ViewModel() {
 
     private lateinit var followedObserver: Observer<Followed>
     val loadingVisibility: MutableLiveData<Int> = MutableLiveData()

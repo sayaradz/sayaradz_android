@@ -50,6 +50,18 @@ interface ApiService {
         @Path("id") id: String
     ): Observable<List<Color>>
 
+    @GET("users/{userId}/follows/models/{modelId}")
+    fun isModelFollowed(
+        @Path("userId") userId: String,
+        @Path("modelId") modelId: String
+    ): Observable<IsFollowed>
+
+    @GET("users/{userId}/follows/versions/{versionId}")
+    fun isVersionFollowed(
+        @Path("userId") userId: String,
+        @Path("versionId") versionId: String
+    ): Observable<IsFollowed>
+
     @Headers("Content-Type: application/json;charset=utf-8")
     @POST("users/{userId}/follows/versions")
     fun followVersion(
@@ -63,21 +75,34 @@ interface ApiService {
         @Path("versionId") versionId: String
     ): Observable<String>
 
-    @GET("users/{userId}/notifications")
+    @Headers("Content-Type: application/json;charset=utf-8")
+    @POST("users/{userId}/follows/models")
+    fun followModel(
+        @Path("userId") userId: String,
+        @Body followed: Followed
+    ): Observable<Followed>
+
+    @DELETE("users/{userId}/follows/models/{modelId}")
+    fun unfollowModel(
+        @Path("userId") userId: String,
+        @Path("modelId") modelId: String
+    ): Observable<String>
+
+    @GET("users/{userId}/follows/versions")
     fun getFollowedVersions(
         @Path("userId") userId: String
-    ): Observable<List<Version>>
+    ): Observable<FollowedVersionsResponse>
 
-    @GET("users/{userId}/notifications")
+    @GET("users/{userId}/follows/models")
     fun getFollowedModels(
         @Path("userId") userId: String
-    ): Observable<List<Model>>
+    ): Observable<FollowedModelsResponse>
 
 
     @GET("users/{userId}/notifications")
     fun getNotificationList(
         @Path("userId") userId: String
-    ): Observable<NotifsResponse>
+    ): Observable<NotificationsResponse>
 
     @GET("orders/trending/versions")
     fun getTrendingVersions(): Observable<List<Version>>

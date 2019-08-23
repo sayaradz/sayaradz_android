@@ -1,14 +1,17 @@
 package com.sayaradz.views.fragments
 
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
-import androidx.core.widget.NestedScrollView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
@@ -19,7 +22,12 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.sayaradz.R
+import com.sayaradz.models.Model
+import com.sayaradz.viewModels.FollowModelViewModel
 import com.sayaradz.viewModels.FollowedModelViewModel
+import com.sayaradz.viewModels.IsModelFollowedViewModel
+import com.sayaradz.viewModels.UnfollowModelViewModel
+import com.sayaradz.views.activities.VersionsActivity
 import com.sayaradz.views.adapters.ModelsRecyclerViewAdapter
 
 // TODO: Rename parameter arguments, choose names that match
@@ -34,18 +42,20 @@ import com.sayaradz.views.adapters.ModelsRecyclerViewAdapter
  * create an instance of this fragment.
  *
  */
-class FollowedModelFragment : Fragment() {
+class FollowedModelFragment : Fragment(), ModelsRecyclerViewAdapter.OnItemClickListener {
 
     private var listener: OnFragmentInteractionListener? = null
 
     private lateinit var mFollowedModelViewModel: FollowedModelViewModel
+    private lateinit var mFollowModelViewModel: FollowModelViewModel
+    private lateinit var mUnFollowModelViewModel: UnfollowModelViewModel
 
     // RecyclerView
     private lateinit var notifsRecyclerView: RecyclerView
     private lateinit var followedModelsRecyclerViewAdapter: ModelsRecyclerViewAdapter
 
     private lateinit var noInternetTextView: TextView
-    private lateinit var contentNestedScrollView: NestedScrollView
+    private lateinit var contentNestedScrollView: ConstraintLayout
     private lateinit var progressBar: ProgressBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -94,8 +104,11 @@ class FollowedModelFragment : Fragment() {
 
         mFollowedModelViewModel.versionLiveData.observe(this, Observer { Response ->
             Response?.let {
-                followedModelsRecyclerViewAdapter = ModelsRecyclerViewAdapter(it)
+                Log.e("kjhkj", it.toString())
+                it.models
+                followedModelsRecyclerViewAdapter = ModelsRecyclerViewAdapter(it.models)
                 notifsRecyclerView.adapter = followedModelsRecyclerViewAdapter
+                followedModelsRecyclerViewAdapter.setOnItemClickListener(this)
             }
         })
 
@@ -107,6 +120,68 @@ class FollowedModelFragment : Fragment() {
 
         return view
     }
+
+
+    override fun onItemClick(view: View, obj: Model, position: Int) {
+        val intent = Intent(view.context, VersionsActivity::class.java)
+        intent.putExtra("model", obj)
+        startActivity(intent)
+    }
+
+    override fun onFollowButtonClick(view: View, obj: Model, position: Int) {
+        val imageView = view as ImageView
+
+        val prefs = PreferenceManager.getDefaultSharedPreferences(this.context)
+        val id = prefs.getString("id", "")!!
+
+        if (imageView.drawable.constantState == resources.getDrawable(R.drawable.ic_follow)!!.constantState) {
+
+            mFollowModelViewModel = ViewModelProviders.of(
+                this,
+                viewModelFactory { FollowModelViewModel(id, obj.id!!) }
+            ).get(FollowModelViewModel::class.java)
+
+            mFollowModelViewModel.brandLiveData.observe(this, Observer { brandsResponse ->
+                brandsResponse?.let {
+                    Log.e("kjhkj", it.toString())
+
+                }
+            })
+            imageView.setImageResource(R.drawable.ic_followed)
+
+        } else {
+
+            mUnFollowModelViewModel = ViewModelProviders.of(
+                this,
+                viewModelFactory { UnfollowModelViewModel(id, obj.id!!) }
+            ).get(UnfollowModelViewModel::class.java)
+
+            imageView.setImageResource(R.drawable.ic_follow)
+
+        }
+
+    }
+
+    override fun isFollowed(id: String): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        val userId = prefs.getString("id", "")!!
+        var boolea = false
+
+        var mIsModelFollowedViewModel = ViewModelProviders.of(
+            this,
+            viewModelFactory { IsModelFollowedViewModel(userId, id) }
+        ).get(IsModelFollowedViewModel::class.java)
+
+        mIsModelFollowedViewModel.brandLiveData.observe(this, Observer { brandsResponse ->
+            brandsResponse?.let {
+                boolea = it.following!!
+            }
+        })
+
+        return boolea
+
+    }
+
 
     private inline fun <VM : ViewModel> viewModelFactory(crossinline f: () -> VM) =
         object : ViewModelProvider.Factory {
@@ -149,15 +224,7 @@ class FollowedModelFragment : Fragment() {
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment FollowedModelFragment.
-         */
-        // TODO: Rename and change types and number of parameters
+
         @JvmStatic
         fun newInstance() =
             FollowedModelFragment().apply {

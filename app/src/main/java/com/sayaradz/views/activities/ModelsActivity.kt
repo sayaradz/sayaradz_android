@@ -3,6 +3,7 @@ package com.sayaradz.views.activities
 import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
@@ -48,8 +49,10 @@ class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClic
     private lateinit var mBrandViewModel: BrandViewModel
     private lateinit var mAvailableModelsViewModel: AvailableModelsViewModel
     private lateinit var mAvailableVersionsViewModel: AvailableVersionsViewModel
-    private lateinit var mFollowViewModel: FollowViewModel
-    private lateinit var mUnFollowViewModel: UnfollowViewModel
+    private lateinit var mFollowModelViewModel: FollowModelViewModel
+    private lateinit var mUnFollowModelViewModel: UnfollowModelViewModel
+
+    private lateinit var mIsModelFollowedViewModel: IsModelFollowedViewModel
 
     // RecyclerView
     private lateinit var modelsRecyclerView: RecyclerView
@@ -186,23 +189,49 @@ class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClic
 
         if (imageView.drawable.constantState == getDrawable(R.drawable.ic_follow)!!.constantState) {
 
-            mFollowViewModel = ViewModelProviders.of(
+            mFollowModelViewModel = ViewModelProviders.of(
                 this,
-                viewModelFactory { FollowViewModel(id, obj.id!!) }
-            ).get(FollowViewModel::class.java)
+                viewModelFactory { FollowModelViewModel(id, obj.id!!) }
+            ).get(FollowModelViewModel::class.java)
 
+            mFollowModelViewModel.brandLiveData.observe(this, Observer { brandsResponse ->
+                brandsResponse?.let {
+                    Log.e("kjhkj", it.toString())
+
+                }
+            })
             imageView.setImageResource(R.drawable.ic_followed)
 
         } else {
 
-            mUnFollowViewModel = ViewModelProviders.of(
+            mUnFollowModelViewModel = ViewModelProviders.of(
                 this,
-                viewModelFactory { UnfollowViewModel(id, obj.id!!) }
-            ).get(UnfollowViewModel::class.java)
+                viewModelFactory { UnfollowModelViewModel(id, obj.id!!) }
+            ).get(UnfollowModelViewModel::class.java)
 
             imageView.setImageResource(R.drawable.ic_follow)
 
         }
+
+    }
+
+    override fun isFollowed(id: String): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+        val userId = prefs.getString("id", "")!!
+        var boolea = false
+
+        mIsModelFollowedViewModel = ViewModelProviders.of(
+            this,
+            viewModelFactory { IsModelFollowedViewModel(userId, id) }
+        ).get(IsModelFollowedViewModel::class.java)
+
+        mIsModelFollowedViewModel.brandLiveData.observe(this, Observer { brandsResponse ->
+            brandsResponse?.let {
+                boolea = it.following!!
+            }
+        })
+
+        return boolea
 
     }
 
