@@ -8,16 +8,16 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.sayaradz.R
-import com.sayaradz.models.Offer
+import com.sayaradz.models.Version
 import com.sayaradz.utils.Utils
 
 
-class NewCarsOfferAdapter(private val offerArrayList: List<Offer>?) :
+class NewCarsOfferAdapter(private val offerArrayList: List<Version>?) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var itemClickListener: OnItemClickListener? = null
 
     interface OnItemClickListener {
-        fun onOfferItemClick(view: View, obj: Offer, position: Int)
+        fun onOfferItemClick(view: View, obj: Version, position: Int)
     }
 
     fun setOnItemClickListener(mItemClickListener: OnItemClickListener) {
@@ -37,11 +37,11 @@ class NewCarsOfferAdapter(private val offerArrayList: List<Offer>?) :
 
             val wallpaperItem = this.offerArrayList!![position]
 
-            viewHolder.viewName.text = wallpaperItem.viewCount
+            viewHolder.viewName.text = wallpaperItem.name
 
             val context = viewHolder.holderCardView.context
 
-            val id = Utils.getDrawableInt(context, wallpaperItem.imageName)
+            val id = Utils.getDrawableInt(context, wallpaperItem.image)
             Utils.setImageToImageView(context, viewHolder.itemImageView, id)
 
             if (itemClickListener != null) {

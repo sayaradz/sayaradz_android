@@ -1,6 +1,7 @@
 package com.sayaradz.views.fragments.home
 
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -23,12 +24,13 @@ import com.sayaradz.R
 import com.sayaradz.models.Version
 import com.sayaradz.models.VersionRepository
 import com.sayaradz.viewModels.TrendingVersionsViewModel
+import com.sayaradz.views.activities.NewCarsDetailsActivity
 import com.sayaradz.views.adapters.HomeNewCarsRecyclerViewAdapter
 import com.sayaradz.views.adapters.HomeOldCarsRecyclerViewAdapter
 import kotlinx.android.synthetic.main.fragment_home.view.*
 
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), HomeNewCarsRecyclerViewAdapter.OnItemClickListener {
 
     private var listener: OnFragmentInteractionListener? = null
 
@@ -120,6 +122,14 @@ class HomeFragment : Fragment() {
 
 
         return view
+    }
+
+    override fun onVersionItemClick(view: View, obj: Version, position: Int) {
+        val intent = Intent(view.context, NewCarsDetailsActivity::class.java)
+        intent.putExtra("versionId", obj.id)
+        intent.putExtra("versionName", obj.name)
+        startActivity(intent)
+
     }
 
 
