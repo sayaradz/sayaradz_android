@@ -1,8 +1,6 @@
 package com.sayaradz.views.fragments.home
 
-import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -32,7 +30,6 @@ import kotlinx.android.synthetic.main.fragment_home.view.*
 
 class HomeFragment : Fragment(), HomeNewCarsRecyclerViewAdapter.OnItemClickListener {
 
-    private var listener: OnFragmentInteractionListener? = null
 
     private lateinit var newCarsRecyclerView: RecyclerView
     private lateinit var oldCarsRecyclerView: RecyclerView
@@ -132,26 +129,6 @@ class HomeFragment : Fragment(), HomeNewCarsRecyclerViewAdapter.OnItemClickListe
 
     }
 
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if (context is OnFragmentInteractionListener) {
-            listener = context
-        } else {
-            throw RuntimeException("$context must implement OnFragmentInteractionListener")
-        }
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        listener = null
-    }
-
-
-    interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        fun onFragmentInteraction(uri: Uri)
-    }
 
     private inline fun <VM : ViewModel> TrendingVersionsViewModelFactory(crossinline f: () -> VM) =
         object : ViewModelProvider.Factory {

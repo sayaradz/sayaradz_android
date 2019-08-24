@@ -96,8 +96,6 @@ class AccountFragment : Fragment() {
         return view
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
         if (context is OnFragmentInteractionListener) {

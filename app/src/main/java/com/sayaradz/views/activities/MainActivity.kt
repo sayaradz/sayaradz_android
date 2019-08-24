@@ -2,7 +2,6 @@ package com.sayaradz.views.activities
 
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
@@ -15,11 +14,9 @@ import com.facebook.login.LoginManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.sayaradz.R
-import com.sayaradz.views.fragments.home.HomeFragment
 import com.sayaradz.views.fragments.myAccount.AccountFragment
 
 class MainActivity : AppCompatActivity(),
-    HomeFragment.OnFragmentInteractionListener,
     AccountFragment.OnFragmentInteractionListener {
 
     private lateinit var navHostFragment: NavHostFragment
@@ -48,9 +45,6 @@ class MainActivity : AppCompatActivity(),
         startActivity(LoginActivity.getLaunchIntent(this))
     }
 
-    override fun onFragmentInteraction(uri: Uri) {
-        //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
 
     override fun onUpdateUserData(fullName: TextView, address: TextView, profilePic: ImageView) {
         val prefs = PreferenceManager.getDefaultSharedPreferences(applicationContext)

@@ -31,7 +31,7 @@ import com.sayaradz.views.fragments.dialog_fragments.OrderDialogFragment
 
 
 class FollowedVersionFragment : Fragment(), VersionsRecyclerViewAdapter.OnItemClickListener {
-    // TODO: Rename and change types of parameters
+
     private var listener: OnFragmentInteractionListener? = null
 
     private lateinit var mFollowedVersionViewModel: FollowedVersionViewModel
@@ -46,10 +46,6 @@ class FollowedVersionFragment : Fragment(), VersionsRecyclerViewAdapter.OnItemCl
     private lateinit var contentNestedScrollView: ConstraintLayout
     private lateinit var progressBar: ProgressBar
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -153,7 +149,7 @@ class FollowedVersionFragment : Fragment(), VersionsRecyclerViewAdapter.OnItemCl
         val userId = prefs.getString("id", "")!!
         var boolea = false
 
-        var mIsModelFollowedViewModel = ViewModelProviders.of(
+        val mIsModelFollowedViewModel = ViewModelProviders.of(
             this,
             viewModelFactory { IsModelFollowedViewModel(userId, id) }
         ).get(IsModelFollowedViewModel::class.java)
@@ -189,19 +185,8 @@ class FollowedVersionFragment : Fragment(), VersionsRecyclerViewAdapter.OnItemCl
         listener = null
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     *
-     *
-     * See the Android Training lesson [Communicating with Other Fragments]
-     * (http://developer.android.com/training/basics/fragments/communicating.html)
-     * for more information.
-     */
     interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
+
         fun onVersionSpecification(version: Version)
     }
 
