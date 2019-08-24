@@ -1,4 +1,4 @@
-package com.sayaradz.views.fragments
+package com.sayaradz.views.fragments.newCars
 
 import android.content.Context
 import android.content.Intent

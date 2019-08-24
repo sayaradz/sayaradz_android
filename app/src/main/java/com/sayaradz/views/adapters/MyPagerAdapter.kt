@@ -6,8 +6,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.sayaradz.R
-import com.sayaradz.views.fragments.FollowedModelFragment
-import com.sayaradz.views.fragments.FollowedVersionFragment
+import com.sayaradz.views.fragments.newCars.FollowedModelFragment
+import com.sayaradz.views.fragments.newCars.FollowedVersionFragment
 
 class MyPagerAdapter(fm: FragmentManager, var context: Context) : FragmentPagerAdapter(fm) {
 

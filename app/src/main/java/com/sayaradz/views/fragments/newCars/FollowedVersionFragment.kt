@@ -1,8 +1,7 @@
-package com.sayaradz.views.fragments
+package com.sayaradz.views.fragments.newCars
 
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -144,6 +143,7 @@ class FollowedVersionFragment : Fragment(), VersionsRecyclerViewAdapter.OnItemCl
     }
 
     override fun onBuyButtonClick(view: View, obj: Version, position: Int) {
+        listener!!.onVersionSpecification(obj)
         val builder = OrderDialogFragment()
         fragmentManager?.let { builder.show(it, "OrderDialogFragment") }
     }
@@ -174,18 +174,14 @@ class FollowedVersionFragment : Fragment(), VersionsRecyclerViewAdapter.OnItemCl
             override fun <T : ViewModel> create(aClass: Class<T>): T = f() as T
         }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    fun onButtonPressed(uri: Uri) {
-        listener?.onFragmentInteraction(uri)
-    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        /*if (context is OnFragmentInteractionListener) {
+        if (context is OnFragmentInteractionListener) {
             listener = context
         } else {
             throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
-        }*/
+        }
     }
 
     override fun onDetach() {
@@ -206,23 +202,7 @@ class FollowedVersionFragment : Fragment(), VersionsRecyclerViewAdapter.OnItemCl
      */
     interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        fun onFragmentInteraction(uri: Uri)
+        fun onVersionSpecification(version: Version)
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment FollowedVersionFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance() =
-            FollowedVersionFragment().apply {
-
-            }
-    }
 }

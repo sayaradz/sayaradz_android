@@ -18,11 +18,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.sayaradz.R
 import com.sayaradz.models.Model
+import com.sayaradz.models.Order
 import com.sayaradz.models.Version
-import com.sayaradz.viewModels.FollowVersionViewModel
-import com.sayaradz.viewModels.IsModelFollowedViewModel
-import com.sayaradz.viewModels.ModelViewModel
-import com.sayaradz.viewModels.UnfollowVersionViewModel
+import com.sayaradz.viewModels.*
 import com.sayaradz.views.adapters.VersionsRecyclerViewAdapter
 import com.sayaradz.views.fragments.dialog_fragments.CompareDialogFragment
 import com.sayaradz.views.fragments.dialog_fragments.OrderDialogFragment
@@ -41,6 +39,7 @@ class VersionsActivity : AppCompatActivity(),
     private var mModelViewModel: ModelViewModel? = null
     private lateinit var mFollowVersionViewModel: FollowVersionViewModel
     private lateinit var mUnFollowVersionViewModel: UnfollowVersionViewModel
+    private lateinit var orderViewModel: CreateOrderViewModel
 
     // RecyclerView
     private lateinit var versionsRecyclerView: RecyclerView
@@ -51,7 +50,8 @@ class VersionsActivity : AppCompatActivity(),
 
 
     private lateinit var modelName: String
-    private lateinit var brandLogo: String
+    private  var brandLogo: String? = null
+    private lateinit var orderVersion: Version
 
     private var versionList: List<Version>? = null
 
@@ -201,6 +201,7 @@ class VersionsActivity : AppCompatActivity(),
     }
 
     override fun onBuyButtonClick(view: View, obj: Version, position: Int) {
+        orderVersion = obj
         val builder = OrderDialogFragment()
         builder.show(supportFragmentManager, "OrderDialogFragment")
     }
@@ -248,22 +249,37 @@ class VersionsActivity : AppCompatActivity(),
     }
 
     override fun onDialogNormalOrderClick(dialog: DialogFragment) {
-        Toast.makeText(
-            this,
-            "Clicked button",
-            Toast.LENGTH_SHORT
-        ).show()
-
         //TODO implement the normal order action
+
+        orderViewModel = ViewModelProviders.of(
+            this,
+            modelsViewModelFactory {
+                CreateOrderViewModel(
+                    "",
+                    "",
+                    Order(orderVersion.id, null, null, null, null, null, null)
+                )
+            }
+        ).get(CreateOrderViewModel::class.java)
+
+        dialog.dismiss()
+
     }
 
     override fun onDialogAcceleratedOrderClick(dialog: DialogFragment) {
-        Toast.makeText(
-            this,
-            "Clicked button",
-            Toast.LENGTH_SHORT
-        ).show()
         //TODO implement the Accelerated order action
+        orderViewModel = ViewModelProviders.of(
+            this,
+            modelsViewModelFactory {
+                CreateOrderViewModel(
+                    "",
+                    "",
+                    Order(orderVersion.id, null, null, null, null, null, null)
+                )
+            }
+        ).get(CreateOrderViewModel::class.java)
+
+        dialog.dismiss()
     }
 
 
