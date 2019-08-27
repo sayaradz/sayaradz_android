@@ -1,11 +1,11 @@
 package com.sayaradz.views.activities
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -16,18 +16,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.sayaradz.R
 import com.sayaradz.models.Notification
-import com.sayaradz.viewModels.NotificationViewModel
-import com.sayaradz.views.adapters.NotificationsRecyclerViewAdapter
-import kotlinx.android.synthetic.main.activity_notifs_list.*
+import com.sayaradz.viewModels.OrdersViewModel
+import com.sayaradz.views.adapters.OrdersRecyclerViewAdapter
+import kotlinx.android.synthetic.main.activity_orders_list.*
 
 
-class NotifsListActivity : AppCompatActivity() {
+class OrdersListActivity : AppCompatActivity() {
 
-    private lateinit var mNotificationViewModel: NotificationViewModel
+    private lateinit var mOrdersViewModel: OrdersViewModel
 
     // RecyclerView
-    private lateinit var notifsRecyclerView: RecyclerView
-    private lateinit var notifsRecyclerViewAdapter: NotificationsRecyclerViewAdapter
+    private lateinit var ordersRecyclerView: RecyclerView
+    private lateinit var ordersRecyclerViewAdapter: OrdersRecyclerViewAdapter
 
     private lateinit var noInternetTextView: TextView
     private lateinit var contentNestedScrollView: ConstraintLayout
@@ -37,20 +37,20 @@ class NotifsListActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_notifs_list)
+        setContentView(R.layout.activity_orders_list)
 
 
         val actionbar = supportActionBar
         //set actionbar title
-        actionbar!!.title = "Mes Notifications"
+        actionbar!!.title = "Mes Commandes"
         //set back button
         actionbar.setDisplayHomeAsUpEnabled(true)
 
-        notifsRecyclerView = notifs_recycler_view
+        ordersRecyclerView = order_recycler_view
 
-        contentNestedScrollView = content_view_notif
-        noInternetTextView = no_internet_notif
-        progressBar = progress_bar_notif
+        contentNestedScrollView = content_view_order
+        noInternetTextView = no_internet_order
+        progressBar = progress_bar_order
 
     }
 
@@ -60,39 +60,40 @@ class NotifsListActivity : AppCompatActivity() {
         val prefs = PreferenceManager.getDefaultSharedPreferences(applicationContext)
         val id = prefs.getString("id", "")!!
 
-        mNotificationViewModel = ViewModelProviders.of(
+        mOrdersViewModel = ViewModelProviders.of(
             this,
-            viewModelFactory { NotificationViewModel(id) }
-        ).get(NotificationViewModel::class.java)
+            viewModelFactory { OrdersViewModel(id) }
+        ).get(OrdersViewModel::class.java)
 
-        mNotificationViewModel.loadingVisibility.observe(this, Observer { progressBar ->
+        mOrdersViewModel.loadingVisibility.observe(this, Observer { progressBar ->
             progressBar?.let {
                 this.progressBar.visibility = it
             }
         })
-        mNotificationViewModel.internetErrorVisibility.observe(this, Observer { internet ->
+        mOrdersViewModel.internetErrorVisibility.observe(this, Observer { internet ->
             internet?.let {
                 noInternetTextView.visibility = it
             }
         })
-        mNotificationViewModel.contentViewVisibility.observe(this, Observer { content ->
+        mOrdersViewModel.contentViewVisibility.observe(this, Observer { content ->
             content?.let {
                 contentNestedScrollView.visibility = it
             }
         })
 
-        mNotificationViewModel.modelLiveData.observe(this, Observer { brandsResponse ->
+        mOrdersViewModel.versionLiveData.observe(this, Observer { brandsResponse ->
             brandsResponse?.let {
-                notifsRecyclerViewAdapter = NotificationsRecyclerViewAdapter(it)
-                notifsRecyclerView.adapter = notifsRecyclerViewAdapter
+                Log.e("testttttt", it.orders.toString())
+                ordersRecyclerViewAdapter = OrdersRecyclerViewAdapter(it.orders)
+                ordersRecyclerView.adapter = ordersRecyclerViewAdapter
 
             }
         })
 
         val mLayoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
-        notifsRecyclerView.layoutManager = mLayoutManager
-        notifsRecyclerView.itemAnimator = DefaultItemAnimator()
-        notifsRecyclerView.isNestedScrollingEnabled = false
+        ordersRecyclerView.layoutManager = mLayoutManager
+        ordersRecyclerView.itemAnimator = DefaultItemAnimator()
+        ordersRecyclerView.isNestedScrollingEnabled = false
 
     }
 

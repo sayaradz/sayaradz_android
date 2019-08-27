@@ -16,7 +16,9 @@ import com.sayaradz.R
 import com.sayaradz.models.Brand
 import com.sayaradz.models.Offer
 import com.sayaradz.models.OfferRepository
+import com.sayaradz.models.Version
 import com.sayaradz.viewModels.BrandsViewModel
+import com.sayaradz.viewModels.TrendingVersionsViewModel
 import com.sayaradz.views.activities.BrandsActivity
 import com.sayaradz.views.activities.ModelsActivity
 import com.sayaradz.views.activities.NewCarsDetailsActivity
@@ -33,6 +35,7 @@ class NewCarsMainFragment : Fragment(), NewCarsBrandAdapter.OnItemClickListener,
     private lateinit var newCarsOfferAdapter: NewCarsOfferAdapter
 
     private lateinit var mBrandsViewModel: BrandsViewModel
+    private lateinit var trendingVersionsViewModel: TrendingVersionsViewModel
 
     // RecyclerView
     private lateinit var brandRecyclerView: RecyclerView
@@ -82,11 +85,8 @@ class NewCarsMainFragment : Fragment(), NewCarsBrandAdapter.OnItemClickListener,
         mBrandsViewModel.brandLiveData.observe(this, Observer { brandsResponse ->
             brandsResponse?.let {
                 newCarsBrandAdapter = NewCarsBrandAdapter(it.brands)
-                newCarsOfferAdapter = NewCarsOfferAdapter(itemArrayList)
                 brandRecyclerView.adapter = newCarsBrandAdapter
-                newCarsOfferRecyclerView.adapter = newCarsOfferAdapter
                 newCarsBrandAdapter.setOnItemClickListener(this@NewCarsMainFragment)
-                newCarsOfferAdapter.setOnItemClickListener(this@NewCarsMainFragment)
             }
         })
 
@@ -94,6 +94,31 @@ class NewCarsMainFragment : Fragment(), NewCarsBrandAdapter.OnItemClickListener,
         brandRecyclerView.layoutManager = mLayoutManager
         brandRecyclerView.itemAnimator = DefaultItemAnimator()
         brandRecyclerView.isNestedScrollingEnabled = false
+
+        trendingVersionsViewModel = ViewModelProviders.of(this).get(TrendingVersionsViewModel::class.java)
+        trendingVersionsViewModel.loadingVisibility.observe(this, Observer { progressBar ->
+            progressBar?.let {
+                this.progressBar.visibility = it
+            }
+        })
+        trendingVersionsViewModel.internetErrorVisibility.observe(this, Observer { internet ->
+            internet?.let {
+                noInternetTextView.visibility = it
+            }
+        })
+        trendingVersionsViewModel.contentViewVisibility.observe(this, Observer { content ->
+            content?.let {
+                contentNestedScrollView.visibility = it
+            }
+        })
+
+        trendingVersionsViewModel.versionLiveData.observe(this, Observer { brandsResponse ->
+            brandsResponse?.let {
+                newCarsOfferAdapter = NewCarsOfferAdapter(it)
+                newCarsOfferRecyclerView.adapter = newCarsOfferAdapter
+                newCarsOfferAdapter.setOnItemClickListener(this@NewCarsMainFragment)
+            }
+        })
 
         // get Item recycler view
         val mLayoutManagerForItems = StaggeredGridLayoutManager(2, GridLayoutManager.VERTICAL)
@@ -117,8 +142,12 @@ class NewCarsMainFragment : Fragment(), NewCarsBrandAdapter.OnItemClickListener,
         startActivity(intent)
     }
 
-    override fun onOfferItemClick(view: View, obj: Offer, position: Int) {
-        startActivity(Intent(view.context, NewCarsDetailsActivity::class.java))
+    override fun onOfferItemClick(view: View, obj: Version, position: Int) {
+        val intent = Intent(view.context, NewCarsDetailsActivity::class.java)
+        intent.putExtra("versionId", obj.id)
+        intent.putExtra("versionName", obj.name)
+        startActivity(intent)
+
     }
 
 }

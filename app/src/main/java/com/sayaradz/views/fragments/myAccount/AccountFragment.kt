@@ -24,6 +24,8 @@ class AccountFragment : Fragment() {
     private lateinit var payImageView: ImageView
     private lateinit var logoutTextView: TextView
     private lateinit var logoutImageView: ImageView
+    private lateinit var myOrdersTextView: TextView
+    private lateinit var myOrdersImageView: ImageView
 
     private lateinit var profilePic: ImageView
     private lateinit var fullName: TextView
@@ -50,6 +52,9 @@ class AccountFragment : Fragment() {
         payTextView = view.paiment
         logoutImageView = view.logoutIcon
         logoutTextView = view.logout
+
+        myOrdersImageView = view.order_icon
+        myOrdersTextView = view.orders
 
         notifImageView.setOnClickListener {
             listener!!.onNotifPressed()
@@ -91,12 +96,20 @@ class AccountFragment : Fragment() {
             listener!!.onPaymentPressed()
         }
 
+        myOrdersTextView.setOnClickListener {
+            listener!!.onMyOrdersPress()
+        }
+
+        myOrdersImageView.setOnClickListener {
+            listener!!.onMyOrdersPress()
+        }
+
+
+
         listener!!.onUpdateUserData(fullName, address, profilePic)
 
         return view
     }
-
-    // TODO: Rename method, update argument and hook method into UI event
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -115,6 +128,7 @@ class AccountFragment : Fragment() {
     interface OnFragmentInteractionListener {
 
         fun onSignOutPressed()
+        fun onMyOrdersPress()
         fun onNotifPressed()
         fun onAnnouncesPressed()
         fun onPaymentPressed()

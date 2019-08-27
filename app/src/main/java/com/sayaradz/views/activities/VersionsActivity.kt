@@ -18,16 +18,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.sayaradz.R
 import com.sayaradz.models.Model
+import com.sayaradz.models.Order
 import com.sayaradz.models.Version
-import com.sayaradz.viewModels.FollowVersionViewModel
-import com.sayaradz.viewModels.IsModelFollowedViewModel
-import com.sayaradz.viewModels.ModelViewModel
-import com.sayaradz.viewModels.UnfollowVersionViewModel
+import com.sayaradz.viewModels.*
 import com.sayaradz.views.adapters.VersionsRecyclerViewAdapter
 import com.sayaradz.views.fragments.dialog_fragments.CompareDialogFragment
 import com.sayaradz.views.fragments.dialog_fragments.OrderDialogFragment
 import kotlinx.android.synthetic.main.activity_models.*
 import kotlinx.android.synthetic.main.versions_models_view.*
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class VersionsActivity : AppCompatActivity(),
@@ -41,6 +42,7 @@ class VersionsActivity : AppCompatActivity(),
     private var mModelViewModel: ModelViewModel? = null
     private lateinit var mFollowVersionViewModel: FollowVersionViewModel
     private lateinit var mUnFollowVersionViewModel: UnfollowVersionViewModel
+    private lateinit var orderViewModel: CreateOrderViewModel
 
     // RecyclerView
     private lateinit var versionsRecyclerView: RecyclerView
@@ -49,9 +51,9 @@ class VersionsActivity : AppCompatActivity(),
     private lateinit var contentNestedScrollView: NestedScrollView
     private lateinit var progressBar: ProgressBar
 
-
     private lateinit var modelName: String
-    private lateinit var brandLogo: String
+    private var brandLogo: String? = null
+    private lateinit var orderVersion: Version
 
     private var versionList: List<Version>? = null
 
@@ -163,7 +165,6 @@ class VersionsActivity : AppCompatActivity(),
         return true
     }
 
-
     override fun onVersionItemClick(view: View, obj: Version, position: Int) {
         val intent = Intent(view.context, NewCarsDetailsActivity::class.java)
         intent.putExtra("versionId", obj.id)
@@ -201,6 +202,7 @@ class VersionsActivity : AppCompatActivity(),
     }
 
     override fun onBuyButtonClick(view: View, obj: Version, position: Int) {
+        orderVersion = obj
         val builder = OrderDialogFragment()
         builder.show(supportFragmentManager, "OrderDialogFragment")
     }
@@ -210,7 +212,7 @@ class VersionsActivity : AppCompatActivity(),
         val userId = prefs.getString("id", "")!!
         var boolea = false
 
-        var mIsModelFollowedViewModel = ViewModelProviders.of(
+        val mIsModelFollowedViewModel = ViewModelProviders.of(
             this,
             modelsViewModelFactory { IsModelFollowedViewModel(userId, id) }
         ).get(IsModelFollowedViewModel::class.java)
@@ -224,7 +226,6 @@ class VersionsActivity : AppCompatActivity(),
         return boolea
 
     }
-
 
     override fun onConfirmClick(dialog: DialogFragment, version1: Int, version2: Int) {
         val intent = Intent(this, CompareActivity::class.java)
@@ -248,29 +249,52 @@ class VersionsActivity : AppCompatActivity(),
     }
 
     override fun onDialogNormalOrderClick(dialog: DialogFragment) {
-        Toast.makeText(
-            this,
-            "Clicked button",
-            Toast.LENGTH_SHORT
-        ).show()
-
         //TODO implement the normal order action
+
+        val prefs = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+        val userId = prefs.getString("id", "")!!
+
+        val date = Date()
+        val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+
+        orderViewModel = ViewModelProviders.of(
+            this,
+            modelsViewModelFactory {
+                CreateOrderViewModel(
+                    Order(orderVersion.id, null, null, formatter.format(date), null, null, null, userId)
+                )
+            }
+        ).get(CreateOrderViewModel::class.java)
+
+        dialog.dismiss()
+
     }
 
     override fun onDialogAcceleratedOrderClick(dialog: DialogFragment) {
-        Toast.makeText(
-            this,
-            "Clicked button",
-            Toast.LENGTH_SHORT
-        ).show()
         //TODO implement the Accelerated order action
-    }
 
+        val prefs = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+        val userId = prefs.getString("id", "")!!
+
+        val date = Date()
+        val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+
+        orderViewModel = ViewModelProviders.of(
+            this,
+            modelsViewModelFactory {
+                CreateOrderViewModel(
+                    Order(orderVersion.id, null, null, formatter.format(date), null, null, null, userId)
+                )
+            }
+        ).get(CreateOrderViewModel::class.java)
+
+        dialog.dismiss()
+
+    }
 
     private inline fun <VM : ViewModel> modelsViewModelFactory(crossinline f: () -> VM) =
         object : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(aClass: Class<T>): T = f() as T
         }
-
 
 }

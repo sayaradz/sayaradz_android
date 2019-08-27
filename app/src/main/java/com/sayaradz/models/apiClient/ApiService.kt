@@ -110,6 +110,17 @@ interface ApiService {
     @PUT("users/firebase_user")
     fun updateUser(@Body user: User): Observable<User>
 
+    @Headers("Content-Type: application/json;charset=utf-8")
+    @POST("orders")
+    fun createOrder(
+        @Body order: Order
+    ): Observable<Order>
+
+    @GET("users/{userId}/orders")
+    fun getOrders(
+        @Path("userId") userId: String
+    ): Observable<OrdersResponse>
+
     companion object {
         operator fun invoke(): ApiService {
 

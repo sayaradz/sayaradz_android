@@ -1,8 +1,7 @@
-package com.sayaradz.views.fragments
+package com.sayaradz.views.fragments.newCars
 
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -32,7 +31,7 @@ import com.sayaradz.views.fragments.dialog_fragments.OrderDialogFragment
 
 
 class FollowedVersionFragment : Fragment(), VersionsRecyclerViewAdapter.OnItemClickListener {
-    // TODO: Rename and change types of parameters
+
     private var listener: OnFragmentInteractionListener? = null
 
     private lateinit var mFollowedVersionViewModel: FollowedVersionViewModel
@@ -47,10 +46,6 @@ class FollowedVersionFragment : Fragment(), VersionsRecyclerViewAdapter.OnItemCl
     private lateinit var contentNestedScrollView: ConstraintLayout
     private lateinit var progressBar: ProgressBar
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -144,6 +139,7 @@ class FollowedVersionFragment : Fragment(), VersionsRecyclerViewAdapter.OnItemCl
     }
 
     override fun onBuyButtonClick(view: View, obj: Version, position: Int) {
+        listener!!.onVersionSpecification(obj)
         val builder = OrderDialogFragment()
         fragmentManager?.let { builder.show(it, "OrderDialogFragment") }
     }
@@ -153,7 +149,7 @@ class FollowedVersionFragment : Fragment(), VersionsRecyclerViewAdapter.OnItemCl
         val userId = prefs.getString("id", "")!!
         var boolea = false
 
-        var mIsModelFollowedViewModel = ViewModelProviders.of(
+        val mIsModelFollowedViewModel = ViewModelProviders.of(
             this,
             viewModelFactory { IsModelFollowedViewModel(userId, id) }
         ).get(IsModelFollowedViewModel::class.java)
@@ -174,18 +170,14 @@ class FollowedVersionFragment : Fragment(), VersionsRecyclerViewAdapter.OnItemCl
             override fun <T : ViewModel> create(aClass: Class<T>): T = f() as T
         }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    fun onButtonPressed(uri: Uri) {
-        listener?.onFragmentInteraction(uri)
-    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        /*if (context is OnFragmentInteractionListener) {
+        if (context is OnFragmentInteractionListener) {
             listener = context
         } else {
             throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
-        }*/
+        }
     }
 
     override fun onDetach() {
@@ -193,36 +185,9 @@ class FollowedVersionFragment : Fragment(), VersionsRecyclerViewAdapter.OnItemCl
         listener = null
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     *
-     *
-     * See the Android Training lesson [Communicating with Other Fragments]
-     * (http://developer.android.com/training/basics/fragments/communicating.html)
-     * for more information.
-     */
     interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        fun onFragmentInteraction(uri: Uri)
+
+        fun onVersionSpecification(version: Version)
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment FollowedVersionFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance() =
-            FollowedVersionFragment().apply {
-
-            }
-    }
 }
