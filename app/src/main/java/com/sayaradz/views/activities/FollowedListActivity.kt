@@ -6,6 +6,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.preference.PreferenceManager
 import com.sayaradz.R
 import com.sayaradz.models.Order
 import com.sayaradz.models.Version
@@ -14,6 +15,8 @@ import com.sayaradz.views.adapters.MyPagerAdapter
 import com.sayaradz.views.fragments.dialog_fragments.OrderDialogFragment
 import com.sayaradz.views.fragments.newCars.FollowedVersionFragment
 import kotlinx.android.synthetic.main.activity_followed_list.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class FollowedListActivity : AppCompatActivity(), OrderDialogFragment.OrderDialogListener,
@@ -43,13 +46,17 @@ class FollowedListActivity : AppCompatActivity(), OrderDialogFragment.OrderDialo
     override fun onDialogNormalOrderClick(dialog: DialogFragment) {
         //TODO implement the normal order action
 
-        var orderViewModel = ViewModelProviders.of(
+        val prefs = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+        val userId = prefs.getString("id", "")!!
+
+        val date = Date()
+        val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+
+        val orderViewModel = ViewModelProviders.of(
             this,
             viewModelFactory {
                 CreateOrderViewModel(
-                    "",
-                    "",
-                    Order(orderVersion.id, null, null, null, null, null, null)
+                    Order(orderVersion.id, null, null, formatter.format(date), null, null, null, userId)
                 )
             }
         ).get(CreateOrderViewModel::class.java)
@@ -60,18 +67,24 @@ class FollowedListActivity : AppCompatActivity(), OrderDialogFragment.OrderDialo
 
     override fun onDialogAcceleratedOrderClick(dialog: DialogFragment) {
         //TODO implement the Accelerated order action
-        var orderViewModel = ViewModelProviders.of(
+
+        val prefs = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+        val userId = prefs.getString("id", "")!!
+
+        val date = Date()
+        val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+
+        val orderViewModel = ViewModelProviders.of(
             this,
             viewModelFactory {
                 CreateOrderViewModel(
-                    "",
-                    "",
-                    Order(orderVersion.id, null, null, null, null, null, null)
+                    Order(orderVersion.id, null, null, formatter.format(date), null, null, null, userId)
                 )
             }
         ).get(CreateOrderViewModel::class.java)
 
         dialog.dismiss()
+
     }
 
     override fun onVersionSpecification(version: Version) {

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:orientation="vertical"
+        android:padding="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <TextView
+            android:id="@+id/car_info"
+            tools:text="Option"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto"
+            android:textColor="@color/colorPrimaryDark"/>
+
+    <TextView
+            android:id="@+id/car_color"
+            tools:text="Option"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_16"
+            android:fontFamily="@font/roboto"
+            android:textColor="@color/colorPrimaryDark"/>
+
+    <TextView
+            android:id="@+id/car_options"
+            tools:text="Option"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_16"
+            android:fontFamily="@font/roboto"
+            android:textColor="@color/colorPrimaryDark"/>
+
+    <TextView
+            android:id="@+id/order_date"
+            tools:text="Option"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_16"
+            android:fontFamily="@font/roboto"
+            android:textColor="@color/colorPrimaryDark"/>
+
+    <TextView
+            android:id="@+id/car_price"
+            tools:text="Option"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_16"
+            android:fontFamily="@font/roboto"
+            android:textColor="@color/colorPrimaryDark"/>
+
+    <TextView
+            android:id="@+id/order_status"
+            tools:text="Option"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_16"
+            android:fontFamily="@font/roboto"
+            android:textColor="@color/colorPrimaryDark"/>
+
+    <View
+            android:id="@+id/divider5"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginEnd="@dimen/space_16"
+            android:layout_marginStart="@dimen/space_16"
+            android:layout_marginTop="@dimen/space_8"
+            android:background="@color/colorPrimaryDark"/>
+
+
+</LinearLayout>

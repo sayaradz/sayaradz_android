@@ -205,11 +205,62 @@
                         android:layout_marginTop="@dimen/space_8"
                         android:background="@color/colorPrimaryDark"/>
 
+
+                <TextView
+                        android:text="@string/order"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/divider2"
+                        android:layout_marginStart="@dimen/space_16"
+                        android:layout_marginEnd="@dimen/space_8"
+                        android:id="@+id/orders"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/order_icon"
+                        app:layout_constraintBottom_toBottomOf="@id/order_icon"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintEnd_toStartOf="@+id/order_icon"
+                        app:layout_constraintHorizontal_chainStyle="spread_inside"/>
+
+                <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_announces"
+                        app:layout_constraintTop_toBottomOf="@id/divider2"
+                        android:layout_marginTop="@dimen/space_8"
+                        android:layout_marginEnd="@dimen/space_16"
+                        android:id="@+id/order_icon"
+                        app:layout_constraintStart_toEndOf="@+id/favorite"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:contentDescription="@string/fav_icon"/>
+
+
+                <androidx.constraintlayout.widget.Barrier
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/barrier5"
+                        app:barrierDirection="bottom"
+                        tools:layout_editor_absoluteY="184dp"
+                        app:constraint_referenced_ids="orders,order_icon"/>
+
+                <View
+                        android:id="@+id/divider5"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        app:layout_constraintTop_toBottomOf="@id/barrier5"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:layout_marginEnd="@dimen/space_16"
+                        android:layout_marginStart="@dimen/space_16"
+                        android:layout_marginTop="@dimen/space_8"
+                        android:background="@color/colorPrimaryDark"/>
+
+
                 <TextView
                         android:text="@string/payment"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        app:layout_constraintTop_toBottomOf="@id/divider2"
+                        app:layout_constraintTop_toBottomOf="@id/divider5"
                         android:layout_marginStart="@dimen/space_16"
                         android:layout_marginEnd="@dimen/space_8"
                         android:id="@+id/paiment"
@@ -223,7 +274,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:srcCompat="@drawable/ic_payment"
-                        app:layout_constraintTop_toBottomOf="@id/divider2"
+                        app:layout_constraintTop_toBottomOf="@id/divider5"
                         android:layout_marginTop="@dimen/space_8"
                         android:layout_marginEnd="@dimen/space_16"
                         android:id="@+id/paimentIcon"

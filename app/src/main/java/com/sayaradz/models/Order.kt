@@ -7,6 +7,7 @@ data class Order(
     val order_date: String? = null,
     val options: List<String>? = null,
     val vehicle: String? = null,
-    val order_status: String? = null
+    val order_status: String? = null,
+    val firebase_id: String? = null
 )
 

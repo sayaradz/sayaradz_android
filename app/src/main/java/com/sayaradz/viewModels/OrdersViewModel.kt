@@ -3,44 +3,42 @@ package com.sayaradz.viewModels
 import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.sayaradz.models.Order
+import com.sayaradz.models.OrdersResponse
 import com.sayaradz.models.apiClient.ApiService
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
-class CreateOrderViewModel(var order: Order) : ViewModel() {
+class OrdersViewModel(var id: String) : ViewModel() {
 
-    private lateinit var followedObserver: Observer<Order>
+    private lateinit var versionObserver: Observer<OrdersResponse>
     val loadingVisibility: MutableLiveData<Int> = MutableLiveData()
     val contentViewVisibility: MutableLiveData<Int> = MutableLiveData()
     val internetErrorVisibility: MutableLiveData<Int> = MutableLiveData()
 
-    val brandLiveData: MutableLiveData<Order> = MutableLiveData()
-
+    val versionLiveData: MutableLiveData<OrdersResponse> = MutableLiveData()
 
     init {
-        getData()
+        getData(this.id)
     }
 
-
-    fun getData() {
-        followedObserver = getBrandsObserver()
-        ApiService.invoke().createOrder(order)
+    private fun getData(id: String) {
+        versionObserver = getVersionObserver()
+        ApiService.invoke().getOrders(id)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
-            .subscribe(followedObserver)
+            .subscribe(versionObserver)
     }
 
-    private fun getBrandsObserver(): Observer<Order> {
-        return object : Observer<Order> {
+    private fun getVersionObserver(): Observer<OrdersResponse> {
+        return object : Observer<OrdersResponse> {
             override fun onSubscribe(d: Disposable) {
                 //Log.d(TAG, "onSubscribe")
             }
 
-            override fun onNext(s: Order) {
-                brandLiveData.value = s
+            override fun onNext(s: OrdersResponse) {
+                versionLiveData.value = s
             }
 
             override fun onError(e: Throwable) {
@@ -54,12 +52,6 @@ class CreateOrderViewModel(var order: Order) : ViewModel() {
             }
         }
 
-    }
-
-    companion object {
-        operator fun invoke() {
-
-        }
     }
 
 

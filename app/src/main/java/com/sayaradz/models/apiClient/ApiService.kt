@@ -116,6 +116,11 @@ interface ApiService {
         @Body order: Order
     ): Observable<Order>
 
+    @GET("users/{userId}/orders")
+    fun getOrders(
+        @Path("userId") userId: String
+    ): Observable<OrdersResponse>
+
     companion object {
         operator fun invoke(): ApiService {
 

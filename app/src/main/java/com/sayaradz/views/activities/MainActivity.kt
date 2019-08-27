@@ -73,6 +73,12 @@ class MainActivity : AppCompatActivity(),
         //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
+    override fun onMyOrdersPress() {
+        val intent = Intent(this, OrdersListActivity::class.java)
+        startActivity(intent)
+    }
+
+
     override fun onFavoritesPressed() {
         val intent = Intent(this, FollowedListActivity::class.java)
         startActivity(intent)

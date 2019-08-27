@@ -15,7 +15,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:id="@+id/progress_bar_notif"/>
+            android:id="@+id/progress_bar_order"/>
 
     <TextView
             android:text="@string/no_internet"
@@ -28,10 +28,10 @@
             android:fontFamily="@font/roboto"
             android:textColor="@color/colorPrimaryDark"
             android:visibility="invisible"
-            android:id="@+id/no_internet_notif"/>
+            android:id="@+id/no_internet_order"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/content_view_notif"
+            android:id="@+id/content_view_order"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -39,16 +39,17 @@
 
         <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/notifs_recycler_view"
+                android:layout_height="0dp"
+                android:id="@+id/order_recycler_view"
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginStart="@dimen/space_16"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginEnd="@dimen/space_16"
                 android:layout_marginTop="@dimen/space_8"
                 android:layout_marginBottom="@dimen/space_16"
-                tools:listitem="@layout/notification_recycler_view_item"
+                tools:listitem="@layout/order_recycler_view_item"
                 tools:itemCount="25"
+                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
