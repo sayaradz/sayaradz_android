@@ -91,6 +91,7 @@ class HomeFragment : Fragment(), HomeNewCarsRecyclerViewAdapter.OnItemClickListe
                 newCarsRecyclerViewAdapter = HomeNewCarsRecyclerViewAdapter(newCarsList)
                 newCarsRecyclerView.adapter = newCarsRecyclerViewAdapter
                 newCarsCollectionButton = view.newCarsCollection
+                newCarsRecyclerViewAdapter.setOnItemClickListener(this)
                 newCarsCollectionButton.setOnClickListener {
                     view.findNavController().navigate(R.id.newCarsMain)
                 }

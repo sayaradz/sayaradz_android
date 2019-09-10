@@ -1,4 +1,4 @@
-package com.sayaradz.viewModels
+package com.sayaradz
 
 import com.sayaradz.models.*
 import com.sayaradz.models.apiClient.ApiService
