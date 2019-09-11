@@ -189,6 +189,8 @@ class VersionsActivity : AppCompatActivity(),
 
             imageView.setImageResource(R.drawable.ic_followed)
 
+            Toast.makeText(this, "Follow attribuer avec succés!", Toast.LENGTH_SHORT).show()
+
         } else {
 
             mUnFollowVersionViewModel = ViewModelProviders.of(
@@ -197,6 +199,8 @@ class VersionsActivity : AppCompatActivity(),
             ).get(UnfollowVersionViewModel::class.java)
 
             imageView.setImageResource(R.drawable.ic_follow)
+
+            Toast.makeText(this, "Unfollow attribuer avec succés!", Toast.LENGTH_SHORT).show()
 
         }
     }
@@ -261,11 +265,12 @@ class VersionsActivity : AppCompatActivity(),
             this,
             modelsViewModelFactory {
                 CreateOrderViewModel(
-                    Order(orderVersion.id, null, null, formatter.format(date), null, null, null, userId)
+                    Order(orderVersion.id, null, null, formatter.format(date), "NORMAL",null, null, null, userId)
                 )
             }
         ).get(CreateOrderViewModel::class.java)
 
+        Toast.makeText(this, "Commande Normale attribuer avec succés!", Toast.LENGTH_SHORT).show()
         dialog.dismiss()
 
     }
@@ -283,12 +288,13 @@ class VersionsActivity : AppCompatActivity(),
             this,
             modelsViewModelFactory {
                 CreateOrderViewModel(
-                    Order(orderVersion.id, null, null, formatter.format(date), null, null, null, userId)
+                    Order(orderVersion.id, null, null, formatter.format(date), "ACCELERATED",null, null, null, userId)
                 )
             }
         ).get(CreateOrderViewModel::class.java)
 
         dialog.dismiss()
+        Toast.makeText(this, "Commande Acceleré attribuer avec succés!", Toast.LENGTH_SHORT).show()
 
     }
 

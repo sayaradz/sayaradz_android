@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.widget.NestedScrollView
@@ -202,6 +203,8 @@ class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClic
             })
             imageView.setImageResource(R.drawable.ic_followed)
 
+            Toast.makeText(this, "Follow attribuer avec succés!", Toast.LENGTH_SHORT).show()
+
         } else {
 
             mUnFollowModelViewModel = ViewModelProviders.of(
@@ -210,6 +213,8 @@ class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClic
             ).get(UnfollowModelViewModel::class.java)
 
             imageView.setImageResource(R.drawable.ic_follow)
+
+            Toast.makeText(this, "Unfollow attribuer avec succés!", Toast.LENGTH_SHORT).show()
 
         }
 
