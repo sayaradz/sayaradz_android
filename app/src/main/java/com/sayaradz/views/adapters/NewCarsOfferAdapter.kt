@@ -7,6 +7,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.sayaradz.R
 import com.sayaradz.models.Version
 import com.sayaradz.utils.Utils
@@ -41,8 +43,10 @@ class NewCarsOfferAdapter(private val offerArrayList: List<Version>?) :
 
             val context = viewHolder.holderCardView.context
 
-            val id = Utils.getDrawableInt(context, wallpaperItem.image)
-            Utils.setImageToImageView(context, viewHolder.itemImageView, id)
+            Glide.with(context)
+                .load(wallpaperItem.image)
+                .into(viewHolder.itemImageView)
+
 
             if (itemClickListener != null) {
                 viewHolder.holderCardView.setOnClickListener { v: View ->

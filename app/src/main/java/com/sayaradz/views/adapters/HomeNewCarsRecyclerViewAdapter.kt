@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.sayaradz.R
 import com.sayaradz.models.Version
 import com.sayaradz.utils.Utils
@@ -38,8 +39,9 @@ class HomeNewCarsRecyclerViewAdapter(private val versionsArrayList: List<Version
 
             val context = viewHolder.holderCardView.context
 
-            val id = Utils.getDrawableInt(context, version.image)
-            Utils.setImageToImageView(context, viewHolder.itemImageView, id)
+            Glide.with(context)
+                .load(version.image)
+                .into(viewHolder.itemImageView)
 
             if (itemClickListener != null) {
                 viewHolder.holderCardView.setOnClickListener { v: View ->
