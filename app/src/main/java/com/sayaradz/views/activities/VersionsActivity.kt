@@ -253,7 +253,6 @@ class VersionsActivity : AppCompatActivity(),
     }
 
     override fun onDialogNormalOrderClick(dialog: DialogFragment) {
-        //TODO implement the normal order action
 
         val prefs = PreferenceManager.getDefaultSharedPreferences(applicationContext)
         val userId = prefs.getString("id", "")!!
@@ -265,18 +264,39 @@ class VersionsActivity : AppCompatActivity(),
             this,
             modelsViewModelFactory {
                 CreateOrderViewModel(
-                    Order(orderVersion.id, null, null, formatter.format(date), "NORMAL",null, null, null, userId)
+                    Order(orderVersion.id, null, null, formatter.format(date), "NORMAL", null, null, null, userId)
                 )
             }
         ).get(CreateOrderViewModel::class.java)
 
-        Toast.makeText(this, "Commande Normale attribuer avec succés!", Toast.LENGTH_SHORT).show()
+        orderViewModel.getData(
+            Order(
+                orderVersion.id,
+                null,
+                null,
+                formatter.format(date),
+                "NORMAL",
+                null,
+                null,
+                null,
+                userId
+            )
+        )
+
+        orderViewModel.state.observe(this, Observer { brandsResponse ->
+            brandsResponse?.let {
+                if (it) Toast.makeText(this, "Commande Normale effectuer avec succés!", Toast.LENGTH_SHORT).show()
+                else Toast.makeText(this, "Commande Normale échouer!", Toast.LENGTH_SHORT).show()
+
+
+            }
+        })
+
         dialog.dismiss()
 
     }
 
     override fun onDialogAcceleratedOrderClick(dialog: DialogFragment) {
-        //TODO implement the Accelerated order action
 
         val prefs = PreferenceManager.getDefaultSharedPreferences(applicationContext)
         val userId = prefs.getString("id", "")!!
@@ -288,13 +308,35 @@ class VersionsActivity : AppCompatActivity(),
             this,
             modelsViewModelFactory {
                 CreateOrderViewModel(
-                    Order(orderVersion.id, null, null, formatter.format(date), "ACCELERATED",null, null, null, userId)
+                    Order(orderVersion.id, null, null, formatter.format(date), "ACCELERATED", null, null, null, userId)
                 )
             }
         ).get(CreateOrderViewModel::class.java)
 
+        orderViewModel.getData(
+            Order(
+                orderVersion.id,
+                null,
+                null,
+                formatter.format(date),
+                "ACCELERATED",
+                null,
+                null,
+                null,
+                userId
+            )
+        )
+
+        orderViewModel.state.observe(this, Observer { brandsResponse ->
+            brandsResponse?.let {
+                if (it) Toast.makeText(this, "Commande Acceleré effectuer avec succés!", Toast.LENGTH_SHORT).show()
+                else Toast.makeText(this, "Commande Acceleré échouer!", Toast.LENGTH_SHORT).show()
+
+
+            }
+        })
+
         dialog.dismiss()
-        Toast.makeText(this, "Commande Acceleré attribuer avec succés!", Toast.LENGTH_SHORT).show()
 
     }
 

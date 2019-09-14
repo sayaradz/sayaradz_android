@@ -26,10 +26,6 @@ class FollowModelViewModel(var id: String, var followed: String) : ViewModel() {
     val brandLiveData: MutableLiveData<Followed> = MutableLiveData()
 
 
-    init {
-        getData()
-    }
-
 
     fun getData() {
         followedObserver = getBrandsObserver()

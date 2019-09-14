@@ -1,8 +1,10 @@
 package com.sayaradz.views.activities
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
@@ -44,7 +46,6 @@ class FollowedListActivity : AppCompatActivity(), OrderDialogFragment.OrderDialo
 
 
     override fun onDialogNormalOrderClick(dialog: DialogFragment) {
-        //TODO implement the normal order action
 
         val prefs = PreferenceManager.getDefaultSharedPreferences(applicationContext)
         val userId = prefs.getString("id", "")!!
@@ -56,17 +57,37 @@ class FollowedListActivity : AppCompatActivity(), OrderDialogFragment.OrderDialo
             this,
             viewModelFactory {
                 CreateOrderViewModel(
-                    Order(orderVersion.id, null, null, formatter.format(date), null, null, null, userId)
+                    Order(orderVersion.id, null, null, formatter.format(date), "NORMAL", null, null, null, userId)
                 )
             }
         ).get(CreateOrderViewModel::class.java)
+
+        orderViewModel.getData(
+            Order(
+                orderVersion.id,
+                null,
+                null,
+                formatter.format(date),
+                "NORMAL",
+                null,
+                null,
+                null,
+                userId
+            )
+        )
+
+        orderViewModel.state.observe(this, Observer { brandsResponse ->
+            brandsResponse?.let {
+                if (it) Toast.makeText(this, "Commande Normale effectuer avec succés!", Toast.LENGTH_SHORT).show()
+                else Toast.makeText(this, "Commande Normale échouer!", Toast.LENGTH_SHORT).show()
+            }
+        })
 
         dialog.dismiss()
 
     }
 
     override fun onDialogAcceleratedOrderClick(dialog: DialogFragment) {
-        //TODO implement the Accelerated order action
 
         val prefs = PreferenceManager.getDefaultSharedPreferences(applicationContext)
         val userId = prefs.getString("id", "")!!
@@ -78,10 +99,31 @@ class FollowedListActivity : AppCompatActivity(), OrderDialogFragment.OrderDialo
             this,
             viewModelFactory {
                 CreateOrderViewModel(
-                    Order(orderVersion.id, null, null, formatter.format(date), null, null, null, userId)
+                    Order(orderVersion.id, null, null, formatter.format(date), "ACCELERATED", null, null, null, userId)
                 )
             }
         ).get(CreateOrderViewModel::class.java)
+
+        orderViewModel.getData(
+            Order(
+                orderVersion.id,
+                null,
+                null,
+                formatter.format(date),
+                "ACCELERATED",
+                null,
+                null,
+                null,
+                userId
+            )
+        )
+
+        orderViewModel.state.observe(this, Observer { brandsResponse ->
+            brandsResponse?.let {
+                if (it) Toast.makeText(this, "Commande Normale effectuer avec succés!", Toast.LENGTH_SHORT).show()
+                else Toast.makeText(this, "Commande Normale échouer!", Toast.LENGTH_SHORT).show()
+            }
+        })
 
         dialog.dismiss()
 

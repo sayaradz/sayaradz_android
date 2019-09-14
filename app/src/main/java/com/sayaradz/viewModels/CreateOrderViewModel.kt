@@ -1,6 +1,6 @@
 package com.sayaradz.viewModels
 
-import android.view.View
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.sayaradz.models.Order
@@ -13,21 +13,17 @@ import io.reactivex.schedulers.Schedulers
 class CreateOrderViewModel(var order: Order) : ViewModel() {
 
     private lateinit var followedObserver: Observer<Order>
-    val loadingVisibility: MutableLiveData<Int> = MutableLiveData()
-    val contentViewVisibility: MutableLiveData<Int> = MutableLiveData()
-    val internetErrorVisibility: MutableLiveData<Int> = MutableLiveData()
+    val state: MutableLiveData<Boolean> = MutableLiveData()
+
+    lateinit var disposable: Disposable
 
     val brandLiveData: MutableLiveData<Order> = MutableLiveData()
 
 
-    init {
-        getData()
-    }
-
-
-    fun getData() {
+    fun getData(torder: Order) {
+        Log.d("testing API", torder.toString())
         followedObserver = getBrandsObserver()
-        ApiService.invoke().createOrder(order)
+        ApiService.invoke().createOrder(torder)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .subscribe(followedObserver)
@@ -36,22 +32,22 @@ class CreateOrderViewModel(var order: Order) : ViewModel() {
     private fun getBrandsObserver(): Observer<Order> {
         return object : Observer<Order> {
             override fun onSubscribe(d: Disposable) {
-                //Log.d(TAG, "onSubscribe")
+
             }
 
             override fun onNext(s: Order) {
                 brandLiveData.value = s
+                state.value = true
             }
 
             override fun onError(e: Throwable) {
-                loadingVisibility.value = View.GONE
-                internetErrorVisibility.value = View.VISIBLE
+                state.value = false
             }
 
             override fun onComplete() {
-                loadingVisibility.value = View.GONE
-                contentViewVisibility.value = View.VISIBLE
+
             }
+
         }
 
     }

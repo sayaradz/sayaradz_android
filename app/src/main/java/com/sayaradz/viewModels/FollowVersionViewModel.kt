@@ -25,12 +25,6 @@ class FollowVersionViewModel(var id: String, var followed: String) : ViewModel()
 
     val brandLiveData: MutableLiveData<BrandsResponse> = MutableLiveData()
 
-
-    init {
-        getData()
-    }
-
-
     fun getData() {
         followedObserver = getBrandsObserver()
         ApiService.invoke().followVersion(id,Followed(followed))

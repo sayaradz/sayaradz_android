@@ -22,10 +22,10 @@ class OrderFunctionnalitiesTesting {
     lateinit var userService: ApiService
     lateinit var order: Order
     //TODO initialize with the right data
-    var versionId = ""
-    var modelId = ""
-    var brandId = ""
-    var orderVersionId = ""
+    var versionId = "5d04090a7f58fa00173774d5"
+    var modelId = "5d6593421f23cc0017cb7281"
+    var brandId = "5d6517829e3627001704cdc3"
+    var orderVersionId = "5d04090a7f58fa00173774d5"
     var userId = "uVQ5q9gzPFQ8UJyIgU1aCkgt9nY2"
 
     @Before
