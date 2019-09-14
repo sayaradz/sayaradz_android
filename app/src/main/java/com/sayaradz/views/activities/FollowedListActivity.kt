@@ -56,9 +56,7 @@ class FollowedListActivity : AppCompatActivity(), OrderDialogFragment.OrderDialo
         val orderViewModel = ViewModelProviders.of(
             this,
             viewModelFactory {
-                CreateOrderViewModel(
-                    Order(orderVersion.id, null, null, formatter.format(date), "NORMAL", null, null, null, userId)
-                )
+                CreateOrderViewModel()
             }
         ).get(CreateOrderViewModel::class.java)
 
@@ -98,9 +96,7 @@ class FollowedListActivity : AppCompatActivity(), OrderDialogFragment.OrderDialo
         val orderViewModel = ViewModelProviders.of(
             this,
             viewModelFactory {
-                CreateOrderViewModel(
-                    Order(orderVersion.id, null, null, formatter.format(date), "ACCELERATED", null, null, null, userId)
-                )
+                CreateOrderViewModel()
             }
         ).get(CreateOrderViewModel::class.java)
 

@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -44,11 +45,6 @@ class FollowedModelFragment : Fragment(), ModelsRecyclerViewAdapter.OnItemClickL
     private lateinit var contentNestedScrollView: ConstraintLayout
     private lateinit var progressBar: ProgressBar
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -124,25 +120,55 @@ class FollowedModelFragment : Fragment(), ModelsRecyclerViewAdapter.OnItemClickL
 
             mFollowModelViewModel = ViewModelProviders.of(
                 this,
-                viewModelFactory { FollowModelViewModel(id, obj.id!!) }
+                viewModelFactory { FollowModelViewModel() }
             ).get(FollowModelViewModel::class.java)
 
-            mFollowModelViewModel.brandLiveData.observe(this, Observer { brandsResponse ->
+            mFollowModelViewModel.getData(id, obj.id!!)
+
+            mFollowModelViewModel.fol.observe(this, Observer { brandsResponse ->
                 brandsResponse?.let {
-                    Log.e("kjhkj", it.toString())
+
+                    imageView.setImageResource(R.drawable.ic_followed)
+
+                    if (it) Toast.makeText(
+                        this.context,
+                        "Follow attribuer avec succés!",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    else {
+                        Toast.makeText(this.context, "Follow echoué!", Toast.LENGTH_SHORT).show()
+                        imageView.setImageResource(R.drawable.ic_follow)
+                    }
 
                 }
             })
-            imageView.setImageResource(R.drawable.ic_followed)
+
 
         } else {
 
             mUnFollowModelViewModel = ViewModelProviders.of(
                 this,
-                viewModelFactory { UnfollowModelViewModel(id, obj.id!!) }
+                viewModelFactory { UnfollowModelViewModel() }
             ).get(UnfollowModelViewModel::class.java)
 
-            imageView.setImageResource(R.drawable.ic_follow)
+            mUnFollowModelViewModel.getData(id, obj.id!!)
+
+            mUnFollowModelViewModel.unfol.observe(this, Observer { brandsResponse ->
+                brandsResponse?.let {
+                    imageView.setImageResource(R.drawable.ic_follow)
+
+                    if (it) Toast.makeText(
+                        this.context,
+                        "UnFollow attribuer avec succés!",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    else {
+                        Toast.makeText(this.context, "UnFollow echoué!! ", Toast.LENGTH_SHORT).show()
+                        imageView.setImageResource(R.drawable.ic_followed)
+                    }
+
+                }
+            })
 
         }
 

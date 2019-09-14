@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -121,19 +122,53 @@ class FollowedVersionFragment : Fragment(), VersionsRecyclerViewAdapter.OnItemCl
 
             mFollowVersionViewModel = ViewModelProviders.of(
                 this,
-                viewModelFactory { FollowVersionViewModel(id, obj.id!!) }
+                viewModelFactory { FollowVersionViewModel() }
             ).get(FollowVersionViewModel::class.java)
 
-            imageView.setImageResource(R.drawable.ic_followed)
+            mFollowVersionViewModel.getData(id, obj.id!!)
+
+            mFollowVersionViewModel.fol.observe(this, Observer { brandsResponse ->
+                brandsResponse?.let {
+
+                    imageView.setImageResource(R.drawable.ic_followed)
+
+                    if (it) Toast.makeText(
+                        this.context,
+                        "Follow effectuer avec succés!",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    else {
+                        Toast.makeText(this.context, "Follow echoué!! ", Toast.LENGTH_SHORT).show()
+                        imageView.setImageResource(R.drawable.ic_follow)
+                    }
+
+                }
+            })
 
         } else {
 
             mUnFollowVersionViewModel = ViewModelProviders.of(
                 this,
-                viewModelFactory { UnfollowVersionViewModel(id, obj.id!!) }
+                viewModelFactory { UnfollowVersionViewModel() }
             ).get(UnfollowVersionViewModel::class.java)
 
-            imageView.setImageResource(R.drawable.ic_follow)
+            mUnFollowVersionViewModel.getData(id, obj.id!!)
+
+            mUnFollowVersionViewModel.unfol.observe(this, Observer { brandsResponse ->
+                brandsResponse?.let {
+                    imageView.setImageResource(R.drawable.ic_follow)
+                    if (it) Toast.makeText(
+                        this.context,
+                        "UnFollow attribuer avec succés!",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    else {
+                        Toast.makeText(this.context, "UnFollow echoué!! ", Toast.LENGTH_SHORT).show()
+                        imageView.setImageResource(R.drawable.ic_followed)
+                    }
+
+                }
+            })
 
         }
     }

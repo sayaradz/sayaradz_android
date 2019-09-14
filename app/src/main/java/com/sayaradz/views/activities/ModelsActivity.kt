@@ -3,7 +3,6 @@ package com.sayaradz.views.activities
 import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
@@ -192,29 +191,54 @@ class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClic
 
             mFollowModelViewModel = ViewModelProviders.of(
                 this,
-                viewModelFactory { FollowModelViewModel(id, obj.id!!) }
+                viewModelFactory { FollowModelViewModel() }
             ).get(FollowModelViewModel::class.java)
 
-            mFollowModelViewModel.brandLiveData.observe(this, Observer { brandsResponse ->
+            mFollowModelViewModel.getData(id, obj.id!!)
+
+            mFollowModelViewModel.fol.observe(this, Observer { brandsResponse ->
                 brandsResponse?.let {
-                    Log.e("kjhkj", it.toString())
+                    imageView.setImageResource(R.drawable.ic_followed)
+
+                    if (it) Toast.makeText(
+                        this,
+                        "Follow attribuer avec succés!",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    else {
+                        Toast.makeText(this, "Follow echoué!! ", Toast.LENGTH_SHORT).show()
+                        imageView.setImageResource(R.drawable.ic_follow)
+                    }
 
                 }
             })
-            imageView.setImageResource(R.drawable.ic_followed)
-
-            Toast.makeText(this, "Follow attribuer avec succés!", Toast.LENGTH_SHORT).show()
 
         } else {
 
             mUnFollowModelViewModel = ViewModelProviders.of(
                 this,
-                viewModelFactory { UnfollowModelViewModel(id, obj.id!!) }
+                viewModelFactory { UnfollowModelViewModel() }
             ).get(UnfollowModelViewModel::class.java)
 
-            imageView.setImageResource(R.drawable.ic_follow)
+            mUnFollowModelViewModel.getData(id, obj.id!!)
 
-            Toast.makeText(this, "Unfollow attribuer avec succés!", Toast.LENGTH_SHORT).show()
+            mUnFollowModelViewModel.unfol.observe(this, Observer { brandsResponse ->
+                brandsResponse?.let {
+                    imageView.setImageResource(R.drawable.ic_follow)
+
+                    if (it) Toast.makeText(
+                        this,
+                        "UnFollow attribuer avec succés!",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    else {
+                        Toast.makeText(this, "UnFollow echoué!! ", Toast.LENGTH_SHORT).show()
+                        imageView.setImageResource(R.drawable.ic_followed)
+                    }
+
+                }
+            })
+
 
         }
 

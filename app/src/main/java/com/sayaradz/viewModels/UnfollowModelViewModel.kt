@@ -1,6 +1,5 @@
 package com.sayaradz.viewModels
 
-import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.sayaradz.models.BrandsResponse
@@ -10,22 +9,15 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
-class UnfollowModelViewModel(var id: String, var modelId: String) : ViewModel() {
+class UnfollowModelViewModel() : ViewModel() {
 
     private lateinit var followedObserver: Observer<String>
-    val loadingVisibility: MutableLiveData<Int> = MutableLiveData()
-    val contentViewVisibility: MutableLiveData<Int> = MutableLiveData()
-    val internetErrorVisibility: MutableLiveData<Int> = MutableLiveData()
+    val unfol: MutableLiveData<Boolean> = MutableLiveData()
 
     val brandLiveData: MutableLiveData<BrandsResponse> = MutableLiveData()
 
 
-    init {
-        getData()
-    }
-
-
-    fun getData() {
+    fun getData(id: String, modelId: String) {
         followedObserver = getBrandsObserver()
         ApiService.invoke().unfollowModel(id, modelId)
             .observeOn(AndroidSchedulers.mainThread())
@@ -40,17 +32,15 @@ class UnfollowModelViewModel(var id: String, var modelId: String) : ViewModel() 
             }
 
             override fun onNext(s: String) {
-
+                unfol.value = true
             }
 
             override fun onError(e: Throwable) {
-                loadingVisibility.value = View.GONE
-                internetErrorVisibility.value = View.VISIBLE
+                unfol.value = false
             }
 
             override fun onComplete() {
-                loadingVisibility.value = View.GONE
-                contentViewVisibility.value = View.VISIBLE
+
             }
         }
 

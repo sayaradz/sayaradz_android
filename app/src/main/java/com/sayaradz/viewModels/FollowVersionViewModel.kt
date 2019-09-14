@@ -1,33 +1,23 @@
 package com.sayaradz.viewModels
 
-import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.sayaradz.models.BrandsResponse
 import com.sayaradz.models.Followed
 import com.sayaradz.models.apiClient.ApiService
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import okhttp3.OkHttpClient
-import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
-import retrofit2.converter.gson.GsonConverterFactory
-import java.util.concurrent.TimeUnit
 
-class FollowVersionViewModel(var id: String, var followed: String) : ViewModel() {
+class FollowVersionViewModel : ViewModel() {
 
     private lateinit var followedObserver: Observer<Followed>
-    val loadingVisibility: MutableLiveData<Int> = MutableLiveData()
-    val contentViewVisibility: MutableLiveData<Int> = MutableLiveData()
-    val internetErrorVisibility: MutableLiveData<Int> = MutableLiveData()
 
-    val brandLiveData: MutableLiveData<BrandsResponse> = MutableLiveData()
+    val fol: MutableLiveData<Boolean> = MutableLiveData()
 
-    fun getData() {
+    fun getData(id: String, followed: String) {
         followedObserver = getBrandsObserver()
-        ApiService.invoke().followVersion(id,Followed(followed))
+        ApiService.invoke().followVersion(id, Followed(followed))
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .subscribe(followedObserver)
@@ -40,17 +30,15 @@ class FollowVersionViewModel(var id: String, var followed: String) : ViewModel()
             }
 
             override fun onNext(s: Followed) {
-
+                fol.value = true
             }
 
             override fun onError(e: Throwable) {
-                loadingVisibility.value = View.GONE
-                internetErrorVisibility.value = View.VISIBLE
+                fol.value = false
             }
 
             override fun onComplete() {
-                loadingVisibility.value = View.GONE
-                contentViewVisibility.value = View.VISIBLE
+
             }
         }
 

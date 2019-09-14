@@ -10,7 +10,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
-class CreateOrderViewModel(var order: Order) : ViewModel() {
+class CreateOrderViewModel() : ViewModel() {
 
     private lateinit var followedObserver: Observer<Order>
     val state: MutableLiveData<Boolean> = MutableLiveData()

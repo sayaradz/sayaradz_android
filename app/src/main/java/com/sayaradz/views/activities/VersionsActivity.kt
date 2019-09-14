@@ -184,23 +184,53 @@ class VersionsActivity : AppCompatActivity(),
 
             mFollowVersionViewModel = ViewModelProviders.of(
                 this,
-                modelsViewModelFactory { FollowVersionViewModel(id, obj.id!!) }
+                modelsViewModelFactory { FollowVersionViewModel() }
             ).get(FollowVersionViewModel::class.java)
 
-            imageView.setImageResource(R.drawable.ic_followed)
+            mFollowVersionViewModel.getData(id, obj.id!!)
 
-            Toast.makeText(this, "Follow attribuer avec succés!", Toast.LENGTH_SHORT).show()
+            mFollowVersionViewModel.fol.observe(this, Observer { brandsResponse ->
+                brandsResponse?.let {
+
+                    imageView.setImageResource(R.drawable.ic_followed)
+
+                    if (it) Toast.makeText(
+                        this,
+                        "Follow effectuer avec succés!",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    else {
+                        Toast.makeText(this, "Follow echoué!! ", Toast.LENGTH_SHORT).show()
+                        imageView.setImageResource(R.drawable.ic_follow)
+                    }
+
+                }
+            })
 
         } else {
 
             mUnFollowVersionViewModel = ViewModelProviders.of(
                 this,
-                modelsViewModelFactory { UnfollowVersionViewModel(id, obj.id!!) }
+                modelsViewModelFactory { UnfollowVersionViewModel() }
             ).get(UnfollowVersionViewModel::class.java)
 
-            imageView.setImageResource(R.drawable.ic_follow)
+            mUnFollowVersionViewModel.getData(id, obj.id!!)
 
-            Toast.makeText(this, "Unfollow attribuer avec succés!", Toast.LENGTH_SHORT).show()
+            mUnFollowVersionViewModel.unfol.observe(this, Observer { brandsResponse ->
+                brandsResponse?.let {
+                    imageView.setImageResource(R.drawable.ic_follow)
+                    if (it) Toast.makeText(
+                        this,
+                        "UnFollow attribuer avec succés!",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    else {
+                        Toast.makeText(this, "UnFollow echoué!! ", Toast.LENGTH_SHORT).show()
+                        imageView.setImageResource(R.drawable.ic_followed)
+                    }
+
+                }
+            })
 
         }
     }
@@ -263,9 +293,7 @@ class VersionsActivity : AppCompatActivity(),
         orderViewModel = ViewModelProviders.of(
             this,
             modelsViewModelFactory {
-                CreateOrderViewModel(
-                    Order(orderVersion.id, null, null, formatter.format(date), "NORMAL", null, null, null, userId)
-                )
+                CreateOrderViewModel()
             }
         ).get(CreateOrderViewModel::class.java)
 
@@ -307,9 +335,7 @@ class VersionsActivity : AppCompatActivity(),
         orderViewModel = ViewModelProviders.of(
             this,
             modelsViewModelFactory {
-                CreateOrderViewModel(
-                    Order(orderVersion.id, null, null, formatter.format(date), "ACCELERATED", null, null, null, userId)
-                )
+                CreateOrderViewModel()
             }
         ).get(CreateOrderViewModel::class.java)
 
