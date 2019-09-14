@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.sayaradz.R
 import com.sayaradz.models.Version
-import com.sayaradz.utils.Utils
 
 class HomeNewCarsRecyclerViewAdapter(private val versionsArrayList: List<Version>?) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {

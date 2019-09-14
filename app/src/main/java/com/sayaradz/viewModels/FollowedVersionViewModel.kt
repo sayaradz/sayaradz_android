@@ -5,7 +5,6 @@ import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.sayaradz.models.FollowedVersionsResponse
-import com.sayaradz.models.Version
 import com.sayaradz.models.apiClient.ApiService
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -41,7 +40,7 @@ class FollowedVersionViewModel(var id: String) : ViewModel() {
 
             override fun onNext(s: FollowedVersionsResponse) {
                 versionLiveData.value = s
-                Log.d("kjhkj",s.count.toString() + "-" + s.versions)
+                Log.d("kjhkj", s.count.toString() + "-" + s.versions)
             }
 
             override fun onError(e: Throwable) {

@@ -9,7 +9,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
-class UnfollowModelViewModel() : ViewModel() {
+class UnfollowModelViewModel : ViewModel() {
 
     private lateinit var followedObserver: Observer<String>
     val unfol: MutableLiveData<Boolean> = MutableLiveData()

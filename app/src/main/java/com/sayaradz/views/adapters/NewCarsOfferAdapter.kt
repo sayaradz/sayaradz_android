@@ -8,10 +8,8 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.sayaradz.R
 import com.sayaradz.models.Version
-import com.sayaradz.utils.Utils
 
 
 class NewCarsOfferAdapter(private val offerArrayList: List<Version>?) :

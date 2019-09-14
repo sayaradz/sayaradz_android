@@ -5,7 +5,6 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -15,7 +14,6 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.sayaradz.R
-import com.sayaradz.models.Notification
 import com.sayaradz.viewModels.NotificationViewModel
 import com.sayaradz.views.adapters.NotificationsRecyclerViewAdapter
 import kotlinx.android.synthetic.main.activity_notifs_list.*
@@ -33,7 +31,6 @@ class NotifsListActivity : AppCompatActivity() {
     private lateinit var contentNestedScrollView: ConstraintLayout
     private lateinit var progressBar: ProgressBar
 
-    private lateinit var modelList: List<Notification>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

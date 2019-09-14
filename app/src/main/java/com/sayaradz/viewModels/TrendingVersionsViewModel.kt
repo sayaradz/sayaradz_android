@@ -10,7 +10,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
-class TrendingVersionsViewModel() : ViewModel() {
+class TrendingVersionsViewModel : ViewModel() {
 
     private lateinit var versionObserver: Observer<List<Version>>
     val loadingVisibility: MutableLiveData<Int> = MutableLiveData()

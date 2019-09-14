@@ -11,7 +11,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -28,8 +27,6 @@ class NewCarsDetailsActivity : AppCompatActivity() {
     private lateinit var optionsRecyclerViewAdapter: OptionsRecyclerViewAdapter
 
     private lateinit var mVersionViewModel: VersionViewModel
-
-    private var tracker: SelectionTracker<Long>? = null
 
     private lateinit var colorsRecyclerView: RecyclerView
     private lateinit var optionsRecyclerView: RecyclerView
@@ -112,18 +109,6 @@ class NewCarsDetailsActivity : AppCompatActivity() {
                 Glide.with(versionImage.context)
                     .load(it.image)
                     .into(versionImage)
-
-
-                /*tracker = SelectionTracker.Builder(
-                    "mySelection",
-                    colorsRecyclerView,
-                    MyItemKeyProvider(colorsRecyclerView),
-                    MyItemDetailsLookup(colorsRecyclerView),
-                    StorageStrategy.createLongStorage()
-                ).withSelectionPredicate(
-                    SelectionPredicates.createSelectSingleAnything()
-                ).build()
-                colorsRecyclerViewAdapter.tracker = tracker*/
 
             }
         })

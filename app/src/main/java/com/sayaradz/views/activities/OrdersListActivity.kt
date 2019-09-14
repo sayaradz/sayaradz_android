@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.sayaradz.R
-import com.sayaradz.models.Notification
 import com.sayaradz.viewModels.OrdersViewModel
 import com.sayaradz.views.adapters.OrdersRecyclerViewAdapter
 import kotlinx.android.synthetic.main.activity_orders_list.*
@@ -33,7 +32,6 @@ class OrdersListActivity : AppCompatActivity() {
     private lateinit var contentNestedScrollView: ConstraintLayout
     private lateinit var progressBar: ProgressBar
 
-    private lateinit var modelList: List<Notification>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

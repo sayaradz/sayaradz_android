@@ -26,10 +26,10 @@ class OrdersRecyclerViewAdapter(private val ordersArrayList: List<RecievedOrder>
             val order = this.ordersArrayList!![position]
 
             if (order.color != null)
-                viewHolder.carColor.text = "Coleur: ${order.color!!.name}"
+                viewHolder.carColor.text = "Coleur: ${order.color.name}"
             viewHolder.carInfo.text = order.version!!.name + " | " + order.order_type
             if (order.options != null)
-                viewHolder.carOptions.text = "Options: ${order.options!!.joinToString { it.name.toString() }}"
+                viewHolder.carOptions.text = "Options: ${order.options.joinToString { it.name.toString() }}"
             if (order.order_status != null)
                 viewHolder.pendingStatus.text = "Status: ${order.order_status}"
             if (order.amount != null)
