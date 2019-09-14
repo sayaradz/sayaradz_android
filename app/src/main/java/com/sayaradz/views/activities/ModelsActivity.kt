@@ -222,22 +222,13 @@ class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClic
 
             mUnFollowModelViewModel.getData(id, obj.id!!)
 
-            mUnFollowModelViewModel.unfol.observe(this, Observer { brandsResponse ->
-                brandsResponse?.let {
-                    imageView.setImageResource(R.drawable.ic_follow)
 
-                    if (it) Toast.makeText(
-                        this,
-                        "UnFollow attribuer avec succés!",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    else {
-                        Toast.makeText(this, "UnFollow echoué!! ", Toast.LENGTH_SHORT).show()
-                        imageView.setImageResource(R.drawable.ic_followed)
-                    }
-
-                }
-            })
+            Toast.makeText(
+                this,
+                "UnFollow attribuer avec succés!",
+                Toast.LENGTH_SHORT
+            ).show()
+            imageView.setImageResource(R.drawable.ic_follow)
 
 
         }
