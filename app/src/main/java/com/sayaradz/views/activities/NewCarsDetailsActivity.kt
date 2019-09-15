@@ -18,6 +18,7 @@ import com.bumptech.glide.Glide
 import com.sayaradz.R
 import com.sayaradz.models.Order
 import com.sayaradz.viewModels.CreateOrderViewModel
+import com.sayaradz.viewModels.EstimatePriceViewModel
 import com.sayaradz.viewModels.VersionViewModel
 import com.sayaradz.views.adapters.ColorsRecyclerViewAdapter
 import com.sayaradz.views.adapters.OptionsRecyclerViewAdapter
@@ -38,6 +39,7 @@ class NewCarsDetailsActivity : AppCompatActivity(), OrderDialogFragment.OrderDia
 
     private lateinit var versionImage: ImageView
     private lateinit var modelTextView: TextView
+    private lateinit var priceTextView: TextView
     private lateinit var versionTextView: TextView
     private lateinit var brandLogo: ImageView
 
@@ -68,6 +70,7 @@ class NewCarsDetailsActivity : AppCompatActivity(), OrderDialogFragment.OrderDia
         modelTextView = model_details_text
         versionTextView = version_details_text
         brandLogo = brand_logo
+        priceTextView = price
 
         contentView.visibility = View.INVISIBLE
         progressBar.visibility = View.VISIBLE
@@ -117,6 +120,24 @@ class NewCarsDetailsActivity : AppCompatActivity(), OrderDialogFragment.OrderDia
                     .load(it.image)
                     .into(versionImage)
 
+            }
+        })
+
+        val estimateViewModel = ViewModelProviders.of(
+            this,
+            versionViewModelFactory { EstimatePriceViewModel() }
+        ).get(EstimatePriceViewModel::class.java)
+
+        estimateViewModel.getData(
+            "",
+            "",
+            this.intent.getStringExtra("versionId")
+        )
+
+
+        estimateViewModel.Price.observe(this, Observer { tarif ->
+            tarif?.let {
+                priceTextView.text = it.totalPrice + "DA"
             }
         })
 
