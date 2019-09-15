@@ -2,26 +2,31 @@ package com.sayaradz.views.activities
 
 import android.os.Bundle
 import android.view.View
-import android.widget.ImageView
-import android.widget.ProgressBar
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.sayaradz.R
+import com.sayaradz.models.Order
+import com.sayaradz.viewModels.CreateOrderViewModel
 import com.sayaradz.viewModels.VersionViewModel
 import com.sayaradz.views.adapters.ColorsRecyclerViewAdapter
 import com.sayaradz.views.adapters.OptionsRecyclerViewAdapter
+import com.sayaradz.views.fragments.dialog_fragments.OrderDialogFragment
 import kotlinx.android.synthetic.main.activity_new_cars_details.*
+import java.text.SimpleDateFormat
+import java.util.*
 
-class NewCarsDetailsActivity : AppCompatActivity() {
+class NewCarsDetailsActivity : AppCompatActivity(), OrderDialogFragment.OrderDialogListener {
 
     private lateinit var colorsRecyclerViewAdapter: ColorsRecyclerViewAdapter
     private lateinit var optionsRecyclerViewAdapter: OptionsRecyclerViewAdapter
@@ -40,6 +45,8 @@ class NewCarsDetailsActivity : AppCompatActivity() {
     private lateinit var contentView: ConstraintLayout
     private lateinit var progressBar: ProgressBar
 
+    private lateinit var command: Button
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_cars_details)
@@ -57,7 +64,7 @@ class NewCarsDetailsActivity : AppCompatActivity() {
         versionImage = imageView
         colorsRecyclerView = colors_recycler_view
         optionsRecyclerView = options_recycler_view
-        //buyButton = command_button
+        command = command_button
         modelTextView = model_details_text
         versionTextView = version_details_text
         brandLogo = brand_logo
@@ -123,6 +130,95 @@ class NewCarsDetailsActivity : AppCompatActivity() {
         optionsRecyclerView.layoutManager = vLayoutManager
         optionsRecyclerView.itemAnimator = DefaultItemAnimator()
         optionsRecyclerView.isNestedScrollingEnabled = false
+
+        command.setOnClickListener {
+            val builder = OrderDialogFragment()
+            builder.show(supportFragmentManager, "OrderDialogFragment")
+        }
+
+    }
+
+    override fun onDialogNormalOrderClick(dialog: DialogFragment) {
+
+        val prefs = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+        val userId = prefs.getString("id", "")!!
+
+        val date = Date()
+        val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+
+        val orderViewModel = ViewModelProviders.of(
+            this,
+            versionViewModelFactory {
+                CreateOrderViewModel()
+            }
+        ).get(CreateOrderViewModel::class.java)
+
+        orderViewModel.getData(
+            Order(
+                this.intent.getStringExtra("versionId"),
+                null,
+                null,
+                formatter.format(date),
+                "NORMAL",
+                null,
+                null,
+                null,
+                userId
+            )
+        )
+
+        orderViewModel.state.observe(this, Observer { brandsResponse ->
+            brandsResponse?.let {
+                if (it) Toast.makeText(this, "Commande Normale effectuer avec succés!", Toast.LENGTH_SHORT).show()
+                else Toast.makeText(this, "Commande Normale échouer!", Toast.LENGTH_SHORT).show()
+
+
+            }
+        })
+
+        dialog.dismiss()
+
+    }
+
+    override fun onDialogAcceleratedOrderClick(dialog: DialogFragment) {
+
+        val prefs = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+        val userId = prefs.getString("id", "")!!
+
+        val date = Date()
+        val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+
+        val orderViewModel = ViewModelProviders.of(
+            this,
+            versionViewModelFactory {
+                CreateOrderViewModel()
+            }
+        ).get(CreateOrderViewModel::class.java)
+
+        orderViewModel.getData(
+            Order(
+                this.intent.getStringExtra("versionId"),
+                null,
+                null,
+                formatter.format(date),
+                "ACCELERATED",
+                null,
+                null,
+                null,
+                userId
+            )
+        )
+
+        orderViewModel.state.observe(this, Observer { brandsResponse ->
+            brandsResponse?.let {
+                if (it) Toast.makeText(this, "Commande Acceleré effectuer avec succés!", Toast.LENGTH_SHORT).show()
+                else Toast.makeText(this, "Commande Acceleré échouer!", Toast.LENGTH_SHORT).show()
+
+
+            }
+        })
+
+        dialog.dismiss()
 
     }
 
