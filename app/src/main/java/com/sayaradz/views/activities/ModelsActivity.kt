@@ -309,6 +309,7 @@ class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClic
         mAvailableModelsViewModel.availableModelsLiveData.observe(dialog, Observer { brandsResponse ->
             brandsResponse?.let {
                 modelList = it
+
                 val recyclerViewAdapter = ModelChooseComposeCarAdapter(modelList)
                 recyclerView.adapter = recyclerViewAdapter
                 tracker = SelectionTracker.Builder(

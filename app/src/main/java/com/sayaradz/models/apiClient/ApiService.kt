@@ -121,6 +121,13 @@ interface ApiService {
         @Path("userId") userId: String
     ): Observable<OrdersResponse>
 
+    @GET("commands/estimatePrice")
+    fun estimatePrice(
+        @Query("color") color: String,
+        @Query("options") options: String,
+        @Query ("version") versionId: String
+    ): Observable<Tarif>
+
     companion object {
         operator fun invoke(): ApiService {
 

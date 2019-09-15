@@ -2,16 +2,15 @@ package com.sayaradz.views.activities
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.ProgressBar
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.selection.SelectionPredicates
 import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.selection.StorageStrategy
@@ -20,14 +19,26 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.sayaradz.R
+import com.sayaradz.models.Color
+import com.sayaradz.models.Option
+import com.sayaradz.models.Order
 import com.sayaradz.viewModels.AvailableColorsAndOptionsViewModel
+import com.sayaradz.viewModels.CreateOrderViewModel
+import com.sayaradz.viewModels.EstimatePriceViewModel
 import com.sayaradz.views.MyItemDetailsLookup
 import com.sayaradz.views.MyItemKeyProvider
 import com.sayaradz.views.adapters.ColorsRecyclerViewAdapter
 import com.sayaradz.views.adapters.SelectedOptionsRecyclerViewAdapter
+import com.sayaradz.views.fragments.dialog_fragments.EstimateDialogFragment
+import com.sayaradz.views.fragments.dialog_fragments.OrderDialogFragment
 import kotlinx.android.synthetic.main.activity_car_composing.*
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
-class CarComposingActivity : AppCompatActivity() {
+class CarComposingActivity : AppCompatActivity(), SelectedOptionsRecyclerViewAdapter.OnItemClickListener,
+    ColorsRecyclerViewAdapter.OnColorClickListener, OrderDialogFragment.OrderDialogListener,
+    EstimateDialogFragment.OrderDialogListener {
 
     private lateinit var colorsRecyclerViewAdapter: ColorsRecyclerViewAdapter
     private lateinit var optionsRecyclerViewAdapter: SelectedOptionsRecyclerViewAdapter
@@ -44,10 +55,14 @@ class CarComposingActivity : AppCompatActivity() {
     private lateinit var versionTextView: TextView
     private lateinit var brandLogo: ImageView
     private lateinit var buyButton: Button
+    private lateinit var estimate: Button
 
     private lateinit var noInternetTextView: TextView
     private lateinit var contentView: ConstraintLayout
     private lateinit var progressBar: ProgressBar
+
+    private var optionList: MutableList<Option> = ArrayList()
+    private lateinit var chosenColor: Color
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,6 +81,7 @@ class CarComposingActivity : AppCompatActivity() {
         colorsRecyclerView = colors_recycler_view_composing
         optionsRecyclerView = options_recycler_view_composing
         buyButton = command_button
+        estimate = estimate_button
         modelTextView = model_text_composing
         versionTextView = version_text_composing
         brandLogo = brand_logo_composing
@@ -145,8 +161,162 @@ class CarComposingActivity : AppCompatActivity() {
         optionsRecyclerView.isNestedScrollingEnabled = false
 
         buyButton.setOnClickListener {
-            //TODO implement the Post logic of the command
+            val builder = OrderDialogFragment()
+            builder.show(supportFragmentManager, "OrderDialogFragment")
         }
+
+        estimate.setOnClickListener {
+            //TODO estimate price
+
+            val builder = EstimateDialogFragment()
+            builder.show(supportFragmentManager, "EstimateDialogFragment")
+
+        }
+
+    }
+
+    override fun onItemClick(view: View, obj: Option, position: Int) {
+        if (view.isSelected) optionList.add(obj)
+        else optionList.remove(obj)
+    }
+
+    override fun onColorClick(obj: Color) {
+        chosenColor = obj
+    }
+
+
+    override fun onDialogNormalOrderClick(dialog: DialogFragment) {
+
+        val prefs = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+        val userId = prefs.getString("id", "")!!
+
+        val date = Date()
+        val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+
+        val orderViewModel = ViewModelProviders.of(
+            this,
+            versionViewModelFactory {
+                CreateOrderViewModel()
+            }
+        ).get(CreateOrderViewModel::class.java)
+
+        val optionsIds: List<String> = optionList.map { it.id!! }
+
+        orderViewModel.getData(
+            Order(
+                this.intent.getStringExtra("versionId"),
+                chosenColor.id,
+                null,
+                formatter.format(date),
+                "NORMAL",
+                optionsIds,
+                null,
+                null,
+                userId
+            )
+        )
+
+        orderViewModel.state.observe(this, Observer { brandsResponse ->
+            brandsResponse?.let {
+                if (it) Toast.makeText(this, "Commande Normale effectuer avec succés!", Toast.LENGTH_SHORT).show()
+                else Toast.makeText(this, "Commande Normale échouer!", Toast.LENGTH_SHORT).show()
+
+
+            }
+        })
+
+        dialog.dismiss()
+
+    }
+
+    override fun onDialogAcceleratedOrderClick(dialog: DialogFragment) {
+
+        val prefs = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+        val userId = prefs.getString("id", "")!!
+
+        val date = Date()
+        val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+
+        val orderViewModel = ViewModelProviders.of(
+            this,
+            versionViewModelFactory {
+                CreateOrderViewModel()
+            }
+        ).get(CreateOrderViewModel::class.java)
+
+        val optionsIds: List<String> = optionList.map { it.id!! }
+
+        orderViewModel.getData(
+            Order(
+                this.intent.getStringExtra("versionId"),
+                chosenColor.id,
+                null,
+                formatter.format(date),
+                "ACCELERATED",
+                optionsIds,
+                null,
+                null,
+                userId
+            )
+        )
+
+        orderViewModel.state.observe(this, Observer { brandsResponse ->
+            brandsResponse?.let {
+                if (it) Toast.makeText(this, "Commande Acceleré effectuer avec succés!", Toast.LENGTH_SHORT).show()
+                else Toast.makeText(this, "Commande Acceleré échouer!", Toast.LENGTH_SHORT).show()
+
+
+            }
+        })
+
+        dialog.dismiss()
+
+    }
+
+    override fun onOkClick(dialog: DialogFragment) {
+        dialog.dismiss()
+    }
+
+    override fun onEstimate(
+        dialog: DialogFragment,
+        progressBar: ProgressBar,
+        noInternet: TextView,
+        content: ConstraintLayout,
+        price: TextView
+    ) {
+        val estimateViewModel = ViewModelProviders.of(
+            this,
+            versionViewModelFactory { EstimatePriceViewModel() }
+        ).get(EstimatePriceViewModel::class.java)
+
+        estimateViewModel.getData(
+            chosenColor.id!!,
+            optionList.joinToString { it.id.toString() },
+            this.intent.getStringExtra("versionId")
+        )
+
+        estimateViewModel.loadingVisibility.observe(this, Observer { it ->
+            it?.let {
+                progressBar.visibility = it
+            }
+        })
+        estimateViewModel.internetErrorVisibility.observe(this, Observer { internet ->
+            internet?.let {
+                noInternet.visibility = it
+            }
+        })
+        estimateViewModel.contentViewVisibility.observe(this, Observer { it ->
+            it?.let {
+                content.visibility = it
+            }
+        })
+
+
+        estimateViewModel.Price.observe(this, Observer { tarif ->
+            tarif?.let {
+                price.text = it.totalPrice + "DA"
+            }
+        })
 
     }
 

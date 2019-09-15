@@ -190,7 +190,7 @@
                         tools:layoutManager="LinearLayoutManager"/>
 
                 <Button
-                        android:text="@string/buy_button"
+                        android:text="@string/estimer_prix"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/colorAccent"
@@ -200,8 +200,23 @@
                         app:cornerRadius="@dimen/space_20"
                         app:layout_constraintLeft_toLeftOf="@id/guideline2"
                         app:layout_constraintRight_toRightOf="@id/guideline3"
-                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintBottom_toTopOf="@id/command_button"
                         app:layout_constraintTop_toBottomOf="@id/colors_recycler_view_composing"
+                        android:layout_marginBottom="@dimen/space_16"
+                        android:id="@+id/estimate_button"/>
+
+                <Button
+                        android:text="@string/buy_button"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/colorAccent"
+                        app:layout_constraintEnd_toEndOf="@id/guideline3"
+                        app:layout_constraintStart_toStartOf="@id/guideline2"
+                        app:cornerRadius="@dimen/space_20"
+                        app:layout_constraintLeft_toLeftOf="@id/guideline2"
+                        app:layout_constraintRight_toRightOf="@id/guideline3"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/estimate_button"
                         android:layout_marginBottom="@dimen/space_16"
                         android:id="@+id/command_button"/>
 

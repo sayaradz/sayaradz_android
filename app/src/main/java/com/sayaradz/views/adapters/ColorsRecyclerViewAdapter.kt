@@ -21,6 +21,16 @@ class ColorsRecyclerViewAdapter(private val colorsArrayList: List<Color>?) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     var tracker: SelectionTracker<Long>? = null
 
+    private var itemClickListener: OnColorClickListener? = null
+
+    interface OnColorClickListener {
+        fun onColorClick(obj: Color)
+    }
+
+    fun setOnItemClickListener(mItemClickListener: OnColorClickListener) {
+        this.itemClickListener = mItemClickListener
+    }
+
 
     init {
         setHasStableIds(true)
@@ -72,6 +82,13 @@ class ColorsRecyclerViewAdapter(private val colorsArrayList: List<Color>?) :
             if (tracker?.isSelected(getItemDetails().selectionKey)!!) {
                 this.setIsRecyclable(false)
                 check.visibility = View.VISIBLE
+
+                if (itemClickListener != null) {
+
+                    itemClickListener!!.onColorClick(colorsArrayList!![this.adapterPosition])
+
+                }
+
                 Log.e("gg", "${getItemDetails().selectionKey} selected")
             } else check.visibility = View.GONE
         }

@@ -12,6 +12,15 @@ import kotlinx.android.synthetic.main.selected_option_recycler_view_item.view.*
 class SelectedOptionsRecyclerViewAdapter(private val optionsArrayList: List<Option>?) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
+    private var itemClickListener: OnItemClickListener? = null
+
+    interface OnItemClickListener {
+        fun onItemClick(view: View, obj: Option, position: Int)
+    }
+
+    fun setOnItemClickListener(mItemClickListener: OnItemClickListener) {
+        this.itemClickListener = mItemClickListener
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val itemView = LayoutInflater.from(parent.context)
@@ -27,6 +36,16 @@ class SelectedOptionsRecyclerViewAdapter(private val optionsArrayList: List<Opti
             val option = this.optionsArrayList!![position]
 
             viewHolder.selectedOption.text = option.name
+
+            if (itemClickListener != null) {
+                viewHolder.selectedOption
+                    .setOnClickListener { v: View ->
+                        itemClickListener!!.onItemClick(
+                            v,
+                            option, position
+                        )
+                    }
+            }
 
         }
 
