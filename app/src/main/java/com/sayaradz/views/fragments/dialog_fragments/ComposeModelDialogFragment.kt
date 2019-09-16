@@ -27,7 +27,7 @@ class ComposeModelDialogFragment : DialogFragment(), ModelChooseComposeCarAdapte
     private lateinit var progressBar: ProgressBar
 
 
-    private lateinit var adapter: ModelChooseComposeCarAdapter
+    var adapter: ModelChooseComposeCarAdapter? = null
     private lateinit var title: TextView
 
 
@@ -92,6 +92,8 @@ class ComposeModelDialogFragment : DialogFragment(), ModelChooseComposeCarAdapte
 
             listener.onPopulateModels(modelChoiceList, this, progressBar, noInternetTextView, content)
 
+
+
             builder.setView(view)
 
             builder.create()
@@ -99,9 +101,14 @@ class ComposeModelDialogFragment : DialogFragment(), ModelChooseComposeCarAdapte
     }
 
     override fun onButtonStateChanged() {
-        confirmChoice.isEnabled = adapter.tracker!!.hasSelection()
-        if (adapter.tracker!!.hasSelection()) confirmChoice.alpha = 1F
-        else confirmChoice.alpha = 0.4F
+
+        if (adapter != null) {
+
+            confirmChoice.isEnabled = adapter!!.tracker!!.hasSelection()
+            if (adapter!!.tracker!!.hasSelection()) confirmChoice.alpha = 1F
+            else confirmChoice.alpha = 0.4F
+        }
+
     }
 
     companion object {

@@ -306,12 +306,21 @@ class ModelsActivity : AppCompatActivity(), ModelsRecyclerViewAdapter.OnItemClic
             }
         })
 
+        mAvailableModelsViewModel.contentViewVisibility.observe(dialog, Observer { internet ->
+            internet?.let {
+                content.visibility = it
+            }
+        })
+
         mAvailableModelsViewModel.availableModelsLiveData.observe(dialog, Observer { brandsResponse ->
             brandsResponse?.let {
                 modelList = it
 
+
                 val recyclerViewAdapter = ModelChooseComposeCarAdapter(modelList)
                 recyclerView.adapter = recyclerViewAdapter
+                (dialog as ComposeModelDialogFragment).adapter = recyclerViewAdapter
+
                 tracker = SelectionTracker.Builder(
                     "mySelection",
                     recyclerView,

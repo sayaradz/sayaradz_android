@@ -55,6 +55,8 @@ class ModelChooseComposeCarAdapter(private val modelToChooseArrayList: List<Mode
         val itemView = LayoutInflater.from(parent.context)
             .inflate(R.layout.chosen_model_or_version_item, parent, false)
 
+
+
         return ItemViewHolder(itemView)
     }
 
@@ -63,6 +65,8 @@ class ModelChooseComposeCarAdapter(private val modelToChooseArrayList: List<Mode
         if (viewHolder is ItemViewHolder) {
 
             val modelToChoose = modelToChooseArrayList!![position]
+
+            Log.d("tag", modelToChooseArrayList.toString())
 
             viewHolder.itemNameTextView.text = modelToChoose.name
 
@@ -105,9 +109,10 @@ class ModelChooseComposeCarAdapter(private val modelToChooseArrayList: List<Mode
                 buttonStateListener.onButtonStateChanged()
                 Log.e("gg", "${getItemDetails().selectionKey} selected")
             } else {
+                Log.e("gg", "${getItemDetails().selectionKey} unselected")
                 constraintLayout.setBackgroundResource(0)
                 buttonStateListener.onButtonStateChanged()
-                Log.e("gg", "${getItemDetails().selectionKey} unselected")
+
             }
         }
 

@@ -53,7 +53,14 @@ class ColorsRecyclerViewAdapter(private val colorsArrayList: List<Color>?) :
 
             tracker?.let {
                 viewHolder.bind(it.isSelected(position.toLong()))
+
+                if (itemClickListener != null) {
+                    Log.d("tagggg", color.code)
+                    itemClickListener!!.onColorClick(colorsArrayList[position])
+
+                }
             }
+
 
             val colorValue = android.graphics.Color.parseColor(color.value)
             val porterDuffColorFilter = PorterDuffColorFilter(colorValue, PorterDuff.Mode.SRC_ATOP)
@@ -82,12 +89,6 @@ class ColorsRecyclerViewAdapter(private val colorsArrayList: List<Color>?) :
             if (tracker?.isSelected(getItemDetails().selectionKey)!!) {
                 this.setIsRecyclable(false)
                 check.visibility = View.VISIBLE
-
-                if (itemClickListener != null) {
-
-                    itemClickListener!!.onColorClick(colorsArrayList!![this.adapterPosition])
-
-                }
 
                 Log.e("gg", "${getItemDetails().selectionKey} selected")
             } else check.visibility = View.GONE

@@ -116,7 +116,7 @@
                         android:layout_marginTop="@dimen/space_8"
                         android:layout_marginBottom="@dimen/space_8"
                         app:layout_goneMarginEnd="@dimen/space_8"
-                        android:scaleType="centerCrop"
+                        android:scaleType="fitXY"
                         android:id="@+id/version_1_image"
                         android:contentDescription="@string/detail_car_image_description"/>
 
@@ -131,7 +131,7 @@
                         app:layout_goneMarginEnd="@dimen/space_16"
                         android:layout_marginStart="@dimen/space_8"
                         android:layout_marginBottom="@dimen/space_8"
-                        android:scaleType="centerCrop"
+                        android:scaleType="fitXY"
                         android:id="@+id/version_2_image"
                         android:contentDescription="@string/detail_car_image_description"/>
 

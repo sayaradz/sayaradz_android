@@ -124,8 +124,9 @@ interface ApiService {
     @GET("commands/estimatePrice")
     fun estimatePrice(
         @Query("color") color: String,
-        @Query("options") options: String,
-        @Query ("version") versionId: String
+        @Query ("version") versionId: String,
+        @Query("options") options: String
+
     ): Observable<Tarif>
 
     companion object {

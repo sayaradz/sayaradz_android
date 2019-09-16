@@ -74,7 +74,7 @@ class EstimateDialogFragment : DialogFragment() {
 
             progressBar = view.progressBarDialog_estimate
             noInternetTextView = view.no_internet_dialog_estimate
-            content = content_view_estimate
+            content = view.content_view_estimate
 
             this.listener.onEstimate(
                 this,

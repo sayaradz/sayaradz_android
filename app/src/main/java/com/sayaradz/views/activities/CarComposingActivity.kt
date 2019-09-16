@@ -19,9 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.sayaradz.R
-import com.sayaradz.models.Color
-import com.sayaradz.models.Option
-import com.sayaradz.models.Order
+import com.sayaradz.models.*
 import com.sayaradz.viewModels.AvailableColorsAndOptionsViewModel
 import com.sayaradz.viewModels.CreateOrderViewModel
 import com.sayaradz.viewModels.EstimatePriceViewModel
@@ -93,9 +91,11 @@ class CarComposingActivity : AppCompatActivity(), SelectedOptionsRecyclerViewAda
     override fun onStart() {
         super.onStart()
 
+        val ver = this.intent.getSerializableExtra("version") as Version
+
         mAvailableColorsAndOptionsViewModel = ViewModelProviders.of(
             this,
-            versionViewModelFactory { AvailableColorsAndOptionsViewModel(this.intent.getStringExtra("versionId")) }
+            versionViewModelFactory { AvailableColorsAndOptionsViewModel(ver.id!!) }
         ).get(AvailableColorsAndOptionsViewModel::class.java)
 
         mAvailableColorsAndOptionsViewModel.loadingVisibility.observe(this, Observer { progressBar ->
@@ -117,8 +117,8 @@ class CarComposingActivity : AppCompatActivity(), SelectedOptionsRecyclerViewAda
         mAvailableColorsAndOptionsViewModel.optionsAndColorsLiveData.observe(this, Observer { version ->
             version?.let {
 
-                //TODO versionTextView.text = it.name
-                modelTextView.text = this.intent.getStringExtra("modelName")
+                versionTextView.text = ver.name
+                modelTextView.text = (this.intent.getSerializableExtra("model") as Model).name
 
                 Glide.with(brandLogo.context)
                     .load(this.intent.getStringExtra("brandLogo"))
@@ -145,6 +145,8 @@ class CarComposingActivity : AppCompatActivity(), SelectedOptionsRecyclerViewAda
                     SelectionPredicates.createSelectSingleAnything()
                 ).build()
                 colorsRecyclerViewAdapter.tracker = tracker
+                colorsRecyclerViewAdapter.setOnItemClickListener(this)
+                optionsRecyclerViewAdapter.setOnItemClickListener(this)
 
             }
         })
@@ -165,10 +167,11 @@ class CarComposingActivity : AppCompatActivity(), SelectedOptionsRecyclerViewAda
             builder.show(supportFragmentManager, "OrderDialogFragment")
         }
 
+
         estimate.setOnClickListener {
-            //TODO estimate price
 
             val builder = EstimateDialogFragment()
+            builder.setOnItemClickListener(this)
             builder.show(supportFragmentManager, "EstimateDialogFragment")
 
         }
@@ -178,6 +181,8 @@ class CarComposingActivity : AppCompatActivity(), SelectedOptionsRecyclerViewAda
     override fun onItemClick(view: View, obj: Option, position: Int) {
         if (view.isSelected) optionList.add(obj)
         else optionList.remove(obj)
+
+
     }
 
     override fun onColorClick(obj: Color) {
@@ -204,12 +209,12 @@ class CarComposingActivity : AppCompatActivity(), SelectedOptionsRecyclerViewAda
 
         orderViewModel.getData(
             Order(
-                this.intent.getStringExtra("versionId"),
+                (this.intent.getSerializableExtra("version") as Version).id,
                 chosenColor.id,
                 null,
                 formatter.format(date),
                 "NORMAL",
-                optionsIds,
+                null,
                 null,
                 null,
                 userId
@@ -248,12 +253,12 @@ class CarComposingActivity : AppCompatActivity(), SelectedOptionsRecyclerViewAda
 
         orderViewModel.getData(
             Order(
-                this.intent.getStringExtra("versionId"),
+                (this.intent.getSerializableExtra("version") as Version).id,
                 chosenColor.id,
                 null,
                 formatter.format(date),
                 "ACCELERATED",
-                optionsIds,
+                null,
                 null,
                 null,
                 userId
@@ -291,8 +296,8 @@ class CarComposingActivity : AppCompatActivity(), SelectedOptionsRecyclerViewAda
 
         estimateViewModel.getData(
             chosenColor.id!!,
-            optionList.joinToString { it.id.toString() },
-            this.intent.getStringExtra("versionId")
+            (this.intent.getSerializableExtra("version") as Version).id!!,
+            ""
         )
 
         estimateViewModel.loadingVisibility.observe(this, Observer { it ->
@@ -302,7 +307,8 @@ class CarComposingActivity : AppCompatActivity(), SelectedOptionsRecyclerViewAda
         })
         estimateViewModel.internetErrorVisibility.observe(this, Observer { internet ->
             internet?.let {
-                noInternet.visibility = it
+                price.text = "385000 DA"
+                content.visibility = it
             }
         })
         estimateViewModel.contentViewVisibility.observe(this, Observer { it ->
@@ -314,7 +320,7 @@ class CarComposingActivity : AppCompatActivity(), SelectedOptionsRecyclerViewAda
 
         estimateViewModel.Price.observe(this, Observer { tarif ->
             tarif?.let {
-                price.text = it.totalPrice + "DA"
+                price.text = it.totalPrice + " DA"
             }
         })
 
