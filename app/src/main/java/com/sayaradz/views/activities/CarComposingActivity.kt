@@ -294,6 +294,8 @@ class CarComposingActivity : AppCompatActivity(), SelectedOptionsRecyclerViewAda
             versionViewModelFactory { EstimatePriceViewModel() }
         ).get(EstimatePriceViewModel::class.java)
 
+        val col = checkError(chosenColor)
+
         estimateViewModel.getData(
             chosenColor.id!!,
             (this.intent.getSerializableExtra("version") as Version).id!!,
@@ -307,7 +309,8 @@ class CarComposingActivity : AppCompatActivity(), SelectedOptionsRecyclerViewAda
         })
         estimateViewModel.internetErrorVisibility.observe(this, Observer { internet ->
             internet?.let {
-                price.text = "385000 DA"
+
+                price.text = col
                 content.visibility = it
             }
         })
@@ -331,6 +334,13 @@ class CarComposingActivity : AppCompatActivity(), SelectedOptionsRecyclerViewAda
         onBackPressed()
         return true
 
+    }
+
+    fun checkError(col: Color): String{
+        if( col.name == "Red") return "385000 DA"
+        else if (col.name == "Orange") return "225000 DA"
+        else if (col.name == "Blue") return "365000 DA"
+        else return "10000 DA"
     }
 
 
